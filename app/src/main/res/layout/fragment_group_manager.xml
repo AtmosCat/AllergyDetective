@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_color"
+
+    tools:context=".presentation.mypage.GroupManagerFragment">
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="25dp"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.08"
+        android:src="@drawable/back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_group_manager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_extrabold"
+        android:text="그룹 관리"
+        android:textColor="@color/main_color_dark_gray"
+        android:textSize="20sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_back"
+        app:layout_constraintStart_toEndOf="@+id/btn_back"
+        app:layout_constraintTop_toTopOf="@+id/btn_back" />
+
+    <ScrollView
+        android:id="@+id/scrollview_group_manager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_back"
+        app:layout_constraintStart_toStartOf="parent"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="30dp">
+
+            <TextView
+                android:id="@+id/tv_group_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nanum_square_extrabold"
+                android:text="그룹 목록"
+                android:textColor="@color/main_color_dark_gray"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintHeight_percent="0.6"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.2" />
+
+            <ImageView
+                android:id="@+id/btn_add_user"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:src="@drawable/add_user"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_group_list"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_group_list"
+                app:layout_constraintTop_toTopOf="@+id/tv_group_list"
+                app:tint="@color/main_color_dark_gray" />
+
+            <CheckBox
+                android:id="@+id/checkbox_group1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:text="아이유"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/tv_group_list"
+                app:layout_constraintTop_toBottomOf="@+id/tv_group_list" />
+
+
+            <ImageView
+                android:id="@+id/btn_delete_group1"
+                android:layout_width="16sp"
+                android:layout_height="16sp"
+                android:src="@drawable/bin"
+                app:layout_constraintBottom_toBottomOf="@+id/checkbox_group1"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_group1"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_group1"
+                app:tint="@color/main_color_light_gray" />
+
+            <CheckBox
+                android:id="@+id/checkbox_group2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="아이유"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_group1"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_group1" />
+
+            <ImageView
+                android:id="@+id/btn_delete_group2"
+                android:layout_width="16sp"
+                android:layout_height="16sp"
+                android:src="@drawable/bin"
+                app:layout_constraintBottom_toBottomOf="@+id/checkbox_group2"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@+id/checkbox_group2"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_group2"
+                app:tint="@color/main_color_light_gray" />
+
+
+            <View
+                android:id="@+id/view_underline_group"
+                android:layout_width="330dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/main_color_light_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_group2" />
+
+            <TextView
+                android:id="@+id/tv_filter_ingredients"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/nanum_square_extrabold"
+                android:text="알러지유발물질"
+                android:textColor="@color/main_color_dark_gray"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintHeight_percent="0.6"
+                app:layout_constraintStart_toStartOf="@id/tv_group_list"
+                app:layout_constraintTop_toBottomOf="@+id/view_underline_group"
+                app:layout_constraintWidth_percent="0.2" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_egg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:text="알류(가금류)"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/tv_filter_ingredients"
+                app:layout_constraintTop_toBottomOf="@+id/tv_filter_ingredients" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_milk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="우유"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_egg"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_egg" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_buckwheat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="메밀"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_milk"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_milk" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_peanut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="땅콩"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_buckwheat"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_buckwheat" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_soybean"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="대두"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_peanut"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_peanut" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_wheat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="밀"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_soybean"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_soybean" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_mackerel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="고등어"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_wheat"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_wheat" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_crab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="게"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_mackerel"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_mackerel" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_shrimp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="새우"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_crab"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_crab" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_pork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="돼지고기"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_shrimp"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_shrimp" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_peach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="복숭아"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_pork"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_pork" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_tomato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="토마토"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_peach"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_peach" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_sulfurous_acids"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="아황산류"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_tomato"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_tomato" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_walnut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="호두"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_sulfurous_acids"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_sulfurous_acids" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_chicken"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="닭고기"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_walnut"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_walnut" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_beef"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="쇠고기"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_chicken"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_chicken" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_squid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="오징어"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_beef"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_beef" />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_seashell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="조개류(굴, 전복, 홍합 포함)"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_squid"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_squid" />
+
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_pinenut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="잣"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_seashell"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_seashell" />
+
+            <Button
+                android:id="@+id/btn_apply_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/round_border"
+                android:backgroundTint="@color/main_color_orange"
+                android:paddingHorizontal="100dp"
+                android:paddingVertical="28dp"
+                android:text="저장하기"
+                android:textColor="@color/main_color_white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_pinenut" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_color"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.mypage.MembershipFragment">
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="25dp"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_percent="0.08"
+        android:src="@drawable/back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_membership"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_extrabold"
+        android:text="멤버십 관리"
+        android:textColor="@color/main_color_dark_gray"
+        android:textSize="20sp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_back"
+        app:layout_constraintStart_toEndOf="@+id/btn_back"
+        app:layout_constraintTop_toTopOf="@+id/btn_back" />
+
+    <View
+        android:id="@+id/view_membership1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/background_membership1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_back"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <TextView
+        android:id="@+id/tv_membership1_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_extrabold"
+        android:text="베이직 멤버십"
+        android:textColor="@color/main_color_dark_gray"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        app:layout_constraintStart_toStartOf="@+id/view_membership1"
+        app:layout_constraintTop_toTopOf="@+id/view_membership1" />
+
+    <ImageView
+        android:id="@+id/iv_membership1_check"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:src="@drawable/check_green"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintTop_toTopOf="@+id/view_membership1"
+        app:layout_constraintEnd_toEndOf="@+id/view_membership1"
+        />
+
+    <TextView
+        android:id="@+id/tv_membership1_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- 내용내용 \n- 내용내용\n- 내용내용"
+        android:lineSpacingExtra="15dp"
+        android:textColor="@color/main_color_dark_gray"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/tv_membership1_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_membership1_title" />
+
+    <Button
+        android:id="@+id/btn_membership1_monthly"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="월간 구독 무료"
+        android:background="@drawable/background_membership_button1"
+        app:layout_constraintBottom_toBottomOf="@+id/view_membership1"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@+id/view_membership1"
+        app:layout_constraintWidth_percent="0.36" />
+
+    <Button
+        android:id="@+id/btn_membership1_yearly"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="연간 구독 무료"
+        android:background="@drawable/background_membership_button1"
+        app:layout_constraintBottom_toBottomOf="@+id/view_membership1"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintEnd_toEndOf="@+id/view_membership1"
+        app:layout_constraintWidth_percent="0.36" />
+
+    <View
+        android:id="@+id/view_membership2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/background_membership2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_membership1"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <ImageView
+        android:id="@+id/iv_membership2_check"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:src="@drawable/check_gray"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintTop_toTopOf="@+id/view_membership2"
+        app:layout_constraintEnd_toEndOf="@+id/view_membership2"
+        />
+
+    <ImageView
+        android:id="@+id/iv_membership2_crown"
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:src="@drawable/crown"
+        app:layout_constraintStart_toStartOf="@+id/view_membership2"
+        app:layout_constraintTop_toTopOf="@+id/view_membership2"
+        />
+
+    <TextView
+        android:id="@+id/tv_membership2_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_extrabold"
+        android:text="퍼스널 무제한 멤버십"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/main_color_white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_membership2_crown"
+        app:layout_constraintStart_toEndOf="@+id/iv_membership2_crown"
+        app:layout_constraintTop_toTopOf="@+id/iv_membership2_crown" />
+
+    <TextView
+        android:id="@+id/tv_membership2_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- 내용내용 \n- 내용내용\n- 내용내용"
+        android:lineSpacingExtra="15dp"
+        android:textColor="@color/main_color_white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@+id/iv_membership2_crown"
+        app:layout_constraintTop_toBottomOf="@+id/iv_membership2_crown" />
+
+    <Button
+        android:id="@+id/btn_membership2_monthly"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="월간 3,000원/월"
+        android:textColor="@color/main_color_white"
+        android:background="@drawable/background_membership_button2"
+        app:layout_constraintBottom_toBottomOf="@+id/view_membership2"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@+id/view_membership2"
+        app:layout_constraintWidth_percent="0.36" />
+
+    <Button
+        android:id="@+id/btn_membership2_yearly"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="연간 20,000원/년"
+        android:textColor="@color/main_color_white"
+        android:background="@drawable/background_membership_button2"
+        app:layout_constraintBottom_toBottomOf="@+id/view_membership2"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintEnd_toEndOf="@+id/view_membership2"
+        app:layout_constraintWidth_percent="0.36" />
+
+
+    <View
+        android:id="@+id/view_membership3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/background_membership2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_membership2"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <ImageView
+        android:id="@+id/iv_membership3_check"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:src="@drawable/check_gray"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="25dp"
+        app:layout_constraintTop_toTopOf="@+id/view_membership3"
+        app:layout_constraintEnd_toEndOf="@+id/view_membership3"
+        />
+
+
+    <ImageView
+        android:id="@+id/iv_membership3_crown"
+        android:layout_width="35sp"
+        android:layout_height="35sp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="30dp"
+        android:src="@drawable/crown"
+        app:layout_constraintStart_toStartOf="@+id/view_membership3"
+        app:layout_constraintTop_toTopOf="@+id/view_membership3"
+        />
+
+    <TextView
+        android:id="@+id/tv_membership3_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_extrabold"
+        android:text="그룹 무제한 멤버십"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/main_color_white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_membership3_crown"
+        app:layout_constraintStart_toEndOf="@+id/iv_membership3_crown"
+        app:layout_constraintTop_toTopOf="@+id/iv_membership3_crown" />
+
+    <TextView
+        android:id="@+id/tv_membership3_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- 내용내용 \n- 내용내용\n- 내용내용"
+        android:lineSpacingExtra="15dp"
+        android:textColor="@color/main_color_white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="@+id/iv_membership3_crown"
+        app:layout_constraintTop_toBottomOf="@+id/iv_membership3_crown" />
+
+    <Button
+        android:id="@+id/btn_membership3_monthly"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="월간 3,000원/월"
+        android:textColor="@color/main_color_white"
+        android:background="@drawable/background_membership_button2"
+        app:layout_constraintBottom_toBottomOf="@+id/view_membership3"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintStart_toStartOf="@+id/view_membership3"
+        app:layout_constraintWidth_percent="0.36" />
+
+    <Button
+        android:id="@+id/btn_membership3_yearly"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="15dp"
+        android:text="연간 20,000원/년"
+        android:textColor="@color/main_color_white"
+        android:background="@drawable/background_membership_button2"
+        app:layout_constraintBottom_toBottomOf="@+id/view_membership3"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintEnd_toEndOf="@+id/view_membership3"
+        app:layout_constraintWidth_percent="0.36" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
