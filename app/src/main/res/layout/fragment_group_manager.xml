@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background_color"
-
+    android:background="@color/white"
     tools:context=".presentation.mypage.GroupManagerFragment">
 
     <ImageView
@@ -50,12 +49,12 @@
             android:padding="30dp">
 
             <TextView
-                android:id="@+id/tv_group_list"
+                android:id="@+id/tv_member_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/nanum_square_extrabold"
-                android:text="그룹 목록"
+                android:text="그룹 멤버"
                 android:textColor="@color/main_color_dark_gray"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -65,70 +64,294 @@
                 app:layout_constraintWidth_percent="0.2" />
 
             <ImageView
-                android:id="@+id/btn_add_user"
+                android:id="@+id/btn_add_member"
                 android:layout_width="20sp"
                 android:layout_height="20sp"
                 android:src="@drawable/add_user"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_group_list"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_member_list"
                 android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@+id/tv_group_list"
-                app:layout_constraintTop_toTopOf="@+id/tv_group_list"
+                app:layout_constraintStart_toEndOf="@+id/tv_member_list"
+                app:layout_constraintTop_toTopOf="@+id/tv_member_list"
                 app:tint="@color/main_color_dark_gray" />
 
-            <CheckBox
-                android:id="@+id/checkbox_group1"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_group_members"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
-                android:text="아이유"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/tv_group_list"
-                app:layout_constraintTop_toBottomOf="@+id/tv_group_list" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_member_list"
+                >
+
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_add_member_notice"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="멤버를 추가해주세요."-->
+<!--                    android:textSize="16sp"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    android:textColor="@color/main_color_dark_gray"-->
+<!--                    />-->
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_member1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.16"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/layout_group_members"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_add_group_member1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/add_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_added_group_member1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/group_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/tv_group_member1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가하기"
+                    android:enabled="false"
+                    android:layout_marginTop="5dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/layout_member1"
+                    app:layout_constraintStart_toStartOf="@+id/layout_member1"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_member1" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_member2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.16"
+                    app:layout_constraintTop_toTopOf="@+id/layout_member1"
+                    app:layout_constraintStart_toEndOf="@+id/layout_member1"
+                    app:layout_constraintBottom_toBottomOf="@+id/layout_member1"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_add_group_member2"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/add_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_added_group_member2"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/group_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/tv_group_member2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가하기"
+                    android:enabled="false"
+                    android:layout_marginTop="5dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/layout_member2"
+                    app:layout_constraintStart_toStartOf="@+id/layout_member2"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_member2" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_member3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.16"
+                    app:layout_constraintTop_toTopOf="@+id/layout_member2"
+                    app:layout_constraintStart_toEndOf="@+id/layout_member2"
+                    app:layout_constraintBottom_toBottomOf="@+id/layout_member2"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_add_group_member3"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/add_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_added_group_member3"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/group_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/tv_group_member3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가하기"
+                    android:enabled="false"
+                    android:layout_marginTop="5dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/layout_member3"
+                    app:layout_constraintStart_toStartOf="@+id/layout_member3"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_member3" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_member4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.16"
+                    app:layout_constraintTop_toTopOf="@+id/layout_member3"
+                    app:layout_constraintStart_toEndOf="@+id/layout_member3"
+                    app:layout_constraintBottom_toBottomOf="@+id/layout_member3"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_add_group_member4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/add_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_added_group_member4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/group_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/tv_group_member4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가하기"
+                    android:enabled="false"
+                    android:layout_marginTop="5dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/layout_member4"
+                    app:layout_constraintStart_toStartOf="@+id/layout_member4"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_member4" />
 
 
-            <ImageView
-                android:id="@+id/btn_delete_group1"
-                android:layout_width="16sp"
-                android:layout_height="16sp"
-                android:src="@drawable/bin"
-                app:layout_constraintBottom_toBottomOf="@+id/checkbox_group1"
-                android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@+id/checkbox_group1"
-                app:layout_constraintTop_toTopOf="@+id/checkbox_group1"
-                app:tint="@color/main_color_light_gray" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_member5"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.16"
+                    app:layout_constraintTop_toTopOf="@+id/layout_member4"
+                    app:layout_constraintStart_toEndOf="@+id/layout_member4"
+                    app:layout_constraintBottom_toBottomOf="@+id/layout_member4"
+                    >
 
-            <CheckBox
-                android:id="@+id/checkbox_group2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="아이유"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@+id/checkbox_group1"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_group1" />
+                    <ImageView
+                        android:id="@+id/iv_add_group_member5"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/add_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
 
-            <ImageView
-                android:id="@+id/btn_delete_group2"
-                android:layout_width="16sp"
-                android:layout_height="16sp"
-                android:src="@drawable/bin"
-                app:layout_constraintBottom_toBottomOf="@+id/checkbox_group2"
-                android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@+id/checkbox_group2"
-                app:layout_constraintTop_toTopOf="@+id/checkbox_group2"
-                app:tint="@color/main_color_light_gray" />
+                    <ImageView
+                        android:id="@+id/iv_added_group_member5"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/group_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/tv_group_member5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="추가하기"
+                    android:enabled="false"
+                    android:layout_marginTop="5dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/layout_member5"
+                    app:layout_constraintStart_toStartOf="@+id/layout_member5"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_member5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:id="@+id/view_underline_group"
-                android:layout_width="330dp"
+                android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
+                android:paddingHorizontal="10dp"
                 android:background="@color/main_color_light_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_group2" />
+                app:layout_constraintTop_toBottomOf="@+id/layout_group_members" />
 
             <TextView
                 android:id="@+id/tv_filter_ingredients"
@@ -141,7 +364,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintHeight_percent="0.6"
-                app:layout_constraintStart_toStartOf="@id/tv_group_list"
+                app:layout_constraintStart_toStartOf="@id/tv_member_list"
                 app:layout_constraintTop_toBottomOf="@+id/view_underline_group"
                 app:layout_constraintWidth_percent="0.2" />
 
@@ -149,22 +372,25 @@
                 android:id="@+id/checkbox_ingredient_egg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
                 android:text="알류(가금류)"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@id/tv_filter_ingredients"
-                app:layout_constraintTop_toBottomOf="@+id/tv_filter_ingredients" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_filter_ingredients"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_milk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:text="우유"
+                android:layout_marginStart="160dp"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_egg"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_egg" />
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_egg"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_egg"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_egg"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_buckwheat"
@@ -173,18 +399,21 @@
                 android:layout_marginTop="5dp"
                 android:text="메밀"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_milk"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_milk" />
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_egg"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_egg"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_peanut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="160dp"
                 android:text="땅콩"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_buckwheat"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_buckwheat" />
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_buckwheat"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_buckwheat"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_buckwheat"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_soybean"
@@ -193,18 +422,21 @@
                 android:layout_marginTop="5dp"
                 android:text="대두"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_peanut"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_peanut" />
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_buckwheat"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_buckwheat"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_wheat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="160dp"
                 android:text="밀"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_soybean"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_soybean" />
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_soybean"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_soybean"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_soybean"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_mackerel"
@@ -213,18 +445,21 @@
                 android:layout_marginTop="5dp"
                 android:text="고등어"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_wheat"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_wheat" />
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_soybean"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_soybean"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_crab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="160dp"
                 android:text="게"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_mackerel"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_mackerel" />
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_mackerel"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_mackerel"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_mackerel"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_shrimp"
@@ -233,18 +468,21 @@
                 android:layout_marginTop="5dp"
                 android:text="새우"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_crab"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_crab" />
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_mackerel"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_mackerel"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_pork"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="160dp"
                 android:text="돼지고기"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_shrimp"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_shrimp" />
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_shrimp"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_shrimp"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_shrimp"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_peach"
@@ -253,18 +491,21 @@
                 android:layout_marginTop="5dp"
                 android:text="복숭아"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_pork"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_pork" />
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_shrimp"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_shrimp"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_tomato"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="160dp"
                 android:text="토마토"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_peach"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_peach" />
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_peach"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_peach"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_peach"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_sulfurous_acids"
@@ -273,18 +514,21 @@
                 android:layout_marginTop="5dp"
                 android:text="아황산류"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_tomato"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_tomato" />
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_peach"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_peach"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_walnut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="160dp"
                 android:text="호두"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_sulfurous_acids"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_sulfurous_acids" />
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_sulfurous_acids"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_sulfurous_acids"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_sulfurous_acids"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_chicken"
@@ -293,18 +537,21 @@
                 android:layout_marginTop="5dp"
                 android:text="닭고기"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_walnut"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_walnut" />
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_sulfurous_acids"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_sulfurous_acids"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_beef"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="160dp"
                 android:text="쇠고기"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_chicken"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_chicken" />
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_chicken"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_chicken"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_chicken"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_squid"
@@ -313,18 +560,21 @@
                 android:layout_marginTop="5dp"
                 android:text="오징어"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_beef"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_beef" />
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_chicken"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_chicken"
+                />
 
             <CheckBox
                 android:id="@+id/checkbox_ingredient_seashell"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="조개류(굴, 전복, 홍합 포함)"
+                android:layout_marginStart="160dp"
+                android:text="조개류"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_squid"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_squid" />
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_squid"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_squid"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_squid"
+                />
 
 
             <CheckBox
@@ -334,23 +584,21 @@
                 android:layout_marginTop="5dp"
                 android:text="잣"
                 android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_seashell"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_seashell" />
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_squid"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_squid"
+                />
 
             <Button
-                android:id="@+id/btn_apply_filter"
+                android:id="@+id/btn_save"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="30dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/round_border"
                 android:backgroundTint="@color/main_color_orange"
                 android:paddingHorizontal="100dp"
-                android:paddingVertical="28dp"
                 android:text="저장하기"
                 android:textColor="@color/main_color_white"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_pinenut" />

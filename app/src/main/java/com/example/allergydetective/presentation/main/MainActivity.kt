@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 //                setFragment(ItemListFragment())
 //            }
         }
-        setFragment(HomeFragment())
+        setFragment(SignInFragment())
     }
 
     private fun setFragment(frag : Fragment) {

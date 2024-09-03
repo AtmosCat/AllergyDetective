@@ -15,7 +15,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.food.FoodManager
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentFilterBinding
@@ -241,7 +240,6 @@ class FilterFragment : Fragment() {
 //            viewModel.setAllergiesCount(selectedAllergiesCount)
             requireActivity().supportFragmentManager.popBackStack()
         }
-
 
     }
 

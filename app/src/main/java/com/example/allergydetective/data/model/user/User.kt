@@ -1,62 +1,65 @@
 package com.example.allergydetective.data.model.user
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
+import android.media.Image
+import com.example.allergydetective.R
+import com.example.allergydetective.data.model.food.Food
+
+fun createSampleBitmap(): Bitmap {
+    val bitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    val paint = Paint()
+
+    paint.color = Color.WHITE
+    canvas.drawCircle(500f, 450f, 150f, paint)
+
+    paint.color = Color.WHITE
+    val path = android.graphics.Path()
+    path.addCircle(500f, 1000f, 350f, Path.Direction.CCW)
+    canvas.drawPath(path, paint)
+
+    return bitmap
+}
+
+val sampleBitmap = createSampleBitmap()
+
 // 유저 관리
 data class User(val id: String,
                 val pw: String,
-                val name: String,
+                var name: String,
                 val contact: String,
                 val email: String,
-                val allergy: List<Boolean> = emptyList(),
-                val group: List<GroupMember> = emptyList(),
+                var allergy: MutableList<String> = mutableListOf(),
+                var group: MutableList<GroupMember> = mutableListOf(
+                    GroupMember("", mutableListOf()),
+                    GroupMember("", mutableListOf()),
+                    GroupMember("", mutableListOf()),
+                    GroupMember("", mutableListOf()),
+                    GroupMember("", mutableListOf())
+                    ),
                 val membership: String = "",
-                val like: List<String> = emptyList(),
-                val mypost: List<Post> = emptyList(),
-                val scrap: List<Post> = emptyList()) {
-}
-
-object UserManager{
-    val users = mutableListOf<User>()
-
-    fun delete(id_: String){
-        users.remove(users.find { it.id == id_ })
-    }
-}
+                var like: MutableList<Food> = mutableListOf(),
+                val mypost: MutableList<Post> = mutableListOf(),
+                val scrap: MutableList<Post> = mutableListOf(),
+                var photo: Bitmap = sampleBitmap)
 
 // 유저 - 그룹 관리
-data class GroupMember(val name: String, val mixFilter: Boolean, val allergy: List<Boolean>){
-}
-object GroupManager{
-    val members = mutableListOf<GroupMember>()
-
-    fun add(name: String, mixFilter: Boolean, allergy: List<Boolean>) {
-        members.add(GroupMember(name, mixFilter, allergy))
-    }
-
-    fun delete(name_: String){
-        members.remove(members.find { it.name == name_ })
-    }
-}
-
+data class GroupMember(var name: String = "",
+                       var allergy: MutableList<String>)
 
 
 // 게시글 관리
-data class Post(val index: Int, val subject: String, val poster: String, val title: String, val content: String,
-            val comment: Int, val report: Boolean){
-}
-object PostManager{
-
-    val posts = mutableListOf<Post>()
-
-    fun add(index: Int, subject: String, poster: String, title: String, content: String,
-            comment: Int, report: Boolean) {
-        posts.add(Post(index, subject, poster, title, content, comment, report))
-    }
-
-    fun delete(index_: Int){
-        posts.remove(posts.find { it.index == index_ })
-    }
-
-}
+data class Post(val index: Int,
+                val subject: String,
+                val poster: String,
+                val title: String,
+                val content: String,
+                val comment: Int,
+                val report: Boolean)
 
 
 

@@ -65,8 +65,7 @@ class SignUpFragment : Fragment() {
                     Toast.makeText(requireContext(), "중복된 아이디가 있습니다.", Toast.LENGTH_SHORT).show()
                 } else {
                     idConfirm = true
-                    Toast.makeText(requireContext(), "사용 가능한 아이디 입니다.", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(requireContext(), "사용 가능한 아이디 입니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -123,7 +122,7 @@ class SignUpFragment : Fragment() {
                         .show()
                 } else {
                     val user = User(id, pw, name, contact, email)
-                    viewModel.setUser(user)
+                    viewModel.addUser(user)
                     Toast.makeText(requireContext(), "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     // 로그인 페이지로 이동(SignInFragment)
 

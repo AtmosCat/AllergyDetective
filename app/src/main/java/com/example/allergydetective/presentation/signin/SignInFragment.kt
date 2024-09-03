@@ -14,9 +14,9 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.User
-import com.example.allergydetective.data.model.user.UserManager
 import com.example.allergydetective.databinding.FragmentSignInBinding
 import com.example.allergydetective.presentation.home.HomeFragment
+import com.example.allergydetective.presentation.home.MyPageFragment
 import com.example.allergydetective.presentation.signin.findId.FindIdFragment
 import com.example.allergydetective.presentation.signin.findPw.FindPwFragment
 import com.example.allergydetective.presentation.signup.SignUpFragment
@@ -53,7 +53,15 @@ class SignInFragment : Fragment() {
 
         var isIdCorrect = false
 
-        binding.btnSignin.setOnClickListener{
+        var user1 = User("1", "1", "1", "1", "1")
+        var user2 = User("2", "2", "2", "2", "2")
+        var user3 = User("3", "3", "3", "3", "3")
+
+        viewModel.addUser(user1)
+        viewModel.addUser(user2)
+        viewModel.addUser(user3)
+
+        binding.btnSignin.setOnClickListener {
 
             var id = binding.etSigninId.text.toString()
             var pw = binding.etSigninPw.text.toString()
@@ -61,22 +69,32 @@ class SignInFragment : Fragment() {
             viewModel.getUser(id)
             viewModel.user.observe(viewLifecycleOwner) { data ->
                 user = data
-            }
-
-            if (binding.etSigninId.text.isEmpty() || binding.etSigninPw.text.isEmpty()) {
-                Toast.makeText(requireContext(), "입력되지 않은 항목이 있습니다.", Toast.LENGTH_SHORT).show()
-            } else {
-                if (user == null) {
-                    Toast.makeText(requireContext(), "존재하지 않는 아이디입니다.", Toast.LENGTH_SHORT).show()
+                if (binding.etSigninId.text.isEmpty() || binding.etSigninPw.text.isEmpty()) {
+                    Toast.makeText(requireContext(), "입력되지 않은 항목이 있습니다.", Toast.LENGTH_SHORT).show()
                 } else {
-                    if (pw != user!!.pw) {
-                        Toast.makeText(requireContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                    if (user == null) {
+                        Toast.makeText(requireContext(), "존재하지 않는 아이디입니다.", Toast.LENGTH_SHORT)
+                            .show()
                     } else {
-                        Toast.makeText(requireContext(), "로그인 성공!", Toast.LENGTH_SHORT).show()
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.main_frame, HomeFragment())
-                            .addToBackStack(null)
-                            .commit()
+                        if (pw != user!!.pw) {
+                            Toast.makeText(requireContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            viewModel.setCurrentUser(user!!)
+                            Toast.makeText(requireContext(), "로그인 성공!", Toast.LENGTH_SHORT).show()
+
+                            val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
+                            requireActivity().supportFragmentManager.beginTransaction().apply {
+                                hide(this@SignInFragment)
+                                if (homeFragment == null) {
+                                    add(R.id.main_frame, HomeFragment(), "HomeFragment")
+                                } else {
+                                    show(homeFragment)
+                                }
+                                addToBackStack(null)
+                                commit()
+                            }
+                        }
                     }
                 }
             }

@@ -148,7 +148,7 @@
             android:id="@+id/btn_tab_home"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/main_color_orange"
+            android:background="@color/main_color_light_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_percent="0.1"
             app:layout_constraintStart_toStartOf="parent"

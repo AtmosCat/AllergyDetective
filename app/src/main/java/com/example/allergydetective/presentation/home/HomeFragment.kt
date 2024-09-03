@@ -89,46 +89,69 @@ class HomeFragment : Fragment() {
             }
         }
 
+        val itemDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemDetailFragment")
         homeAdapter.itemClick = object : HomeAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_frame, ItemDetailFragment())
-                    .addToBackStack(null)
-                    .commit()
-            }
-        }
-
-        val filterFragment = fragmentManager?.findFragmentByTag("FilterFragment")
-        binding.btnHomeFilter.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                hide(HomeFragment())
-                if (filterFragment == null) {
-                    add(R.id.main_frame, FilterFragment(), "FilterFragment")
-                } else {
-                    show(FilterFragment())
-                }
-                addToBackStack(null)
-                commit()
-            }
-        }
-        val itemListFragment = fragmentManager?.findFragmentByTag("ItemListFragment")
-        binding.btnHomeSearch.setOnClickListener() {
-            if (viewModel.selectedCategory.value == null) {
-                Toast.makeText(requireContext(), "카테고리를 1가지 선택해주세요.", Toast.LENGTH_SHORT).show()
-            } else {
-                viewModel.setSearchKeyword(binding.etHomeSearch.text.toString())
                 requireActivity().supportFragmentManager.beginTransaction().apply {
-                    hide(HomeFragment())
-                    if (itemListFragment == null) {
-                        add(R.id.main_frame, ItemListFragment(), "ItemListFragment")
+                    hide(this@HomeFragment)
+                    if (itemDetailFragment == null) {
+                        add(R.id.main_frame, ItemDetailFragment(), "ItemDetailFragment")
                     } else {
-                        show(ItemListFragment())
+                        show(itemDetailFragment)
                     }
                     addToBackStack(null)
                     commit()
                 }
             }
         }
+
+        val filterFragment = requireActivity().supportFragmentManager.findFragmentByTag("FilterFragment")
+        binding.btnHomeFilter.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                hide(this@HomeFragment)
+                if (filterFragment == null) {
+                    add(R.id.main_frame, FilterFragment(), "FilterFragment")
+                } else {
+                    show(filterFragment)
+                }
+                addToBackStack(null)
+                commit()
+            }
+        }
+
+        val itemListFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemListFragment")
+        binding.btnHomeSearch.setOnClickListener() {
+            if (viewModel.selectedCategory.value == null) {
+                Toast.makeText(requireContext(), "카테고리를 1가지 선택해주세요.", Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.setSearchKeyword(binding.etHomeSearch.text.toString())
+                requireActivity().supportFragmentManager.beginTransaction().apply {
+                    hide(this@HomeFragment)
+                    if (itemListFragment == null) {
+                        add(R.id.main_frame, ItemListFragment(), "ItemListFragment")
+                    } else {
+                        show(itemListFragment)
+                    }
+                    addToBackStack(null)
+                    commit()
+                }
+            }
+        }
+
+        val myPageFragment = requireActivity().supportFragmentManager.findFragmentByTag("MyPageFragment")
+        binding.btnTabMypage.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                hide(this@HomeFragment)
+                if (myPageFragment == null) {
+                    add(R.id.main_frame, MyPageFragment(), "MyPageFragment")
+                } else if (myPageFragment != null && myPageFragment.isHidden){
+                    show(myPageFragment)
+                }
+                addToBackStack(null)
+                commit()
+            }
+        }
+
     }
 }
 

@@ -1,9 +1,6 @@
 package com.example.allergydetective.presentation.itemlist
 
-import android.app.ProgressDialog.show
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,20 +9,15 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.collection.emptyIntList
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.replace
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 //import coil.load
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.food.Food
-import com.example.allergydetective.data.model.food.FoodManager
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentItemListBinding
@@ -33,6 +25,7 @@ import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.base.UiState
 import com.example.allergydetective.presentation.filter.FilterFragment
 import com.example.allergydetective.presentation.home.HomeFragment
+import com.example.allergydetective.presentation.home.MyPageFragment
 import com.example.allergydetective.presentation.itemdetail.ItemDetailFragment
 
 private const val ARG_PARAM1 = "param1"
@@ -109,14 +102,14 @@ class ItemListFragment : Fragment() {
         }
 
 
-        val filterFragment = fragmentManager?.findFragmentByTag("FilterFragment")
+        val filterFragment = requireActivity().supportFragmentManager.findFragmentByTag("FilterFragment")
         binding.btnItemlistFilter.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                hide(ItemListFragment())
+                hide(this@ItemListFragment)
                 if (filterFragment == null) {
                     add(R.id.main_frame, FilterFragment(), "FilterFragment")
                 } else {
-                    show(FilterFragment())
+                    show(filterFragment)
                 }
                 addToBackStack(null)
                 commit()
@@ -164,7 +157,7 @@ class ItemListFragment : Fragment() {
         }
 
 
-        val itemDetailFragment = fragmentManager?.findFragmentByTag("ItemDetailFragment")
+        val itemDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemDetailFragment")
 
         itemListAdapter.itemClick = object : ItemListAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
@@ -177,7 +170,7 @@ class ItemListFragment : Fragment() {
                     val dataToSend = clickedItem!!.prdlstReportNo
                     val itemDetail = ItemDetailFragment.newInstance(dataToSend)
                     requireActivity().supportFragmentManager.beginTransaction().apply {
-                        hide(ItemListFragment())
+                        hide(this@ItemListFragment)
                         if (itemDetailFragment == null) {
                             add(R.id.main_frame, itemDetail, "ItemDetailFragment")
                         } else {
@@ -190,15 +183,28 @@ class ItemListFragment : Fragment() {
             }
         }
 
-        val homeFragment = fragmentManager?.findFragmentByTag("HomeFragment")
-
+        val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
         binding.btnTabHome.setOnClickListener{
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                hide(ItemListFragment())
+                hide(this@ItemListFragment)
                 if (homeFragment == null) {
                     add(R.id.main_frame, HomeFragment(), "HomeFragment")
                 } else {
-                    show(HomeFragment())
+                    show(homeFragment)
+                }
+                addToBackStack(null)
+                commit()
+            }
+        }
+
+        val myPageFragment = requireActivity().supportFragmentManager.findFragmentByTag("MyPageFragment")
+        binding.btnTabMypage.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                hide(this@ItemListFragment)
+                if (myPageFragment == null) {
+                    add(R.id.main_frame, MyPageFragment(), "MyPageFragment")
+                } else {
+                    show(myPageFragment)
                 }
                 addToBackStack(null)
                 commit()

@@ -1,7 +1,6 @@
 package com.example.allergydetective.data.repository.food
 
 import com.example.allergydetective.data.model.food.Food
-import com.example.allergydetective.data.model.food.FoodManager
 import com.example.allergydetective.network.food.RetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

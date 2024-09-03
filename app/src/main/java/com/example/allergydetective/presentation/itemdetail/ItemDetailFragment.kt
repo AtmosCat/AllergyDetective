@@ -14,11 +14,14 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.allergydetective.R
+import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.model.market.Market
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentItemDetailBinding
 import com.example.allergydetective.presentation.SharedViewModel
+import com.example.allergydetective.presentation.UserViewModel
+import com.example.allergydetective.presentation.mypage.favorite.FavoriteListAdapter
 
 private const val ARG_PARAM1 = "param1"
 class ItemDetailFragment : Fragment() {
@@ -27,8 +30,11 @@ class ItemDetailFragment : Fragment() {
     private var _binding: FragmentItemDetailBinding? = null
     private val binding get() = _binding!!
 
+    private val favoriteListAdapter by lazy { FavoriteListAdapter() }
+
+
     // 이렇게 뷰모델 호출하는 거 맞나?
-    private val viewModel: SharedViewModel by activityViewModels {
+    private val sharedViewModel: SharedViewModel by activityViewModels {
         viewModelFactory {
             initializer {
                 SharedViewModel(
@@ -38,6 +44,11 @@ class ItemDetailFragment : Fragment() {
             }
         }
     }
+
+    private val userViewModel: UserViewModel by activityViewModels {
+        viewModelFactory { initializer { UserViewModel() } }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +79,7 @@ class ItemDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val data = param1
-        val clickedItem = viewModel.filteredFoods.value?.find { it.prdlstReportNo == data }
+        val clickedItem = sharedViewModel.filteredFoods.value?.find { it.prdlstReportNo == data }
 
         binding.btnBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
@@ -81,6 +92,30 @@ class ItemDetailFragment : Fragment() {
 
         val viewPagerAdapter = ViewPagerAdapter(imageResources)
         viewPager.adapter = viewPagerAdapter
+
+        var isLiked = false
+        var currentUserFavorites = mutableListOf<Food>()
+        userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                currentUserFavorites = data.like
+                if (clickedItem in currentUserFavorites) {
+                    binding.btnLike.setImageResource(R.drawable.filled_heart)
+                    isLiked = true
+                }
+            }
+        }
+
+        binding.btnLike.setOnClickListener {
+            if (!isLiked) {
+                isLiked = true
+                binding.btnLike.setImageResource(R.drawable.filled_heart)
+                userViewModel.addFavorite(clickedItem!!)
+            } else {
+                isLiked = false
+                binding.btnLike.setImageResource(R.drawable.heart)
+                userViewModel.removeFavorite(clickedItem!!)
+            }
+        }
 
         binding.tvCategory.text = clickedItem?.prdkind.toString()
         binding.tvName.text = clickedItem?.prdlstNm.toString()
@@ -108,14 +143,15 @@ class ItemDetailFragment : Fragment() {
         if (clickedItem?.prdlstReportNo == "null") {
             binding.tvPrdlstReportNo.text = "- 품목보고번호: 정보없음"
         } else {
-            binding.tvPrdlstReportNo.text = "- 품목보고번호: ${clickedItem?.prdlstReportNo.toString()}"
+            binding.tvPrdlstReportNo.text =
+                "- 품목보고번호: ${clickedItem?.prdlstReportNo.toString()}"
         }
 
-        viewModel.getMarketDetail(clickedItem?.manufacture.toString() + " " +clickedItem?.prdlstNm.toString())
+        sharedViewModel.getMarketDetail(clickedItem?.manufacture.toString() + " " + clickedItem?.prdlstNm.toString())
 
         var marketList: List<Market>?
 
-        viewModel.marketData.observe(viewLifecycleOwner) { data ->
+        sharedViewModel.marketData.observe(viewLifecycleOwner) { data ->
             marketList = data
 
             if (marketList!!.isEmpty()) {
@@ -138,7 +174,6 @@ class ItemDetailFragment : Fragment() {
             }
 
         }
-
     }
 }
 

@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.allergydetective.data.model.food.Food
-import com.example.allergydetective.data.model.food.FoodManager
 import com.example.allergydetective.data.model.market.Market
 import com.example.allergydetective.data.model.market.MarketManager
 import com.example.allergydetective.data.model.user.GroupMember

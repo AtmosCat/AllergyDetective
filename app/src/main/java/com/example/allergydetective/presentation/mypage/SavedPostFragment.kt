@@ -15,13 +15,14 @@ import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentFavoriteBinding
 import com.example.allergydetective.databinding.FragmentGroupManagerBinding
 import com.example.allergydetective.databinding.FragmentMembershipBinding
+import com.example.allergydetective.databinding.FragmentSavedPostBinding
 import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
 
 
-class MembershipFragment : Fragment() {
+class SavedPostFragment : Fragment() {
 
-    private var _binding: FragmentMembershipBinding? = null
+    private var _binding: FragmentSavedPostBinding? = null
     private val binding get() = _binding!!
 
 
@@ -48,16 +49,16 @@ class MembershipFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMembershipBinding.inflate(inflater, container, false)
+        _binding = FragmentSavedPostBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnBack.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
+//        binding.btnBack.setOnClickListener {
+//            requireActivity().supportFragmentManager.popBackStack()
+//        }
 
     }
 }

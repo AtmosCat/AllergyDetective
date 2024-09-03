@@ -1,21 +1,6 @@
 package com.example.allergydetective.data.model.food
 
 
-object FoodManager {
-    var foods = listOf<Food>()
-
-    val allergyList: List<String> = listOf("알류","계란","우유","메밀","땅콩","대두","밀","고등어","게","새우",
-        "돼지고기","복숭아","토마토","아황산류","이산화황","호두","닭고기","쇠고기","소고기","오징어","잣",
-        "조개류","조개","굴","전복","홍합","조개류(굴)","조개류(전복)","조개류(홍합)")
-
-    var selectedCategory = ""
-    var selectedAllergies = listOf("우유")
-
-    var filteredFoods = listOf<Food>()
-
-    var arrangedFoods = listOf<Food>()
-}
-
 // 균일화된 레시피
 // 나중에 추가되는 다른 식품 데이터들을 균일화해서 하나의 Food로 관리하기
 // 처음에 쓰는 data.go.kr은 gonggong으로 관리
