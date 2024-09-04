@@ -39,6 +39,9 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
     private val _selectedCategory = MutableLiveData<String>()
     val selectedCategory : LiveData<String> get() = _selectedCategory
 
+    private val _selectedCategories = MutableLiveData<MutableList<String>>()
+    val selectedCategories : LiveData<MutableList<String>> get() = _selectedCategories
+
     private val _selectedAllergies = MutableLiveData<MutableList<String>>()
     val selectedAllergies : LiveData<MutableList<String>> get() = _selectedAllergies
 
@@ -50,6 +53,9 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
 
     private val _marketData = MutableLiveData<List<Market>>()
     val marketData : LiveData<List<Market>> get() = _marketData
+
+    private val _prdkinds = MutableLiveData<List<String>>()
+    val prdkinds : LiveData<List<String>> get() = _prdkinds
 
     fun getHomeFoods() {
 //        _uiState.value = UiState.Loading
@@ -79,13 +85,40 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
         }
     }
 
-    fun setCategoryFilter(category: String) {
+    fun setCategoryFilter(categories: MutableList<String>) {
+//        _uiState.value = UiState.Loading
+        viewModelScope.launch {
+            runCatching {
+                _selectedCategories.value = categories
+//                _uiState.value = UiState.Success("Example")
+            }.onFailure {
+                Log.e(TAG, "setCategoryFilter() failed! : ${it.message}")
+                handleException(it)
+//                _uiState.value = UiState.Error("Error")
+            }
+        }
+    }
+
+    fun setAllergyFilter(allergies: MutableList<String>) {
+//        _uiState.value = UiState.Loading
+        viewModelScope.launch {
+            runCatching {
+                _selectedAllergies.value = allergies
+//                _uiState.value = UiState.Success("Example")
+            }.onFailure {
+                Log.e(TAG, "setCategoryFilter() failed! : ${it.message}")
+                handleException(it)
+//                _uiState.value = UiState.Error("Error")
+            }
+        }
+    }
+
+    fun setCategoryFilterByButton(category: String) {
 //        _uiState.value = UiState.Loading
         viewModelScope.launch {
             runCatching {
                 _selectedCategory.value = category
 //                _uiState.value = UiState.Success("Example")
-
             }.onFailure {
                 Log.e(TAG, "setCategoryFilter() failed! : ${it.message}")
                 handleException(it)
@@ -142,20 +175,28 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
         }
     }
 
-    fun setFilter(selectedMember_: List<GroupMember>) {
-//        _uiState.value = UiState.Loading
+    fun getAllFoods(page: Int) {
         viewModelScope.launch {
             runCatching {
-                val selectedMember = selectedMember_
-//                _uiState.value = UiState.Success(selectedMember)
+                var data = foodRepository.getAllData(page)
+                var prdkindList = _prdkinds.value?: mutableListOf()
+                for (i in data) {
+                    if (i.prdkind.toString() !in prdkindList) {
+                        prdkindList += i.prdkind.toString()
+//                        prdkindList += "\n"
+                    }
+                }
+                _prdkinds.value = prdkindList
+                Log.d(TAG, "size: ${prdkinds.value!!.size}")
+                Log.d(TAG, "${prdkinds.value!!}")
 
             }.onFailure {
-                Log.e(TAG, "setFilter() failed! : ${it.message}")
+                Log.e(TAG, "getHomeFoods() failed! : ${it.message}")
                 handleException(it)
-//                _uiState.value = UiState.Error("Error")
             }
         }
     }
+
 
     fun getFilteredFoods() {
 //        _uiState.value = UiState.Loading

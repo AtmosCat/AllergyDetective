@@ -51,7 +51,7 @@ class GroupManagerFragment : Fragment() {
 
     private var allergyCheckboxes = listOf<CheckBox>()
 
-    private var allergenNames = listOf("계란","우유","메밀","대두","땅콩","밀","고등어","게","새우","돼지고기",
+    private var allergenNames = listOf("계란","우유","메밀","땅콩","대두","밀","고등어","게","새우","돼지고기",
         "복숭아","토마토","아황산류","호두","닭고기","쇠고기","오징어","조개","잣")
 
     private lateinit var allergies: List<Pair<CheckBox, String>>
@@ -86,16 +86,6 @@ class GroupManagerFragment : Fragment() {
 
     private var isMemberSelectedList = mutableListOf(isMember1Selected, isMember2Selected, isMember3Selected, isMember4Selected, isMember5Selected)
 
-    private val sharedviewModel: SharedViewModel by activityViewModels() {
-        viewModelFactory {
-            initializer {
-                SharedViewModel(
-                    GonggongFoodRepositoryImpl(),
-                    MarketRepositoryImpl()
-                )
-            }
-        }
-    }
     private val userViewModel: UserViewModel by activityViewModels {
         viewModelFactory { initializer { UserViewModel() } }
     }
@@ -283,8 +273,9 @@ class GroupManagerFragment : Fragment() {
     }
 
     private fun setSelectedMemberAllergies(){
+        selectedAllergies = selectedMember.allergy.toMutableList()
         if (selectedMember.allergy.isNotEmpty()) {
-            selectedAllergies = selectedMember.allergy.toMutableList()
+
             val notSelectedAllergies = allergenNames - selectedAllergies
 
             for (allergy in selectedAllergies) {
@@ -296,122 +287,6 @@ class GroupManagerFragment : Fragment() {
                 allergies[index].first.isChecked = false
             }
 
-//            for (allergy in selectedAllergies) {
-//                if (allergy == "계란") {
-//                    egg.isChecked = true
-//                } else {
-//                    egg.isChecked = false
-//                }
-//
-//                if (allergy == "우유") {
-//                    milk.isChecked = true
-//                } else {
-//                    milk.isChecked = false
-//                }
-//
-//                if (allergy == "메밀") {
-//                    buckwheat.isChecked = true
-//                } else {
-//                    buckwheat.isChecked = false
-//                }
-//
-//                if (allergy == "대두") {
-//                    soybean.isChecked = true
-//                } else {
-//                    soybean.isChecked = false
-//                }
-//
-//                if (allergy == "땅콩") {
-//                    peanut.isChecked = true
-//                } else {
-//                    peanut.isChecked = false
-//                }
-//
-//                if (allergy == "밀") {
-//                    wheat.isChecked = true
-//                } else {
-//                    wheat.isChecked = false
-//                }
-//
-//                if (allergy == "고등어") {
-//                    mackerel.isChecked = true
-//                } else {
-//                    mackerel.isChecked = false
-//                }
-//
-//                if (allergy == "게") {
-//                    crab.isChecked = true
-//                } else {
-//                    crab.isChecked = false
-//                }
-//
-//                if (allergy == "새우") {
-//                    shrimp.isChecked = true
-//                } else {
-//                    shrimp.isChecked = false
-//                }
-//
-//                if (allergy == "돼지고기") {
-//                    pork.isChecked = true
-//                } else {
-//                    pork.isChecked = false
-//                }
-//
-//                if (allergy == "복숭아") {
-//                    peach.isChecked = true
-//                } else {
-//                    peach.isChecked = false
-//                }
-//
-//                if (allergy == "토마토") {
-//                    tomato.isChecked = true
-//                } else {
-//                    tomato.isChecked = false
-//                }
-//
-//                if (allergy == "아황산류") {
-//                    sulfurousAcids.isChecked = true
-//                } else {
-//                    sulfurousAcids.isChecked = false
-//                }
-//
-//                if (allergy == "호두") {
-//                    walnut.isChecked = true
-//                } else {
-//                    walnut.isChecked = false
-//                }
-//
-//                if (allergy == "닭고기") {
-//                    chicken.isChecked = true
-//                } else {
-//                    chicken.isChecked = false
-//                }
-//
-//                if (allergy == "쇠고기") {
-//                    beef.isChecked = true
-//                } else {
-//                    beef.isChecked = false
-//                }
-//
-//                if (allergy == "오징어") {
-//                    squid.isChecked = true
-//                } else {
-//                    squid.isChecked = false
-//                }
-//
-//                if (allergy == "조개") {
-//                    seashell.isChecked = true
-//                } else {
-//                    seashell.isChecked = false
-//                }
-//
-//                if (allergy == "잣") {
-//                    pinenut.isChecked = true
-//                } else {
-//                    pinenut.isChecked = false
-//                }
-//
-//            }
         } else {
             for (pair in allergies) {
                 pair.first.isChecked = false

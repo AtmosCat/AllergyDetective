@@ -65,6 +65,64 @@ class GonggongFoodRepositoryImpl: FoodRepository {
         }
     }
 
+    // 카테고리로 1차 거르고 나서 알러지로 거르는 건 그 다음에 하기
+    override suspend fun getMoreFilteredData(category: String): List<Food> {
+        var pageNo = 1
+        val numOfRows = 100
+        val response =
+            RetrofitClient.gonggongFoodAPI.getFilteredApi(
+                pageNo = pageNo.toString(),
+                numOfRows = numOfRows.toString(),
+                prdkind = category
+            )
+        var items = response.body?.items
+        return items!!.mapNotNull { item ->
+            item.item?.let {
+                Food(
+                    allergy = it.allergy.toString(),
+                    imgurl1 = it.imgurl1.toString(),
+                    imgurl2 = it.imgurl2.toString(),
+                    manufacture = it.manufacture.toString(),
+                    nutrient = it.nutrient.toString(),
+                    prdkind = it.prdkind.toString(),
+                    prdlstNm = it.prdlstNm.toString(),
+                    rawmtrl = it.rawmtrl.toString(),
+                    seller = it.seller.toString(),
+                    prdlstReportNo = it.prdlstReportNo.toString(),
+                    like = 0
+                )
+            }
+        }
+    }
+
+    override suspend fun getAllData(page: Int): List<Food> {
+        var pageNo = page
+        val numOfRows = 100
+        val response =
+            RetrofitClient.gonggongFoodAPI.getGonggongFood(
+                pageNo = pageNo.toString(),
+                numOfRows = numOfRows.toString()
+            )
+        var items = response.body?.items
+        return items!!.mapNotNull { item ->
+            item.item?.let {
+                Food(
+                    allergy = it.allergy.toString(),
+                    imgurl1 = it.imgurl1.toString(),
+                    imgurl2 = it.imgurl2.toString(),
+                    manufacture = it.manufacture.toString(),
+                    nutrient = it.nutrient.toString(),
+                    prdkind = it.prdkind.toString(),
+                    prdlstNm = it.prdlstNm.toString(),
+                    rawmtrl = it.rawmtrl.toString(),
+                    seller = it.seller.toString(),
+                    prdlstReportNo = it.prdlstReportNo.toString(),
+                    like = 0
+                )
+            }
+        }
+    }
+
     override suspend fun fetchAllData(): List<Food> {
         var allItems = listOf<Food>()
         var pageNo = 1

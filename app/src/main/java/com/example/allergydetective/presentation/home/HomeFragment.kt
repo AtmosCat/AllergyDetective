@@ -152,6 +152,26 @@ class HomeFragment : Fragment() {
             }
         }
 
+//        var prdkinds = mutableListOf<String>()
+//        var num = 1
+//        while (num <= 149) {
+//            viewModel.getAllFoods(num)
+//            num += 1
+//        }
+//        viewModel.prdkinds.observe(viewLifecycleOwner) { data ->
+////            for (i in data) {
+////                if (i !in prdkinds) {
+////                    prdkinds.add(i+"\n")
+////                }
+////            }
+//            binding.prdkindlist.text = data.toString()
+//            println(data.toString())
+//        }
+
+
+
+
+
     }
 }
 

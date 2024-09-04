@@ -63,17 +63,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.2" />
 
-            <ImageView
-                android:id="@+id/btn_add_member"
-                android:layout_width="20sp"
-                android:layout_height="20sp"
-                android:src="@drawable/add_user"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_member_list"
-                android:layout_marginStart="10dp"
-                app:layout_constraintStart_toEndOf="@+id/tv_member_list"
-                app:layout_constraintTop_toTopOf="@+id/tv_member_list"
-                app:tint="@color/main_color_dark_gray" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_group_members"
                 android:layout_width="match_parent"
@@ -82,18 +71,47 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_member_list"
                 >
 
-<!--                <TextView-->
-<!--                    android:id="@+id/tv_add_member_notice"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="멤버를 추가해주세요."-->
-<!--                    android:textSize="16sp"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintStart_toStartOf="parent"-->
-<!--                    app:layout_constraintEnd_toEndOf="parent"-->
-<!--                    android:textColor="@color/main_color_dark_gray"-->
-<!--                    />-->
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.0" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.2" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.4" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.6" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.8" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="1.0" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/layout_member1"
@@ -102,7 +120,8 @@
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintWidth_percent="0.16"
                     app:layout_constraintTop_toTopOf="@+id/layout_group_members"
-                    app:layout_constraintStart_toStartOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/guideline1"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline2"
                     >
 
                     <ImageView
@@ -133,12 +152,15 @@
 
                 <EditText
                     android:id="@+id/tv_group_member1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="추가하기"
+                    android:letterSpacing="-0.07"
+                    android:maxLines="2"
+                    android:gravity="center"
                     android:enabled="false"
                     android:layout_marginTop="5dp"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@+id/layout_member1"
                     app:layout_constraintStart_toStartOf="@+id/layout_member1"
                     app:layout_constraintTop_toBottomOf="@+id/layout_member1" />
@@ -149,9 +171,9 @@
                     android:layout_height="0dp"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintWidth_percent="0.16"
-                    app:layout_constraintTop_toTopOf="@+id/layout_member1"
-                    app:layout_constraintStart_toEndOf="@+id/layout_member1"
-                    app:layout_constraintBottom_toBottomOf="@+id/layout_member1"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/guideline2"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline3"
                     >
 
                     <ImageView
@@ -182,12 +204,15 @@
 
                 <EditText
                     android:id="@+id/tv_group_member2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="추가하기"
+                    android:letterSpacing="-0.07"
+                    android:maxLines="2"
+                    android:gravity="center"
                     android:enabled="false"
                     android:layout_marginTop="5dp"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@+id/layout_member2"
                     app:layout_constraintStart_toStartOf="@+id/layout_member2"
                     app:layout_constraintTop_toBottomOf="@+id/layout_member2" />
@@ -198,9 +223,9 @@
                     android:layout_height="0dp"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintWidth_percent="0.16"
-                    app:layout_constraintTop_toTopOf="@+id/layout_member2"
-                    app:layout_constraintStart_toEndOf="@+id/layout_member2"
-                    app:layout_constraintBottom_toBottomOf="@+id/layout_member2"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/guideline3"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline4"
                     >
 
                     <ImageView
@@ -231,12 +256,15 @@
 
                 <EditText
                     android:id="@+id/tv_group_member3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="추가하기"
+                    android:letterSpacing="-0.07"
+                    android:maxLines="2"
+                    android:gravity="center"
                     android:enabled="false"
                     android:layout_marginTop="5dp"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@+id/layout_member3"
                     app:layout_constraintStart_toStartOf="@+id/layout_member3"
                     app:layout_constraintTop_toBottomOf="@+id/layout_member3" />
@@ -247,9 +275,9 @@
                     android:layout_height="0dp"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintWidth_percent="0.16"
-                    app:layout_constraintTop_toTopOf="@+id/layout_member3"
-                    app:layout_constraintStart_toEndOf="@+id/layout_member3"
-                    app:layout_constraintBottom_toBottomOf="@+id/layout_member3"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/guideline4"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline5"
                     >
 
                     <ImageView
@@ -280,12 +308,15 @@
 
                 <EditText
                     android:id="@+id/tv_group_member4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="추가하기"
+                    android:letterSpacing="-0.07"
+                    android:maxLines="2"
+                    android:gravity="center"
                     android:enabled="false"
                     android:layout_marginTop="5dp"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@+id/layout_member4"
                     app:layout_constraintStart_toStartOf="@+id/layout_member4"
                     app:layout_constraintTop_toBottomOf="@+id/layout_member4" />
@@ -297,9 +328,9 @@
                     android:layout_height="0dp"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintWidth_percent="0.16"
-                    app:layout_constraintTop_toTopOf="@+id/layout_member4"
-                    app:layout_constraintStart_toEndOf="@+id/layout_member4"
-                    app:layout_constraintBottom_toBottomOf="@+id/layout_member4"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/guideline5"
+                    app:layout_constraintEnd_toEndOf="@+id/guideline6"
                     >
 
                     <ImageView
@@ -330,12 +361,15 @@
 
                 <EditText
                     android:id="@+id/tv_group_member5"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="추가하기"
+                    android:letterSpacing="-0.07"
+                    android:maxLines="2"
+                    android:gravity="center"
                     android:enabled="false"
                     android:layout_marginTop="5dp"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="@+id/layout_member5"
                     app:layout_constraintStart_toStartOf="@+id/layout_member5"
                     app:layout_constraintTop_toBottomOf="@+id/layout_member5" />
@@ -376,6 +410,7 @@
                 android:layout_marginStart="10dp"
                 android:text="알류(가금류)"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/tv_filter_ingredients"
                 app:layout_constraintTop_toBottomOf="@+id/tv_filter_ingredients"
                 />
@@ -387,6 +422,7 @@
                 android:text="우유"
                 android:layout_marginStart="160dp"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_egg"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_egg"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_egg"
@@ -399,6 +435,7 @@
                 android:layout_marginTop="5dp"
                 android:text="메밀"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_egg"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_egg"
                 />
@@ -410,6 +447,7 @@
                 android:layout_marginStart="160dp"
                 android:text="땅콩"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_buckwheat"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_buckwheat"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_buckwheat"
@@ -422,6 +460,7 @@
                 android:layout_marginTop="5dp"
                 android:text="대두"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_buckwheat"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_buckwheat"
                 />
@@ -433,6 +472,7 @@
                 android:layout_marginStart="160dp"
                 android:text="밀"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_soybean"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_soybean"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_soybean"
@@ -445,6 +485,7 @@
                 android:layout_marginTop="5dp"
                 android:text="고등어"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_soybean"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_soybean"
                 />
@@ -456,6 +497,7 @@
                 android:layout_marginStart="160dp"
                 android:text="게"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_mackerel"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_mackerel"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_mackerel"
@@ -468,6 +510,7 @@
                 android:layout_marginTop="5dp"
                 android:text="새우"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_mackerel"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_mackerel"
                 />
@@ -479,6 +522,7 @@
                 android:layout_marginStart="160dp"
                 android:text="돼지고기"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_shrimp"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_shrimp"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_shrimp"
@@ -491,6 +535,7 @@
                 android:layout_marginTop="5dp"
                 android:text="복숭아"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_shrimp"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_shrimp"
                 />
@@ -502,6 +547,7 @@
                 android:layout_marginStart="160dp"
                 android:text="토마토"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_peach"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_peach"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_peach"
@@ -514,6 +560,7 @@
                 android:layout_marginTop="5dp"
                 android:text="아황산류"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_peach"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_peach"
                 />
@@ -525,6 +572,7 @@
                 android:layout_marginStart="160dp"
                 android:text="호두"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_sulfurous_acids"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_sulfurous_acids"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_sulfurous_acids"
@@ -537,6 +585,7 @@
                 android:layout_marginTop="5dp"
                 android:text="닭고기"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_sulfurous_acids"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_sulfurous_acids"
                 />
@@ -548,6 +597,7 @@
                 android:layout_marginStart="160dp"
                 android:text="쇠고기"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_chicken"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_chicken"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_chicken"
@@ -560,6 +610,7 @@
                 android:layout_marginTop="5dp"
                 android:text="오징어"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_chicken"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_chicken"
                 />
@@ -571,6 +622,7 @@
                 android:layout_marginStart="160dp"
                 android:text="조개류"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_squid"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_squid"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_squid"
@@ -584,6 +636,7 @@
                 android:layout_marginTop="5dp"
                 android:text="잣"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_squid"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_squid"
                 />

@@ -9,6 +9,10 @@ interface FoodRepository {
 
     suspend fun getFilteredData(category: String): List<Food>
 
+    suspend fun getMoreFilteredData(category: String): List<Food>
+
+    suspend fun getAllData(page: Int): List<Food>
+
     suspend fun fetchAllData(): List<Food>
 
 }
