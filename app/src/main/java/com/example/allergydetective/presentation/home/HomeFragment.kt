@@ -108,7 +108,7 @@ class HomeFragment : Fragment() {
         val filterFragment = requireActivity().supportFragmentManager.findFragmentByTag("FilterFragment")
         binding.btnHomeFilter.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                hide(this@HomeFragment)
+//                hide(this@HomeFragment)
                 if (filterFragment == null) {
                     add(R.id.main_frame, FilterFragment(), "FilterFragment")
                 } else {

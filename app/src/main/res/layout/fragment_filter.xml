@@ -79,18 +79,6 @@
                 app:layout_constraintTop_toBottomOf="@id/iv_filter"
                 />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.45"
-                android:text="※ 한 카테고리만 설정 가능"
-                android:textSize="12sp"
-                android:layout_marginStart="10dp"
-                app:layout_constraintTop_toTopOf="@+id/tv_filter_category"
-                app:layout_constraintStart_toEndOf="@+id/tv_filter_category"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_filter_category"
-                />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_custom_buttons"
                 android:layout_width="0dp"
@@ -136,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="5dp"
                 app:layout_constraintStart_toStartOf="@+id/guideline1"
                 app:layout_constraintEnd_toEndOf="@+id/guideline2"
                 app:layout_constraintTop_toTopOf="@+id/layout_custom_buttons"
@@ -174,6 +163,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="5dp"
                 app:layout_constraintStart_toStartOf="@+id/guideline1"
                 app:layout_constraintEnd_toEndOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/customButton1"
@@ -212,6 +202,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="5dp"
                 app:layout_constraintStart_toStartOf="@+id/guideline1"
                 app:layout_constraintEnd_toEndOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/customButton4"
@@ -250,6 +241,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="5dp"
                 app:layout_constraintStart_toStartOf="@+id/guideline1"
                 app:layout_constraintEnd_toEndOf="@+id/guideline2"
                 app:layout_constraintTop_toBottomOf="@+id/customButton7"
@@ -284,162 +276,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Switch
-                android:id="@+id/switch_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/layout_custom_buttons"
-                app:layout_constraintStart_toStartOf="@+id/tv_filter_category"
-                android:layout_marginTop="20dp"
-                android:text="과자류"
-                android:textSize="14sp"
-                android:background="@drawable/background_switch_button"
-                android:padding="10dp"
-                />
-
-            <Switch
-                android:id="@+id/switch_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/switch_1"
-                app:layout_constraintStart_toStartOf="@+id/switch_1"
-                android:text="서류가공품"
-                android:textSize="14sp"
-                android:background="@drawable/background_switch_button"
-                android:padding="10dp"
-                />
-
-            <Switch
-                android:id="@+id/switch_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/switch_2"
-                app:layout_constraintStart_toStartOf="@+id/switch_2"
-                android:text="신선편의식품"
-                android:textSize="14sp"
-                android:background="@drawable/background_switch_button"
-                android:padding="10dp"
-                />
-
-            <Switch
-            android:id="@+id/switch_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/switch_3"
-            app:layout_constraintStart_toStartOf="@+id/switch_3"
-            android:text="유제품류"
-            android:textSize="14sp"
-            android:background="@drawable/background_switch_button"
-            android:padding="10dp"
-            />
-
-            <Switch
-            android:id="@+id/switch_5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/switch_4"
-            app:layout_constraintStart_toStartOf="@+id/switch_4"
-            android:text="곡류가공품"
-            android:textSize="14sp"
-            android:background="@drawable/background_switch_button"
-            android:padding="10dp"
-            />
-
-            <Switch
-            android:id="@+id/switch_6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/switch_5"
-            app:layout_constraintStart_toStartOf="@+id/switch_5"
-            android:text="발효유"
-            android:textSize="14sp"
-            android:background="@drawable/background_switch_button"
-            android:padding="10dp"
-            />
-
-            <Switch
-            android:id="@+id/switch_7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/switch_6"
-            app:layout_constraintStart_toStartOf="@+id/switch_6"
-            android:text="즉석조리식품"
-            android:textSize="14sp"
-            android:background="@drawable/background_switch_button"
-            android:padding="10dp"
-            />
-
-            <Switch
-            android:id="@+id/switch_8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/switch_7"
-            app:layout_constraintStart_toStartOf="@+id/switch_7"
-            android:text="소스류"
-            android:textSize="14sp"
-            android:background="@drawable/background_switch_button"
-            android:padding="10dp"
-            />
-
-            <Switch
-            android:id="@+id/switch_9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/switch_8"
-            app:layout_constraintStart_toStartOf="@+id/switch_8"
-            android:text="어묵"
-            android:textSize="14sp"
-            android:background="@drawable/background_switch_button"
-            android:padding="10dp"
-            />
-
-            <Switch
-            android:id="@+id/switch_10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/switch_9"
-            app:layout_constraintStart_toStartOf="@+id/switch_9"
-            android:text="분쇄가공육제품"
-            android:textSize="14sp"
-            android:background="@drawable/background_switch_button"
-            android:padding="10dp"
-            />
-
-            <Switch
-            android:id="@+id/switch_11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/switch_10"
-            app:layout_constraintStart_toStartOf="@+id/switch_10"
-            android:text="건조저장육"
-            android:textSize="14sp"
-            android:background="@drawable/background_switch_button"
-            android:padding="10dp"
-            />
-
-            <Switch
-            android:id="@+id/switch_12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/switch_11"
-            app:layout_constraintStart_toStartOf="@+id/switch_11"
-            android:text="소시지류"
-            android:textSize="14sp"
-            android:background="@drawable/background_switch_button"
-            android:padding="10dp"
-            />
-
             <View
                 android:id="@+id/view_underline_category"
                 android:layout_width="330dp"
@@ -448,14 +284,14 @@
                 android:background="@color/main_color_light_gray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/switch_12"
+                app:layout_constraintTop_toBottomOf="@+id/layout_custom_buttons"
                 />
 
             <TextView
                 android:id="@+id/tv_filter_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="그룹"
+                android:text="그룹 멤버"
                 android:textSize="24sp"
                 android:layout_marginTop="20dp"
                 android:textStyle="bold"
@@ -467,27 +303,259 @@
                 app:layout_constraintTop_toBottomOf="@+id/view_underline_category"
                 />
 
-            <CheckBox
-                android:id="@+id/checkbox_group1"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_group_members"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginStart="10dp"
-                android:text="아이유"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="@id/tv_filter_group"
                 app:layout_constraintTop_toBottomOf="@+id/tv_filter_group"
-                />
+                >
 
-            <CheckBox
-                android:id="@+id/checkbox_group2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="아이유"
-                android:textSize="18sp"
-                android:layout_marginTop="5dp"
-                app:layout_constraintStart_toStartOf="@+id/checkbox_group1"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_group1" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/group_guideline1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.0" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/group_guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.2" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/group_guideline3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.4" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/group_guideline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.6" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/group_guideline5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.8" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/group_guideline6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="1.0" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_member1"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.16"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/group_guideline1"
+                    app:layout_constraintEnd_toEndOf="@+id/group_guideline2"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_added_group_member1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/group_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/tv_group_member1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="멤버 1"
+                    android:letterSpacing="-0.07"
+                    android:maxLines="2"
+                    android:gravity="center"
+                    android:enabled="false"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/layout_member1"
+                    app:layout_constraintStart_toStartOf="@+id/layout_member1"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_member1" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_member2"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.16"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/group_guideline2"
+                    app:layout_constraintEnd_toEndOf="@+id/group_guideline3"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_added_group_member2"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/group_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/tv_group_member2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="멤버 2"
+                    android:letterSpacing="-0.07"
+                    android:maxLines="2"
+                    android:gravity="center"
+                    android:enabled="false"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/layout_member2"
+                    app:layout_constraintStart_toStartOf="@+id/layout_member2"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_member2" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_member3"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.16"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/group_guideline3"
+                    app:layout_constraintEnd_toEndOf="@+id/group_guideline4"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_added_group_member3"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/group_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/tv_group_member3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="멤버 3"
+                    android:letterSpacing="-0.07"
+                    android:maxLines="2"
+                    android:gravity="center"
+                    android:enabled="false"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/layout_member3"
+                    app:layout_constraintStart_toStartOf="@+id/layout_member3"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_member3" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_member4"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.16"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/group_guideline4"
+                    app:layout_constraintEnd_toEndOf="@+id/group_guideline5"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_added_group_member4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/group_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/tv_group_member4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="멤버 4"
+                    android:letterSpacing="-0.07"
+                    android:maxLines="2"
+                    android:gravity="center"
+                    android:enabled="false"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/layout_member4"
+                    app:layout_constraintStart_toStartOf="@+id/layout_member4"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_member4" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_member5"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintWidth_percent="0.16"
+                    app:layout_constraintTop_toTopOf="@+id/layout_group_members"
+                    app:layout_constraintStart_toStartOf="@+id/group_guideline5"
+                    app:layout_constraintEnd_toEndOf="@+id/group_guideline6"
+                    >
+
+                    <ImageView
+                        android:id="@+id/iv_added_group_member5"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/group_member"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:tint="@color/main_color_more_light_gray"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <EditText
+                    android:id="@+id/tv_group_member5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="멤버 5"
+                    android:letterSpacing="-0.07"
+                    android:maxLines="2"
+                    android:gravity="center"
+                    android:enabled="false"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/layout_member5"
+                    app:layout_constraintStart_toStartOf="@+id/layout_member5"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_member5" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
             <View
@@ -498,7 +566,7 @@
                 android:background="@color/main_color_light_gray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_group2"
+                app:layout_constraintTop_toBottomOf="@+id/layout_group_members"
                 />
 
             <TextView
@@ -525,6 +593,7 @@
                 android:layout_marginStart="10dp"
                 android:text="알류(가금류)"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/tv_filter_ingredients"
                 app:layout_constraintTop_toBottomOf="@+id/tv_filter_ingredients"
                 />
@@ -536,6 +605,7 @@
                 android:text="우유"
                 android:layout_marginStart="160dp"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_egg"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_egg"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_egg"
@@ -548,6 +618,7 @@
                 android:layout_marginTop="5dp"
                 android:text="메밀"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_egg"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_egg"
                 />
@@ -559,6 +630,7 @@
                 android:layout_marginStart="160dp"
                 android:text="땅콩"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_buckwheat"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_buckwheat"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_buckwheat"
@@ -571,6 +643,7 @@
                 android:layout_marginTop="5dp"
                 android:text="대두"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_buckwheat"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_buckwheat"
                 />
@@ -582,6 +655,7 @@
                 android:layout_marginStart="160dp"
                 android:text="밀"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_soybean"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_soybean"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_soybean"
@@ -594,6 +668,7 @@
                 android:layout_marginTop="5dp"
                 android:text="고등어"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_soybean"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_soybean"
                 />
@@ -605,6 +680,7 @@
                 android:layout_marginStart="160dp"
                 android:text="게"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_mackerel"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_mackerel"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_mackerel"
@@ -617,6 +693,7 @@
                 android:layout_marginTop="5dp"
                 android:text="새우"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_mackerel"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_mackerel"
                 />
@@ -628,6 +705,7 @@
                 android:layout_marginStart="160dp"
                 android:text="돼지고기"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_shrimp"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_shrimp"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_shrimp"
@@ -640,6 +718,7 @@
                 android:layout_marginTop="5dp"
                 android:text="복숭아"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_shrimp"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_shrimp"
                 />
@@ -651,6 +730,7 @@
                 android:layout_marginStart="160dp"
                 android:text="토마토"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_peach"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_peach"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_peach"
@@ -663,6 +743,7 @@
                 android:layout_marginTop="5dp"
                 android:text="아황산류"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_peach"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_peach"
                 />
@@ -674,6 +755,7 @@
                 android:layout_marginStart="160dp"
                 android:text="호두"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_sulfurous_acids"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_sulfurous_acids"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_sulfurous_acids"
@@ -686,6 +768,7 @@
                 android:layout_marginTop="5dp"
                 android:text="닭고기"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_sulfurous_acids"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_sulfurous_acids"
                 />
@@ -697,6 +780,7 @@
                 android:layout_marginStart="160dp"
                 android:text="쇠고기"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_chicken"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_chicken"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_chicken"
@@ -709,6 +793,7 @@
                 android:layout_marginTop="5dp"
                 android:text="오징어"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_chicken"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_chicken"
                 />
@@ -720,6 +805,7 @@
                 android:layout_marginStart="160dp"
                 android:text="조개류(조개)"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_squid"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_squid"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_squid"
@@ -732,6 +818,7 @@
                 android:layout_marginTop="5dp"
                 android:text="잣"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_squid"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_squid"
                 />
@@ -743,6 +830,7 @@
                 android:layout_marginStart="160dp"
                 android:text="조개류(굴)"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_pinenut"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_pinenut"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_pinenut"
@@ -755,6 +843,7 @@
                 android:layout_marginTop="5dp"
                 android:text="조개류(전복)"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 android:layout_marginBottom="10dp"
                 app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_pinenut"
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_pinenut"
@@ -768,6 +857,7 @@
                 android:layout_marginStart="160dp"
                 android:text="조개류(홍합)"
                 android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_abalone"
                 app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_abalone"
                 app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_abalone"
