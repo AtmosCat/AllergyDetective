@@ -70,20 +70,16 @@ class ItemListFragment : Fragment() {
         binding.recyclerviewItemlist.layoutManager = LinearLayoutManager(requireContext())
 
         binding.progress.isVisible = false
-        viewModel.getFilteredFoods()
+        viewModel.getFilteredFoods2()
         viewModel.filteredFoods.observe(viewLifecycleOwner) { filteredFoods ->
             itemListAdapter.submitList(filteredFoods)
         }
 
         binding.btnItemlistSearch.setOnClickListener() {
-            if (viewModel.selectedCategory.value == null) {
-                Toast.makeText(requireContext(), "카테고리를 1가지 선택해주세요.", Toast.LENGTH_SHORT).show()
-            } else {
-                viewModel.setSearchKeyword(binding.etItemlistSearch.text.toString())
-                viewModel.getFilteredFoods()
-                viewModel.filteredFoods.observe(viewLifecycleOwner){data ->
-                    itemListAdapter.updateData(data)
-                }
+            viewModel.setSearchKeyword(binding.etItemlistSearch.text.toString())
+            viewModel.getFilteredFoods2()
+            viewModel.filteredFoods.observe(viewLifecycleOwner){data ->
+                itemListAdapter.updateData(data)
             }
         }
 
@@ -93,7 +89,7 @@ class ItemListFragment : Fragment() {
             repeatCount = Animation.INFINITE // 무한 반복
         }
 
-        viewModel.selectedCategory.observe(viewLifecycleOwner) { data ->
+        viewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
             if (data == null) {
                 binding.btnItemlistFilter.startAnimation(blinkAnimation)
             } else {
@@ -105,7 +101,7 @@ class ItemListFragment : Fragment() {
         val filterFragment = requireActivity().supportFragmentManager.findFragmentByTag("FilterFragment")
         binding.btnItemlistFilter.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().apply {
-                hide(this@ItemListFragment)
+//                hide(this@ItemListFragment)
                 if (filterFragment == null) {
                     add(R.id.main_frame, FilterFragment(), "FilterFragment")
                 } else {

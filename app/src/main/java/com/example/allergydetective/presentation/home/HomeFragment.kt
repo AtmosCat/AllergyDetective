@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 //import coil.load
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.allergydetective.R
+import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentHomeBinding
@@ -62,18 +63,41 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        initView()
-//        initViewModel()
+
+        viewModel.getAllFoods()
 
         binding.homeRecyclerList.adapter = homeAdapter
         binding.homeRecyclerList.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.progress.isVisible = false
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+            when (uiState) {
+                is UiState.Loading -> {
+                    Toast.makeText(requireContext(), "데이터를 로딩중입니다.", Toast.LENGTH_LONG).show()
+                    binding.progress.isVisible = true
+                }
+                is UiState.Success -> {
+                    Toast.makeText(requireContext(), "데이터 로딩 완료!", Toast.LENGTH_SHORT).show()
+                    binding.progress.isVisible = false
+                    viewModel.totalFoods.observe(viewLifecycleOwner) { data ->
+                        val indexes = listOf(0,1,2,3,4,5,6,7,8,9)
+                        val homeFoodsData = indexes.map { index -> data[index] }
+                        homeAdapter.submitList(homeFoodsData)
+                    }
+                }
+                is UiState.Error -> {
+                    Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
+                }
+                else -> {}
+            }
 
-        viewModel.getHomeFoods()
-        viewModel.homeFoods.observe(viewLifecycleOwner) { homeFoods ->
-            homeAdapter.submitList(homeFoods)
         }
+
+//        var homeFoodsData = listOf<Food>()
+//        viewModel.totalFoods.observe(viewLifecycleOwner) { totalFoods ->
+//            val indexes = listOf(0,1,2,3,4,5,6,7,8,9)
+//            homeFoodsData = indexes.map { index -> totalFoods[index] }
+//            homeAdapter.submitList(homeFoodsData)
+//        }
 
         val blinkAnimation = AlphaAnimation(1.0f, 0.0f).apply {
             duration = 1000 // 애니메이션 실행 시간 (0.5초)
@@ -81,7 +105,8 @@ class HomeFragment : Fragment() {
             repeatCount = Animation.INFINITE // 무한 반복
         }
 
-        viewModel.selectedCategory.observe(viewLifecycleOwner) { data ->
+
+        viewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
             if (data == null) {
                 binding.btnHomeFilter.startAnimation(blinkAnimation)
             } else {
@@ -121,20 +146,16 @@ class HomeFragment : Fragment() {
 
         val itemListFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemListFragment")
         binding.btnHomeSearch.setOnClickListener() {
-            if (viewModel.selectedCategory.value == null) {
-                Toast.makeText(requireContext(), "카테고리를 1가지 선택해주세요.", Toast.LENGTH_SHORT).show()
-            } else {
-                viewModel.setSearchKeyword(binding.etHomeSearch.text.toString())
-                requireActivity().supportFragmentManager.beginTransaction().apply {
-                    hide(this@HomeFragment)
-                    if (itemListFragment == null) {
-                        add(R.id.main_frame, ItemListFragment(), "ItemListFragment")
-                    } else {
-                        show(itemListFragment)
-                    }
-                    addToBackStack(null)
-                    commit()
+            viewModel.setSearchKeyword(binding.etHomeSearch.text.toString())
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                hide(this@HomeFragment)
+                if (itemListFragment == null) {
+                    add(R.id.main_frame, ItemListFragment(), "ItemListFragment")
+                } else {
+                    show(itemListFragment)
                 }
+                addToBackStack(null)
+                commit()
             }
         }
 
@@ -152,20 +173,14 @@ class HomeFragment : Fragment() {
             }
         }
 
-//        var prdkinds = mutableListOf<String>()
-//        var num = 1
-//        while (num <= 149) {
-//            viewModel.getAllFoods(num)
-//            num += 1
-//        }
+
+
 //        viewModel.prdkinds.observe(viewLifecycleOwner) { data ->
-////            for (i in data) {
-////                if (i !in prdkinds) {
-////                    prdkinds.add(i+"\n")
-////                }
-////            }
-//            binding.prdkindlist.text = data.toString()
-//            println(data.toString())
+//            for (i in data) {
+//                if (i !in prdkinds) {
+//                    prdkinds.add(i+"\n")
+//                }
+//            }
 //        }
 
 

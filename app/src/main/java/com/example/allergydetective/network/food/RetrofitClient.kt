@@ -26,5 +26,4 @@ object RetrofitClient {
     }
 
     val gonggongFoodAPI: GonggongFoodAPI = retrofit.create(GonggongFoodAPI::class.java)
-
 }

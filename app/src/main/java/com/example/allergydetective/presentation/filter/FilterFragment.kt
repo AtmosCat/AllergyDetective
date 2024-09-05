@@ -9,6 +9,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.Toast
+import androidx.compose.runtime.currentCompositionErrors
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.graphics.drawable.DrawableCompat
@@ -16,10 +17,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.allergydetective.R
+import com.example.allergydetective.data.model.user.GroupMember
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentFilterBinding
 import com.example.allergydetective.presentation.SharedViewModel
+import com.example.allergydetective.presentation.UserViewModel
 
 
 class FilterFragment : Fragment() {
@@ -111,6 +114,10 @@ class FilterFragment : Fragment() {
         viewModelFactory { initializer { SharedViewModel(GonggongFoodRepositoryImpl(), MarketRepositoryImpl()) } }
     }
 
+    private val userViewModel: UserViewModel by activityViewModels {
+        viewModelFactory { initializer { UserViewModel() } }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -127,6 +134,10 @@ class FilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        initViewModel()
+
+        binding.btnBack.setOnClickListener{
+            requireActivity().supportFragmentManager.popBackStack()
+        }
 
         // 카테고리 관련 부분
         categoryButton1 = binding.customButton1
@@ -198,6 +209,55 @@ class FilterFragment : Fragment() {
         for (i in 0..categoryButtonList.size-1) {
             categoryButtonClicker(categoryButtonList[i], i)
         }
+
+        // 그룹 관련 부분
+        val noMember1icon = binding.ivNoGroupMember1
+        val noMember2icon = binding.ivNoGroupMember2
+        val noMember3icon = binding.ivNoGroupMember3
+        val noMember4icon = binding.ivNoGroupMember4
+        val noMember5icon = binding.ivNoGroupMember5
+
+        val noMemberIconList = listOf(noMember1icon, noMember2icon,
+            noMember3icon, noMember4icon, noMember5icon)
+
+        val member1icon = binding.ivAddedGroupMember1
+        val member2icon = binding.ivAddedGroupMember2
+        val member3icon = binding.ivAddedGroupMember3
+        val member4icon = binding.ivAddedGroupMember4
+        val member5icon = binding.ivAddedGroupMember5
+
+        val memberIconList = listOf(member1icon, member2icon, member3icon, member4icon, member5icon)
+
+        val member1name = binding.tvGroupMember1
+        val member2name = binding.tvGroupMember2
+        val member3name = binding.tvGroupMember3
+        val member4name = binding.tvGroupMember4
+        val member5name = binding.tvGroupMember5
+
+        val memberNameList = listOf(member1name, member2name, member3name, member4name, member5name)
+
+        var currentUserGroup = listOf<GroupMember>()
+        var realUserGroup = listOf<GroupMember>()
+        userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
+            currentUserGroup = data!!.group
+            realUserGroup = currentUserGroup.filter { it.name != "" }
+            if (realUserGroup.isNotEmpty()) {
+                binding.tvNoMembers.visibility = View.GONE
+                binding.viewNoMembers.visibility = View.GONE
+                for (member in currentUserGroup) {
+                    if (member.name != "") {
+                        val index = currentUserGroup.indexOf(member)
+                        noMemberIconList[index].visibility = View.GONE
+                        memberIconList[index].visibility = View.VISIBLE
+                        memberNameList[index].setText(member.name)
+                    }
+                    // member 클릭 시 색깔 바뀌고 알러지 체크되는 코드 fun으로 넣기
+                }
+            }
+
+        }
+
+
 
         // 알러지 관련 부분
         egg = binding.checkboxIngredientEgg
@@ -315,12 +375,7 @@ class FilterFragment : Fragment() {
     private fun allergyCheckboxClicker(checkbox: CheckBox, position: Int) {
         checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (checkbox.isChecked) {
-                if (selectedAllergiesByCheckbox.size >= 1) {
-                    Toast.makeText(requireContext(), "[베이직 멤버십] 1개만 선택 가능합니다.", Toast.LENGTH_SHORT).show()
-                    checkbox.isChecked = false
-                } else {
-                    selectedAllergiesByCheckbox.add(allergiesTextList[position])
-                }
+                selectedAllergiesByCheckbox.add(allergiesTextList[position])
             } else {
                 selectedAllergiesByCheckbox.remove(allergiesTextList[position])
             }
