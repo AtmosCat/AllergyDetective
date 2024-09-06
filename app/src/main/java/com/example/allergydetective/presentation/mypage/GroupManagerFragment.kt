@@ -87,7 +87,7 @@ class GroupManagerFragment : Fragment() {
     private var isMemberSelectedList = mutableListOf(isMember1Selected, isMember2Selected, isMember3Selected, isMember4Selected, isMember5Selected)
 
     private val userViewModel: UserViewModel by activityViewModels {
-        viewModelFactory { initializer { UserViewModel() } }
+        viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -199,7 +199,7 @@ class GroupManagerFragment : Fragment() {
             }
 
             if (!isMemberAddedList[0]) {
-                addMember(1, "멤버1")
+                addMember(0, "멤버1")
                 isMemberAddedList[0] = true
             }
             ivAddedMember1.setOnClickListener{
@@ -207,11 +207,11 @@ class GroupManagerFragment : Fragment() {
                 isMemberSelectedList[2] = false
                 isMemberSelectedList[3] = false
                 isMemberSelectedList[4] = false
-                selectMember(1)
+                selectMember(0)
             }
 
             if (!isMemberAddedList[1]) {
-                addMember(2, "멤버2")
+                addMember(1, "멤버2")
                 isMemberAddedList[1] = true
             }
             ivAddedMember2.setOnClickListener{
@@ -219,11 +219,11 @@ class GroupManagerFragment : Fragment() {
                 isMemberSelectedList[2] = false
                 isMemberSelectedList[3] = false
                 isMemberSelectedList[4] = false
-                selectMember(2)
+                selectMember(1)
             }
 
             if (!isMemberAddedList[2]) {
-                addMember(3, "멤버3")
+                addMember(2, "멤버3")
                 isMemberAddedList[2] = true
             }
             ivAddedMember3.setOnClickListener{
@@ -231,11 +231,11 @@ class GroupManagerFragment : Fragment() {
                 isMemberSelectedList[1] = false
                 isMemberSelectedList[3] = false
                 isMemberSelectedList[4] = false
-                selectMember(3)
+                selectMember(2)
             }
 
             if (!isMemberAddedList[3]) {
-                addMember(4, "멤버4")
+                addMember(3, "멤버4")
                 isMemberAddedList[3] = true
             }
             ivAddedMember4.setOnClickListener{
@@ -243,11 +243,11 @@ class GroupManagerFragment : Fragment() {
                 isMemberSelectedList[1] = false
                 isMemberSelectedList[2] = false
                 isMemberSelectedList[4] = false
-                selectMember(4)
+                selectMember(3)
             }
 
             if (!isMemberAddedList[4]) {
-                addMember(5, "멤버5")
+                addMember(4, "멤버5")
                 isMemberAddedList[4] = true
             }
             ivAddedMember5.setOnClickListener{
@@ -255,7 +255,7 @@ class GroupManagerFragment : Fragment() {
                 isMemberSelectedList[1] = false
                 isMemberSelectedList[2] = false
                 isMemberSelectedList[3] = false
-                selectMember(5)
+                selectMember(4)
             }
 
             for (pair in allergies) {
@@ -266,8 +266,9 @@ class GroupManagerFragment : Fragment() {
         binding.btnSave.setOnClickListener{
             selectedMember.name = selectedMemberNewName
             selectedMember.allergy = selectedAllergies
-            var position = currentUserGroup.indexOf(selectedMember)
-            userViewModel.editGroupMemberInfo(position, selectedMember)
+            val position = currentUserGroup.indexOf(selectedMember)
+            currentUserGroup[position] = selectedMember
+            userViewModel.updateGroup(currentUserGroup)
             Toast.makeText(requireContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show()
         }
     }
@@ -309,24 +310,24 @@ class GroupManagerFragment : Fragment() {
     }
 
     private fun addMember(position: Int, exampleName: String) {
-         ivAddMembers[position-1].setOnClickListener {
-             ivAddMembers[position-1].visibility = View.GONE
-             ivAddedMembers[position-1].visibility = View.VISIBLE
-             tvMembers[position-1].setText(exampleName)
-             currentUserGroup[position-1] = GroupMember(exampleName, mutableListOf())
-             userViewModel.setGroupMember(currentUserGroup)
+         ivAddMembers[position].setOnClickListener {
+             ivAddMembers[position].visibility = View.GONE
+             ivAddedMembers[position].visibility = View.VISIBLE
+             tvMembers[position].setText(exampleName)
+             currentUserGroup[position] = GroupMember(exampleName, mutableListOf())
+//             userViewModel.updateGroupMember(currentUserGroup)
 //             isMemberAddedList[position-1] = true
         }
     }
 
     private fun selectMember(position: Int) {
-        val isMemberNotSelectedList = (isMemberSelectedList - isMemberSelectedList[position - 1]).toMutableList()
+        val isMemberNotSelectedList = (isMemberSelectedList - isMemberSelectedList[position]).toMutableList()
 
-        val selectedMemberIcon = ivAddedMembers[position - 1]
-        val notSelectedMemberIcons = ivAddedMembers - ivAddedMembers[position - 1]
+        val selectedMemberIcon = ivAddedMembers[position]
+        val notSelectedMemberIcons = ivAddedMembers - ivAddedMembers[position]
 
-        val selectedMemberName = tvMembers[position - 1]
-        val notSelectedMemberNames = tvMembers - tvMembers[position - 1]
+        val selectedMemberName = tvMembers[position]
+        val notSelectedMemberNames = tvMembers - tvMembers[position]
 
         val orangeColor = ContextCompat.getColor(requireContext(), R.color.main_color_orange)
         val moreLightGrayColor =
@@ -339,10 +340,10 @@ class GroupManagerFragment : Fragment() {
         for (notSelectedMemberName in notSelectedMemberNames) {
             notSelectedMemberName.isEnabled = false
         }
-        if (!isMemberSelectedList[position - 1]) {
-            isMemberSelectedList[position - 1] = true
+        if (!isMemberSelectedList[position]) {
+            isMemberSelectedList[position] = true
 
-            selectedMember = currentUserGroup[position - 1]
+            selectedMember = currentUserGroup[position]
             changeTint(selectedMemberIcon, orangeColor)
             selectedMemberName.isEnabled = true
             selectedMemberNewName = selectedMemberName.text.toString()
@@ -356,7 +357,7 @@ class GroupManagerFragment : Fragment() {
             binding.btnSave.visibility = View.VISIBLE
 
         } else {
-            isMemberSelectedList[position - 1] = false
+            isMemberSelectedList[position] = false
 
             changeTint(selectedMemberIcon, moreLightGrayColor)
             selectedMemberName.isEnabled = false

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.signup.SignUpFragment"
-    android:background="@color/background_color">
+    android:background="@color/white">
 
 <!--    <ProgressBar-->
 <!--    android:id="@+id/progress"-->
@@ -34,16 +34,16 @@
         />
 
     <EditText
-        android:id="@+id/et_signup_id"
+        android:id="@+id/et_signup_email"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/round_border"
-        android:hint="아이디를 입력하세요."
+        android:hint="이메일을 입력하세요."
         android:inputType="text"
         android:layout_marginTop="40dp"
         android:paddingLeft="90dp"
         android:textColor="@color/main_color_dark_gray"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintHeight_percent="0.06"
         app:layout_constraintStart_toStartOf="@+id/tv_signup_main"
         app:layout_constraintTop_toBottomOf="@+id/tv_signup_main"
@@ -51,21 +51,21 @@
         app:layout_constraintWidth_percent="0.75" />
 
     <TextView
-        android:id="@+id/tv_signupID"
+        android:id="@+id/tv_signup_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="아이디"
+        android:text="이메일*"
         android:layout_marginLeft="15dp"
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/main_color_dark_gray"
         android:elevation="2dp"
-        app:layout_constraintBottom_toBottomOf="@+id/et_signup_id"
-        app:layout_constraintStart_toStartOf="@+id/et_signup_id"
-        app:layout_constraintTop_toTopOf="@+id/et_signup_id" />
+        app:layout_constraintBottom_toBottomOf="@+id/et_signup_email"
+        app:layout_constraintStart_toStartOf="@+id/et_signup_email"
+        app:layout_constraintTop_toTopOf="@+id/et_signup_email" />
 
     <Button
-        android:id="@+id/btn_signup_id_check"
+        android:id="@+id/btn_signup_email_check"
         android:layout_width="65dp"
         android:layout_height="25dp"
         android:layout_marginRight="10dp"
@@ -73,9 +73,9 @@
         android:textColor="@color/white"
         android:background="@color/main_color_light_gray"
         android:elevation="2dp"
-        app:layout_constraintBottom_toBottomOf="@+id/et_signup_id"
-        app:layout_constraintTop_toTopOf="@+id/et_signup_id"
-        app:layout_constraintEnd_toEndOf="@+id/et_signup_id"
+        app:layout_constraintBottom_toBottomOf="@+id/et_signup_email"
+        app:layout_constraintTop_toTopOf="@+id/et_signup_email"
+        app:layout_constraintEnd_toEndOf="@+id/et_signup_email"
         />
 
     <EditText
@@ -88,10 +88,10 @@
         android:inputType="text"
         android:paddingLeft="90dp"
         android:textColor="@color/main_color_dark_gray"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintStart_toStartOf="@+id/et_signup_id"
-        app:layout_constraintTop_toBottomOf="@+id/et_signup_id"
+        app:layout_constraintStart_toStartOf="@+id/et_signup_email"
+        app:layout_constraintTop_toBottomOf="@+id/et_signup_email"
         app:layout_constraintWidth_percent="0.75" />
 
     <TextView
@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:elevation="2dp"
         android:layout_marginLeft="15dp"
-        android:text="비밀번호"
+        android:text="비밀번호*"
         android:textColor="@color/main_color_dark_gray"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -129,7 +129,7 @@
         android:layout_height="wrap_content"
         android:elevation="2dp"
         android:layout_marginLeft="15dp"
-        android:text="확인"
+        android:text="확인*"
         android:textColor="@color/main_color_dark_gray"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -210,7 +210,7 @@
         app:layout_constraintTop_toTopOf="@+id/et_signup_contact" />
 
     <EditText
-        android:id="@+id/et_signup_email"
+        android:id="@+id/et_signup_nickname"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
@@ -225,18 +225,18 @@
         app:layout_constraintWidth_percent="0.75" />
 
     <TextView
-        android:id="@+id/tv_signup_email"
+        android:id="@+id/tv_signup_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="2dp"
         android:layout_marginLeft="15dp"
-        android:text="이메일"
+        android:text="닉네임"
         android:textColor="@color/main_color_dark_gray"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/et_signup_email"
-        app:layout_constraintStart_toStartOf="@+id/et_signup_email"
-        app:layout_constraintTop_toTopOf="@+id/et_signup_email" />
+        app:layout_constraintBottom_toBottomOf="@+id/et_signup_nickname"
+        app:layout_constraintStart_toStartOf="@+id/et_signup_nickname"
+        app:layout_constraintTop_toTopOf="@+id/et_signup_nickname" />
 
     <CheckBox
         android:id="@+id/checkBox_signup_privacy"
@@ -244,8 +244,8 @@
         android:layout_height="wrap_content"
         android:text="개인정보 제공 동의"
         android:layout_marginTop="3dp"
-        app:layout_constraintEnd_toEndOf="@+id/et_signup_email"
-        app:layout_constraintTop_toBottomOf="@+id/et_signup_email" />
+        app:layout_constraintEnd_toEndOf="@+id/et_signup_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/et_signup_nickname" />
 
     <Button
         android:id="@+id/btn_signup_signup"
@@ -258,10 +258,10 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:layout_marginTop="70dp"
-        app:layout_constraintEnd_toEndOf="@+id/et_signup_email"
+        app:layout_constraintEnd_toEndOf="@+id/et_signup_nickname"
         app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintStart_toStartOf="@+id/et_signup_email"
-        app:layout_constraintTop_toBottomOf="@+id/et_signup_email"
+        app:layout_constraintStart_toStartOf="@+id/et_signup_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/et_signup_nickname"
         app:layout_constraintWidth_percent="0.75" />
 
     <Button

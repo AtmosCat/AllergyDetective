@@ -46,7 +46,7 @@ class ItemDetailFragment : Fragment() {
     }
 
     private val userViewModel: UserViewModel by activityViewModels {
-        viewModelFactory { initializer { UserViewModel() } }
+        viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
 
 

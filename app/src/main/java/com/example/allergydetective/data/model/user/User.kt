@@ -28,11 +28,11 @@ fun createSampleBitmap(): Bitmap {
 val sampleBitmap = createSampleBitmap()
 
 // 유저 관리
-data class User(val id: String,
-                val pw: String,
-                var name: String,
-                val contact: String,
-                val email: String,
+data class User(val email: String = "",
+                val pw: String = "",
+                var name: String = "",
+                val contact: String = "",
+                var nickname: String = "",
                 var allergy: MutableList<String> = mutableListOf(),
                 var group: MutableList<GroupMember> = mutableListOf(
                     GroupMember("", mutableListOf()),
@@ -45,21 +45,21 @@ data class User(val id: String,
                 var like: MutableList<Food> = mutableListOf(),
                 val mypost: MutableList<Post> = mutableListOf(),
                 val scrap: MutableList<Post> = mutableListOf(),
-                var photo: Bitmap = sampleBitmap)
+                var photo: String = "")
 
 // 유저 - 그룹 관리
 data class GroupMember(var name: String = "",
-                       var allergy: MutableList<String>)
+                       var allergy: MutableList<String> = mutableListOf())
 
 
 // 게시글 관리
-data class Post(val index: Int,
-                val subject: String,
-                val poster: String,
-                val title: String,
-                val content: String,
-                val comment: Int,
-                val report: Boolean)
+data class Post(val index: Int = 0,
+                val subject: String = "",
+                val poster: String = "",
+                val title: String = "",
+                val content: String = "",
+                val comment: Int =0,
+                val report: Boolean = false)
 
 
 

@@ -12,7 +12,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import coil.load
 import com.example.allergydetective.R
+import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentMyPageBinding
@@ -26,22 +28,10 @@ class MyPageFragment : Fragment() {
 
     private var _binding: FragmentMyPageBinding? = null
 
-
-
     private val binding get() = _binding!!
 
-    private val sharedviewModel: SharedViewModel by activityViewModels() {
-        viewModelFactory {
-            initializer {
-                SharedViewModel(
-                    GonggongFoodRepositoryImpl(),
-                    MarketRepositoryImpl()
-                )
-            }
-        }
-    }
     private val userViewModel: UserViewModel by activityViewModels {
-        viewModelFactory { initializer { UserViewModel() } }
+        viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,8 +95,24 @@ class MyPageFragment : Fragment() {
         }
 
         userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
-            binding.ivProfileImage.setImageBitmap(data?.photo)
-            binding.tvProfileName.text = data?.name
+            if (data?.photo == "") {
+                binding.ivProfileImage.setImageBitmap(sampleBitmap)
+            } else {
+                userViewModel.getDownloadUrl(data!!.email,
+                    onSuccess = { downloadUrl ->
+                        // 이미지 로드
+                        binding.ivProfileImage.load(downloadUrl) {
+                            crossfade(true)
+                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
+                            error(sampleBitmap) // 로드 실패 시 표시할 이미지
+                        }
+                    },
+                    onFailure = { exception ->
+                        // 실패 처리
+                        binding.ivProfileImage.load(sampleBitmap)
+                    })
+            }
+            binding.tvProfileName.text = data?.nickname
             binding.tvMyAllergies.text = "⚠️ 나의 알러지 성분: ${data?.allergy}"
 
             val currentUserAllergiesCount = data?.allergy?.size
@@ -221,8 +227,24 @@ class MyPageFragment : Fragment() {
         if (!hidden) {
             userViewModel.currentUser.value?.let { data ->
                 if (data != null) {
-                    binding.ivProfileImage.setImageBitmap(data?.photo)
-                    binding.tvProfileName.text = data?.name
+                    if (data?.photo == "") {
+                        binding.ivProfileImage.setImageBitmap(sampleBitmap)
+                    } else {
+                        userViewModel.getDownloadUrl(data!!.email,
+                            onSuccess = { downloadUrl ->
+                                // 이미지 로드
+                                binding.ivProfileImage.load(downloadUrl) {
+                                    crossfade(true)
+                                    placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
+                                    error(sampleBitmap) // 로드 실패 시 표시할 이미지
+                                }
+                            },
+                            onFailure = { exception ->
+                                // 실패 처리
+                                binding.ivProfileImage.load(sampleBitmap)
+                            })
+                    }
+                    binding.tvProfileName.text = data?.nickname
                     binding.tvMyAllergies.text = "⚠️ 나의 알러지 성분: ${data?.allergy}"
                 }
                 val currentUserAllergiesCount = data.allergy.size

@@ -20,6 +20,9 @@ import com.example.allergydetective.presentation.home.MyPageFragment
 import com.example.allergydetective.presentation.signin.findId.FindIdFragment
 import com.example.allergydetective.presentation.signin.findPw.FindPwFragment
 import com.example.allergydetective.presentation.signup.SignUpFragment
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 
 class SignInFragment : Fragment() {
 
@@ -28,11 +31,12 @@ class SignInFragment : Fragment() {
     private var user: User? = null
     private var _users: MutableList<User>? = null
 
+
     private val binding get() = _binding!!
 
     // 이렇게 뷰모델 호출하는 거 맞나?
     private val viewModel: UserViewModel by activityViewModels() {
-        viewModelFactory { initializer { UserViewModel() } }
+        viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,17 +67,17 @@ class SignInFragment : Fragment() {
 
         binding.btnSignin.setOnClickListener {
 
-            var id = binding.etSigninId.text.toString()
+            var email = binding.etSigninEmail.text.toString()
             var pw = binding.etSigninPw.text.toString()
 
-            viewModel.getUser(id)
-            viewModel.user.observe(viewLifecycleOwner) { data ->
+            viewModel.findUser(email)
+            viewModel.signingInUser.observe(viewLifecycleOwner) { data ->
                 user = data
-                if (binding.etSigninId.text.isEmpty() || binding.etSigninPw.text.isEmpty()) {
+                if (binding.etSigninEmail.text.isEmpty() || binding.etSigninPw.text.isEmpty()) {
                     Toast.makeText(requireContext(), "입력되지 않은 항목이 있습니다.", Toast.LENGTH_SHORT).show()
                 } else {
                     if (user == null) {
-                        Toast.makeText(requireContext(), "존재하지 않는 아이디입니다.", Toast.LENGTH_SHORT)
+                        Toast.makeText(requireContext(), "존재하지 않는 이메일입니다.", Toast.LENGTH_SHORT)
                             .show()
                     } else {
                         if (pw != user!!.pw) {
@@ -110,9 +114,9 @@ class SignInFragment : Fragment() {
 
         binding.btnSigninFindIdPw.setOnClickListener{
             AlertDialog.Builder(requireContext())
-                .setTitle("아이디/비밀번호 찾기")
+                .setTitle("이메일/비밀번호 찾기")
                 .setMessage("항목을 선택해주세요.")
-                .setPositiveButton("아이디 찾기") { dialog, which ->
+                .setPositiveButton("이메일 찾기") { dialog, which ->
                     requireActivity().supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frame, FindIdFragment())
                         .addToBackStack(null)

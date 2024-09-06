@@ -19,7 +19,7 @@ class FindPwFragment : Fragment() {
 
     // 이렇게 뷰모델 호출하는 거 맞나?
     private val viewModel: UserViewModel by activityViewModels {
-        viewModelFactory { initializer { UserViewModel() } }
+        viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

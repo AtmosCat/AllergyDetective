@@ -18,7 +18,7 @@ class FindIdFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: UserViewModel by activityViewModels {
-        viewModelFactory { initializer { UserViewModel() } }
+        viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

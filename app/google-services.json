@@ -1,44 +1,26 @@
 {
   "project_info": {
-    "project_number": "414788925055",
-    "project_id": "allergydetective-e444d",
-    "storage_bucket": "allergydetective-e444d.appspot.com"
+    "project_number": "61578154060",
+    "project_id": "allergy-db851",
+    "storage_bucket": "allergy-db851.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:414788925055:android:7adcf1f48e8dd3bbaf714a",
+        "mobilesdk_app_id": "1:61578154060:android:f62dde9c475617ecdea4e9",
         "android_client_info": {
           "package_name": "com.example.allergydetective"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "414788925055-aq3mhi54o283era804pgggln10ola5ki.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.allergydetective",
-            "certificate_hash": "ed6cc70c14c994f85c2afbc8c15bf4cceb8ba670"
-          }
-        },
-        {
-          "client_id": "414788925055-p0vvul7vo4tvvolfgf981910omgf3krl.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDXETlV6scNXEu9qqm3gi2iWTMiRVYBKJw"
+          "current_key": "AIzaSyBVR43X3sRfRgceWE27V8NopecmnJDcP08"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "414788925055-p0vvul7vo4tvvolfgf981910omgf3krl.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

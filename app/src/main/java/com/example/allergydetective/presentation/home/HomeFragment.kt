@@ -87,7 +87,7 @@ class HomeFragment : Fragment() {
                 is UiState.Error -> {
                     Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
                 }
-                else -> {}
+//                else -> {}
             }
 
         }

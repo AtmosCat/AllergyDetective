@@ -1,8 +1,10 @@
 package com.example.allergydetective.presentation.home
 
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -17,13 +19,22 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.PermissionChecker
+import androidx.core.content.PermissionChecker.checkSelfPermission
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import coil.ImageLoader
 import coil.load
+import coil.request.ImageRequest
+import coil.request.SuccessResult
 import com.example.allergydetective.R
+import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
@@ -31,6 +42,10 @@ import com.example.allergydetective.databinding.FragmentEditProfileBinding
 import com.example.allergydetective.databinding.FragmentMyPageBinding
 import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 
 class EditProfileFragment : Fragment() {
@@ -52,29 +67,30 @@ class EditProfileFragment : Fragment() {
         }
     }
     private val userViewModel: UserViewModel by activityViewModels {
-        viewModelFactory { initializer { UserViewModel() } }
+        viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
 
     private lateinit var profileImageView: ImageView
     private lateinit var profileImage : Bitmap
 
-    private val getResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val intent = result.data
-                // Get the image as a Bitmap
-                val bitmap = intent?.data?.let { uri ->
-                    requireActivity().contentResolver.openInputStream(uri)?.use { inputStream ->
-                        BitmapFactory.decodeStream(inputStream)
-                    }
-                }
-                // Set the image to the ImageView
-                bitmap?.let {
-                    profileImageView.setImageBitmap(it)
-                    profileImage = bitmap
-                }
-            }
-        }
+//    private val getResult =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//            if (result.resultCode == Activity.RESULT_OK) {
+//                val intent = result.data
+//                val bitmap = intent?.data?.let { uri ->
+//                    requireActivity().contentResolver.openInputStream(uri)?.use { inputStream ->
+//                        BitmapFactory.decodeStream(inputStream)
+//                    }
+//                }
+//                bitmap?.let {
+//                    profileImageView.setImageBitmap(it)
+//                    profileImage = bitmap
+//                }
+//            }
+//        }
+
+    private lateinit var pickImageLauncher : ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +107,18 @@ class EditProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                intent?.data?.let { uri ->
+                    lifecycleScope.launch {
+                        userViewModel.handleImage(uri)
+                    }
+                }
+            }
+        }
 
         profileImageView = binding.ivProfileImage
 
@@ -118,13 +146,25 @@ class EditProfileFragment : Fragment() {
             crab, shrimp, pork, peach, tomato, sulfurousAcids, walnut, chicken, beef, squid, seashell, pinenut)
 
         userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
-            if (data?.photo == sampleBitmap) {
+            if (data?.photo == "") {
                 profileImageView.setImageBitmap(sampleBitmap)
             } else {
-                profileImageView.setImageBitmap(data?.photo)
+                userViewModel.getDownloadUrl(data!!.email,
+                    onSuccess = { downloadUrl ->
+                        // 이미지 로드
+                        binding.ivProfileImage.load(downloadUrl) {
+                            crossfade(true)
+                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
+                            error(sampleBitmap) // 로드 실패 시 표시할 이미지
+                        }
+                    },
+                    onFailure = { exception ->
+                        // 실패 처리
+                        binding.ivProfileImage.load(sampleBitmap)
+                    })
             }
 
-            binding.etProfileName.setText(data?.name)
+            binding.etProfileName.setText(data.nickname)
 
             val currentUserAllergies = data?.allergy
 
@@ -181,18 +221,19 @@ class EditProfileFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        profileImage = userViewModel.currentUser.value!!.photo
 
         binding.btnEditProfileImage.setOnClickListener{
             Toast.makeText(this.requireContext(), "갤러리에서 사진을 선택해주세요.", Toast.LENGTH_SHORT)
                 .show()
-            openGallery()
+            pickImage()
         }
 
         binding.btnSave.setOnClickListener {
-            userViewModel.currentUser.value?.name = binding.etProfileName.text.toString()
-            userViewModel.currentUser.value?.photo = profileImage
-            userViewModel.setCurrentUserAllergy(selectedAllergies)
+            userViewModel.currentUser.value?.nickname = binding.etProfileName.text.toString()
+            userViewModel.bitmapBeforeSave.value?.let { data ->
+                userViewModel.uploadImageToFirebaseStorage(data)
+            }
+            userViewModel.updateCurrentUserAllergy(selectedAllergies)
             val myPageFragment = requireActivity().supportFragmentManager.findFragmentByTag("MyPageFragment")
             requireActivity().supportFragmentManager.beginTransaction().apply {
                 hide(this@EditProfileFragment)
@@ -209,11 +250,6 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
-        getResult.launch(intent)
-    }
 
     private fun setAllergyFilter(allergen: CheckBox, allergenName: String){
         allergen.setOnCheckedChangeListener{ _, isChecked ->
@@ -228,6 +264,15 @@ class EditProfileFragment : Fragment() {
             }
         }
     }
+
+    private fun pickImage() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        pickImageLauncher.launch(intent)
+    }
+
+
+
+
 }
 
 
