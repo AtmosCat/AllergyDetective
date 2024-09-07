@@ -98,18 +98,18 @@ class MyPageFragment : Fragment() {
             if (data?.photo == "") {
                 binding.ivProfileImage.setImageBitmap(sampleBitmap)
             } else {
-                userViewModel.getDownloadUrl(data!!.email,
+                userViewModel.getDownloadUrl(
                     onSuccess = { downloadUrl ->
                         // 이미지 로드
                         binding.ivProfileImage.load(downloadUrl) {
-                            crossfade(true)
-                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
-                            error(sampleBitmap) // 로드 실패 시 표시할 이미지
+//                            crossfade(true)
+//                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
+//                            error(sampleBitmap) // 로드 실패 시 표시할 이미지
                         }
                     },
                     onFailure = { exception ->
                         // 실패 처리
-                        binding.ivProfileImage.load(sampleBitmap)
+                        binding.ivProfileImage.setImageBitmap(sampleBitmap)
                     })
             }
             binding.tvProfileName.text = data?.nickname
@@ -225,29 +225,27 @@ class MyPageFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            userViewModel.currentUser.value?.let { data ->
-                if (data != null) {
-                    if (data?.photo == "") {
-                        binding.ivProfileImage.setImageBitmap(sampleBitmap)
-                    } else {
-                        userViewModel.getDownloadUrl(data!!.email,
-                            onSuccess = { downloadUrl ->
-                                // 이미지 로드
-                                binding.ivProfileImage.load(downloadUrl) {
-                                    crossfade(true)
-                                    placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
-                                    error(sampleBitmap) // 로드 실패 시 표시할 이미지
-                                }
-                            },
-                            onFailure = { exception ->
-                                // 실패 처리
-                                binding.ivProfileImage.load(sampleBitmap)
-                            })
-                    }
-                    binding.tvProfileName.text = data?.nickname
-                    binding.tvMyAllergies.text = "⚠️ 나의 알러지 성분: ${data?.allergy}"
+            userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
+                if (data?.photo == "") {
+                    binding.ivProfileImage.setImageBitmap(sampleBitmap)
+                } else {
+                    userViewModel.getDownloadUrl(
+                        onSuccess = { downloadUrl ->
+                            // 이미지 로드
+                            binding.ivProfileImage.load(downloadUrl) {
+//                            crossfade(true)
+//                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
+//                            error(sampleBitmap) // 로드 실패 시 표시할 이미지
+                            }
+                        },
+                        onFailure = { exception ->
+                            // 실패 처리
+                            binding.ivProfileImage.load(sampleBitmap)
+                        })
                 }
-                val currentUserAllergiesCount = data.allergy.size
+                binding.tvProfileName.text = data?.nickname
+                binding.tvMyAllergies.text = "⚠️ 나의 알러지 성분: ${data?.allergy}"
+                val currentUserAllergiesCount = data!!.allergy.size
 
                 val myAllergyFrame1 = binding.ivMyAllergyFrame
                 val myAllergyFrame2 = binding.ivMyAllergyFrame2

@@ -101,7 +101,7 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun setCurrentUser(user: User) {
+    fun setCurrentUser(_email: String) {
         viewModelScope.launch {
             runCatching {
 //                var newUser = _currentUser.value
@@ -110,7 +110,7 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
 
                 // collection - document - field - value
                 db.collection("user")
-                    .whereEqualTo("email", user.email)
+                    .whereEqualTo("email", _email)
                     .get()
                     .addOnSuccessListener { result ->
                         if (result != null) {
@@ -137,7 +137,7 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             runCatching {
 
-                val updatedUserInfo = _currentUser.value
+                val updatedUserInfo = currentUser.value
 
                 if (updatedUserInfo != null) {
                     db.collection("user").document(currentUser.value!!.email)
@@ -232,9 +232,9 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-
     // 갤러리로부터 이미지 값을 받아와서 Bitmap 으로 변환
     suspend fun handleImage(uri: Uri) {
+        _bitmapBeforeSave.value = sampleBitmap
         val imageLoader = ImageLoader(getApplication())
         val request = ImageRequest.Builder(getApplication())
             .data(uri)
@@ -250,30 +250,32 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
     }
 
 
-    // Bitmap 이미지를 FirebaseStorage에 임시 저장
-    fun uploadImageToFirebaseStorage(bitmap: Bitmap) {
+    // 임시 저장하는 Bitmap 파일을 String 타입의 다운로드 URL 값으로 변환
+    fun uploadImageToFirebaseStorage(onSuccess: () -> Unit) {
         val storageRef = FirebaseStorage.getInstance().reference.child("images/${System.currentTimeMillis()}.png")
         val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        bitmapBeforeSave.value?.compress(Bitmap.CompressFormat.PNG, 100, baos)
         val data = baos.toByteArray()
 
         val uploadTask = storageRef.putBytes(data)
         uploadTask.addOnSuccessListener {
             storageRef.downloadUrl.addOnSuccessListener { uri ->
                 saveUserPhotoUrl(uri.toString())
+                _currentUser.value?.photo = uri.toString()
+                onSuccess()
             }
         }.addOnFailureListener {
             // 업로드 실패 처리
         }
     }
 
-    // 임시 저장하는 Bitmap 파일을 String 타입의 다운로드 URL 값으로 변환
+
     fun saveUserPhotoUrl(photoUrl: String) {
         db.collection("user").document(currentUser.value!!.email)
             .update("photo", photoUrl)
     }
 
-    fun getDownloadUrl(id: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+    fun getDownloadUrl(onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
         db.collection("user").document(currentUser.value!!.email)
             .get()
             .addOnSuccessListener { document ->

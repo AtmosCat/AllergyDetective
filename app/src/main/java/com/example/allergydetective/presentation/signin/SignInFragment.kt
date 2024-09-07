@@ -32,8 +32,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignInFragment : Fragment() {
 
@@ -44,6 +46,7 @@ class SignInFragment : Fragment() {
 
     private var auth : FirebaseAuth? = null
     private lateinit var googleSignInClient: GoogleSignInClient
+    private val db = FirebaseFirestore.getInstance()
 
     // ActivityResultLauncher를 사용하여 구글 로그인 인텐트를 시작하고 결과를 처리
     // 결과가 성공적이면 handleSignInResult(data)를 호출하여 로그인 결과를 처리
@@ -122,7 +125,7 @@ class SignInFragment : Fragment() {
                             Toast.makeText(requireContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT)
                                 .show()
                         } else {
-                            viewModel.setCurrentUser(user!!)
+                            viewModel.setCurrentUser(user!!.email)
                             Toast.makeText(requireContext(), "로그인 성공!", Toast.LENGTH_SHORT).show()
 
                             val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
@@ -190,7 +193,9 @@ class SignInFragment : Fragment() {
         auth?.signInWithCredential(credential)
             ?.addOnCompleteListener{
                     task ->
-                if(task.isSuccessful){
+                if(task.isSuccessful) {
+                    val googleLoginUser = auth!!.currentUser
+                    saveGoogleLoginToFireStore(googleLoginUser!!)
                     val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
                     requireActivity().supportFragmentManager.beginTransaction().apply {
                         hide(this@SignInFragment)
@@ -208,6 +213,12 @@ class SignInFragment : Fragment() {
                     Toast.makeText(requireContext(),task.exception?.message,Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    fun saveGoogleLoginToFireStore(user: FirebaseUser) {
+        val email = user.email
+        viewModel.addUser(User(email = email.toString(), "unknown"))
+        viewModel.setCurrentUser(email.toString())
     }
 
 //    private fun initViewModel() {

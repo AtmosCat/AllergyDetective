@@ -45,6 +45,7 @@ import com.example.allergydetective.presentation.UserViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
+import okhttp3.internal.notifyAll
 import java.io.ByteArrayOutputStream
 
 
@@ -56,16 +57,6 @@ class EditProfileFragment : Fragment() {
 
     private var selectedAllergies = mutableListOf<String>()
 
-    private val sharedviewModel: SharedViewModel by activityViewModels() {
-        viewModelFactory {
-            initializer {
-                SharedViewModel(
-                    GonggongFoodRepositoryImpl(),
-                    MarketRepositoryImpl()
-                )
-            }
-        }
-    }
     private val userViewModel: UserViewModel by activityViewModels {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
@@ -112,6 +103,15 @@ class EditProfileFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data
+                val bitmap = intent?.data?.let { uri ->
+                    requireActivity().contentResolver.openInputStream(uri)?.use { inputStream ->
+                        BitmapFactory.decodeStream(inputStream)
+                    }
+                }
+                bitmap?.let {
+                    profileImageView.setImageBitmap(it)
+                    profileImage = bitmap
+                }
                 intent?.data?.let { uri ->
                     lifecycleScope.launch {
                         userViewModel.handleImage(uri)
@@ -149,13 +149,13 @@ class EditProfileFragment : Fragment() {
             if (data?.photo == "") {
                 profileImageView.setImageBitmap(sampleBitmap)
             } else {
-                userViewModel.getDownloadUrl(data!!.email,
+                userViewModel.getDownloadUrl(
                     onSuccess = { downloadUrl ->
                         // 이미지 로드
                         binding.ivProfileImage.load(downloadUrl) {
-                            crossfade(true)
-                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
-                            error(sampleBitmap) // 로드 실패 시 표시할 이미지
+//                            crossfade(true)
+//                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
+//                            error(sampleBitmap) // 로드 실패 시 표시할 이미지
                         }
                     },
                     onFailure = { exception ->
@@ -164,7 +164,7 @@ class EditProfileFragment : Fragment() {
                     })
             }
 
-            binding.etProfileName.setText(data.nickname)
+            binding.etProfileName.setText(data!!.nickname)
 
             val currentUserAllergies = data?.allergy
 
@@ -230,24 +230,27 @@ class EditProfileFragment : Fragment() {
 
         binding.btnSave.setOnClickListener {
             userViewModel.currentUser.value?.nickname = binding.etProfileName.text.toString()
-            userViewModel.bitmapBeforeSave.value?.let { data ->
-                userViewModel.uploadImageToFirebaseStorage(data)
-            }
-            userViewModel.updateCurrentUserAllergy(selectedAllergies)
-            val myPageFragment = requireActivity().supportFragmentManager.findFragmentByTag("MyPageFragment")
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                hide(this@EditProfileFragment)
-                if (myPageFragment == null) {
-                    add(R.id.main_frame, MyPageFragment(), "MyPageFragment")
-                } else {
-                    show(myPageFragment)
+
+            userViewModel.uploadImageToFirebaseStorage {
+                // 업로드 완료 후 updateCurrentUserInfo 호출
+                userViewModel.currentUser.value?.allergy = selectedAllergies
+                userViewModel.updateCurrentUserInfo()
+
+                val myPageFragment = requireActivity().supportFragmentManager.findFragmentByTag("MyPageFragment")
+                requireActivity().supportFragmentManager.beginTransaction().apply {
+                    hide(this@EditProfileFragment)
+                    if (myPageFragment == null) {
+                        add(R.id.main_frame, MyPageFragment(), "MyPageFragment")
+                    } else {
+                        show(myPageFragment)
+                    }
+                    addToBackStack(null)
+                    commit()
                 }
-                addToBackStack(null)
-                commit()
                 Toast.makeText(requireContext(), "프로필이 수정되었습니다.", Toast.LENGTH_SHORT).show()
             }
-//            requireActivity().supportFragmentManager.popBackStack()
         }
+
     }
 
 
@@ -269,86 +272,7 @@ class EditProfileFragment : Fragment() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         pickImageLauncher.launch(intent)
     }
-
-
-
-
 }
-
-
-//        val favoriteFragment = fragmentManager?.findFragmentByTag("FavoriteFragment")
-//        binding.viewMypageMenu1.setOnClickListener{
-//            requireActivity().supportFragmentManager.beginTransaction().apply {
-//                hide(MyPageFragment())
-//                if (favoriteFragment == null) {
-//                    add(R.id.main_frame, FavoriteFragment(), "FavoriteFragment")
-//                } else {
-//                    show(FavoriteFragment())
-//                }
-//                addToBackStack(null)
-//                commit()
-//            }
-//        }
-//
-//        val groupManagerFragment = fragmentManager?.findFragmentByTag("GroupManagerFragment")
-//        binding.viewMypageMenu2.setOnClickListener{
-//            requireActivity().supportFragmentManager.beginTransaction().apply {
-//                hide(MyPageFragment())
-//                if (groupManagerFragment == null) {
-//                    add(R.id.main_frame, GroupManagerFragment(), "GroupManagerFragment")
-//                } else {
-//                    show(GroupManagerFragment())
-//                }
-//                addToBackStack(null)
-//                commit()
-//            }
-//        }
-//
-//        val membershipFragment = fragmentManager?.findFragmentByTag("MembershipFragment")
-//        binding.viewMypageMenu3.setOnClickListener{
-//            requireActivity().supportFragmentManager.beginTransaction().apply {
-//                hide(MyPageFragment())
-//                if (membershipFragment == null) {
-//                    add(R.id.main_frame, MembershipFragment(), "MembershipFragment")
-//                } else {
-//                    show(MembershipFragment())
-//                }
-//                addToBackStack(null)
-//                commit()
-//            }
-//        }
-//
-//        val myPostFragment = fragmentManager?.findFragmentByTag("MyPostFragment")
-//        binding.viewMypageMenu4.setOnClickListener{
-//            requireActivity().supportFragmentManager.beginTransaction().apply {
-//                hide(MyPageFragment())
-//                if (myPostFragment == null) {
-//                    add(R.id.main_frame, MyPostFragment(), "MyPostFragment")
-//                } else {
-//                    show(MyPostFragment())
-//                }
-//                addToBackStack(null)
-//                commit()
-//            }
-//        }
-//
-//        val savedPostFragment = fragmentManager?.findFragmentByTag("SavedPostFragment")
-//        binding.viewMypageMenu5.setOnClickListener{
-//            requireActivity().supportFragmentManager.beginTransaction().apply {
-//                hide(MyPageFragment())
-//                if (savedPostFragment == null) {
-//                    add(R.id.main_frame, SavedPostFragment(), "SavedPostFragment")
-//                } else {
-//                    show(SavedPostFragment())
-//                }
-//                addToBackStack(null)
-//                commit()
-//            }
-//        }
-
-
-
-
 
 //    private fun initView() = with(binding) {
 //        homeRecyclerList.adapter = homeAdapter

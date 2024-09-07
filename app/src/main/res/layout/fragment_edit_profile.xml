@@ -65,7 +65,7 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ad_example"
+                android:src="@drawable/cat"
                 />
 
         </androidx.cardview.widget.CardView>
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:fontFamily="@font/nanum_square_extrabold"
-        android:text="아이유"
+        android:text="익명의 고양이"
         android:textColor="@color/main_color_dark_gray"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="@+id/cardview_frame"
