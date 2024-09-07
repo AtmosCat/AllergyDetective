@@ -12,7 +12,20 @@
           "package_name": "com.example.allergydetective"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "61578154060-m0t169oondcvd87o5gv9j315mr3mfcur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.allergydetective",
+            "certificate_hash": "ed6cc70c14c994f85c2afbc8c15bf4cceb8ba670"
+          }
+        },
+        {
+          "client_id": "61578154060-ftcldvj0fkfmc6qfif810r6tl8fka9tp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBVR43X3sRfRgceWE27V8NopecmnJDcP08"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61578154060-ftcldvj0fkfmc6qfif810r6tl8fka9tp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

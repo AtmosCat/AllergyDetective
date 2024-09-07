@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">AllergyDetective</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="default_web_client_id">388119307495-b0e5n3oh5l16tiaee41noh7fmraj54lm.apps.googleusercontent.com</string>
+    <string name="default_web_client_id">61578154060-ftcldvj0fkfmc6qfif810r6tl8fka9tp.apps.googleusercontent.com</string>
+    <string name="google_login_client_id">mFbqEzJKzTMbFDDEAFDxohXKBpA3</string>
 </resources>

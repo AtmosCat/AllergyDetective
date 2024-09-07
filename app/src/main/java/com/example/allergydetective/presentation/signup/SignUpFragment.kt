@@ -37,6 +37,8 @@ class SignUpFragment : Fragment() {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
 
+    // 프로필에 사진 등록하는 거 아직 안됨. 아마 ResourceManager 쪽 문제인듯 확인필요
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
