@@ -75,10 +75,10 @@ class ItemListFragment : Fragment() {
             itemListAdapter.submitList(filteredFoods)
         }
 
-        binding.btnItemlistSearch.setOnClickListener() {
+        binding.btnItemlistSearch.setOnClickListener {
             viewModel.setSearchKeyword(binding.etItemlistSearch.text.toString())
             viewModel.getFilteredFoods2()
-            viewModel.filteredFoods.observe(viewLifecycleOwner){data ->
+            viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
                 itemListAdapter.updateData(data)
             }
         }
@@ -136,45 +136,38 @@ class ItemListFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                sortedList = when (position) {
-                    1 -> viewModel.filteredFoods.value?.sortedBy { it.prdlstNm } // 이름순으로 정렬
-                    2 -> viewModel.filteredFoods.value?.sortedBy { it.like } // 좋아요순으로 정렬
-                    else -> viewModel.filteredFoods.value
-                }
-
-                // RecyclerView 어댑터에 새로 정렬된 데이터 설정
-                if (sortedList != null) {
+                viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
+                    sortedList = when (position) {
+                        1 -> data.sortedBy { it.prdlstNm } // 이름순으로 정렬
+                        2 -> data.sortedBy { it.like } // 좋아요순으로 정렬
+                        else -> data
+                    }
                     itemListAdapter.updateData(sortedList!!)
                 }
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
+                sortedList = viewModel.filteredFoods.value
             }
         }
-
 
         val itemDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemDetailFragment")
 
         itemListAdapter.itemClick = object : ItemListAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
-                    if (sortedList == null) {
-                        clickedItem = data[position]
+                clickedItem = sortedList!![position]
+                val dataToSend = clickedItem!!.prdlstReportNo
+                val itemDetail = ItemDetailFragment.newInstance(dataToSend)
+                requireActivity().supportFragmentManager.beginTransaction().apply {
+                    hide(this@ItemListFragment)
+                    if (itemDetailFragment == null) {
+                        add(R.id.main_frame, itemDetail, "ItemDetailFragment")
                     } else {
-                        clickedItem = sortedList!![position]
+                        show(itemDetail)
                     }
-                    val dataToSend = clickedItem!!.prdlstReportNo
-                    val itemDetail = ItemDetailFragment.newInstance(dataToSend)
-                    requireActivity().supportFragmentManager.beginTransaction().apply {
-                        hide(this@ItemListFragment)
-                        if (itemDetailFragment == null) {
-                            add(R.id.main_frame, itemDetail, "ItemDetailFragment")
-                        } else {
-                            show(itemDetail)
-                        }
-                        addToBackStack(null)
-                        commit()
-                    }
+                    addToBackStack(null)
+                    commit()
                 }
             }
         }

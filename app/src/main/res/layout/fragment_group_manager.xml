@@ -620,7 +620,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="160dp"
-                android:text="조개류"
+                android:text="조개류(조개)"
                 android:textSize="18sp"
                 android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_squid"
@@ -641,6 +641,43 @@
                 app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_squid"
                 />
 
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_oyster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="160dp"
+                android:text="조개류(굴)"
+                android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_pinenut"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_pinenut"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_pinenut"
+                />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_abalone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="조개류(전복)"
+                android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
+                app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_pinenut"
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_pinenut"
+                />
+
+            <CheckBox
+                android:id="@+id/checkbox_ingredient_mussel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="160dp"
+                android:text="조개류(홍합)"
+                android:textSize="18sp"
+                android:buttonTint="@drawable/checkbox_selector"
+                app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_abalone"
+                app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_abalone"
+                app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_abalone"/>
+
             <Button
                 android:id="@+id/btn_save"
                 android:layout_width="wrap_content"
@@ -654,7 +691,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_pinenut" />
+                app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_mussel" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

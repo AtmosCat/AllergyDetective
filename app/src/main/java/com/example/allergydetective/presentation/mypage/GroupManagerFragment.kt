@@ -48,11 +48,14 @@ class GroupManagerFragment : Fragment() {
     private lateinit var  squid : CheckBox
     private lateinit var  seashell : CheckBox
     private lateinit var  pinenut : CheckBox
+    private lateinit var  oyster: CheckBox
+    private lateinit var  abalone: CheckBox
+    private lateinit var  mussel: CheckBox
 
     private var allergyCheckboxes = listOf<CheckBox>()
 
-    private var allergenNames = listOf("계란","우유","메밀","땅콩","대두","밀","고등어","게","새우","돼지고기",
-        "복숭아","토마토","아황산류","호두","닭고기","쇠고기","오징어","조개","잣")
+    private var allergenNames = listOf("알류(가금류)","우유","메밀","땅콩","대두","밀","고등어","게","새우","돼지고기",
+        "복숭아","토마토","아황산류","호두","닭고기","쇠고기","오징어","조개류(조개)","잣", "조개류(굴)","조개류(전복)","조개류(홍합)")
 
     private lateinit var allergies: List<Pair<CheckBox, String>>
 
@@ -157,12 +160,15 @@ class GroupManagerFragment : Fragment() {
         squid = binding.checkboxIngredientSquid
         seashell = binding.checkboxIngredientSeashell
         pinenut = binding.checkboxIngredientPinenut
+        oyster = binding.checkboxIngredientOyster
+        abalone = binding.checkboxIngredientAbalone
+        mussel = binding.checkboxIngredientMussel
 
-        allergyCheckboxes = listOf(egg, milk, buckwheat, peanut, soybean, wheat, mackerel,
-            crab, shrimp, pork, peach, tomato, sulfurousAcids, walnut, chicken, beef, squid, seashell, pinenut)
+        allergyCheckboxes = listOf(egg, milk, buckwheat, peanut, soybean, wheat, mackerel, crab, shrimp, pork,
+            peach, tomato, sulfurousAcids, walnut, chicken, beef, squid, seashell, pinenut, oyster,abalone,mussel)
 
         allergies = listOf(
-            Pair(egg, "계란"),
+            Pair(egg, "알류(가금류)"),
             Pair(milk, "우유"),
             Pair(buckwheat, "메밀"),
             Pair(peanut, "땅콩"),
@@ -179,8 +185,11 @@ class GroupManagerFragment : Fragment() {
             Pair(chicken, "닭고기"),
             Pair(beef, "쇠고기"),
             Pair(squid, "오징어"),
-            Pair(seashell, "조개"),
-            Pair(pinenut, "잣")
+            Pair(seashell, "조개류(조개)"),
+            Pair(pinenut, "잣"),
+            Pair(oyster, "조개류(굴)"),
+            Pair(abalone, "조개류(전복)"),
+            Pair(mussel, "조개류(홍합)")
         )
 
         for (allergen in allergyCheckboxes) allergen.visibility = View.GONE
@@ -357,6 +366,7 @@ class GroupManagerFragment : Fragment() {
             binding.btnSave.visibility = View.VISIBLE
 
         } else {
+            selectedMember = GroupMember()
             isMemberSelectedList[position] = false
 
             changeTint(selectedMemberIcon, moreLightGrayColor)

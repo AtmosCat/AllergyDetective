@@ -105,7 +105,6 @@ class HomeFragment : Fragment() {
             repeatCount = Animation.INFINITE // 무한 반복
         }
 
-
         viewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
             if (data == null) {
                 binding.btnHomeFilter.startAnimation(blinkAnimation)

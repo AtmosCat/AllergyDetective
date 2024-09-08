@@ -32,6 +32,7 @@ class ItemDetailFragment : Fragment() {
 
     private val favoriteListAdapter by lazy { FavoriteListAdapter() }
 
+    private var clickedItem = Food()
 
     // 이렇게 뷰모델 호출하는 거 맞나?
     private val sharedViewModel: SharedViewModel by activityViewModels {
@@ -79,7 +80,9 @@ class ItemDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val data = param1
-        val clickedItem = sharedViewModel.filteredFoods.value?.find { it.prdlstReportNo == data }
+        sharedViewModel.filteredFoods.observe(viewLifecycleOwner) { filteredFoods ->
+            clickedItem = filteredFoods.find { it.prdlstReportNo == data }!!
+
 
         binding.btnBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
@@ -147,8 +150,9 @@ class ItemDetailFragment : Fragment() {
                 "- 품목보고번호: ${clickedItem?.prdlstReportNo.toString()}"
         }
 
-        sharedViewModel.getMarketDetail(clickedItem?.manufacture.toString() + " " + clickedItem?.prdlstNm.toString())
 
+        sharedViewModel.getMarketDetail(clickedItem?.manufacture.toString(), clickedItem?.prdlstNm.toString())
+        }
         var marketList: List<Market>?
 
         sharedViewModel.marketData.observe(viewLifecycleOwner) { data ->

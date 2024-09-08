@@ -364,20 +364,25 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
                 _filteredFoods.value = filteredFoodsByCategoryAndAllergy
 //                _uiState.value = UiState.Success(filteredFoodsByCategoryAndAllergy)
             }.onFailure {
-                Log.e(TAG, "getFilteredFoods() failed! : ${it.message}")
+                Log.e(TAG, "getFilteredFoods2() failed! : ${it.message}")
                 handleException(it)
 //                _uiState.value = UiState.Error("Error")
             }
         }
     }
 
-    fun getMarketDetail(name: String) {
+    fun getMarketDetail(manufacture: String, name: String) {
 //        _uiState.value = UiState.Loading
         viewModelScope.launch {
             runCatching {
 
-                val marketResults = marketRepository.getMarketData(name)
-                _marketData.value = marketResults
+                var marketResults = marketRepository.getMarketData(manufacture+" "+name)
+                if (marketResults.isEmpty()) {
+                    marketResults = marketRepository.getMarketData(name)
+                    _marketData.value = marketResults
+                } else {
+                    _marketData.value = marketResults
+                }
 //                _uiState.value = UiState.Success(marketResults)
 
             }.onFailure {

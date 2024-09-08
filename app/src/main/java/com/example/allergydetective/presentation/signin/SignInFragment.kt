@@ -107,7 +107,6 @@ class SignInFragment : Fragment() {
         viewModel.addUser(user3)
 
         binding.btnSignin.setOnClickListener {
-
             var email = binding.etSigninEmail.text.toString()
             var pw = binding.etSigninPw.text.toString()
 
@@ -217,8 +216,14 @@ class SignInFragment : Fragment() {
 
     fun saveGoogleLoginToFireStore(user: FirebaseUser) {
         val email = user.email
-        viewModel.addUser(User(email = email.toString(), "unknown"))
-        viewModel.setCurrentUser(email.toString())
+        viewModel.findUser(email!!)
+        viewModel.signingInUser.observe(viewLifecycleOwner) { data ->
+            if (data == null) {
+                viewModel.addUser(User(email = email.toString(), "unknown"))
+            } else {
+                viewModel.setCurrentUser(email.toString())
+            }
+        }
     }
 
 //    private fun initViewModel() {

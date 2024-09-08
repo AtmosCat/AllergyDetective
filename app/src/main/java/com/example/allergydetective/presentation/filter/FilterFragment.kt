@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Switch
+import android.widget.TextView
 import android.widget.Toast
 import androidx.compose.runtime.currentCompositionErrors
 import androidx.core.content.ContextCompat
@@ -75,6 +76,28 @@ class FilterFragment : Fragment() {
     private lateinit var categoryButtonTextList : List<String>
 
     private var selectedCategoriesByButton = mutableListOf<String>()
+
+    private lateinit var currentUserGroup: MutableList<GroupMember>
+
+    private var selectedMember = GroupMember("", mutableListOf())
+
+    private lateinit var member1icon: ImageView
+    private lateinit var member2icon: ImageView
+    private lateinit var member3icon: ImageView
+    private lateinit var member4icon: ImageView
+    private lateinit var member5icon: ImageView
+
+    private lateinit var memberIconList : List<ImageView>
+
+    private lateinit var member1name: TextView
+    private lateinit var member2name: TextView
+    private lateinit var member3name: TextView
+    private lateinit var member4name: TextView
+    private lateinit var member5name: TextView
+
+    private lateinit var memberNameList: List<TextView>
+
+    private var isMemberSelectedList = mutableListOf(false,false,false,false,false)
 
     private lateinit var  egg: CheckBox
     private lateinit var  milk: CheckBox
@@ -220,23 +243,23 @@ class FilterFragment : Fragment() {
         val noMemberIconList = listOf(noMember1icon, noMember2icon,
             noMember3icon, noMember4icon, noMember5icon)
 
-        val member1icon = binding.ivAddedGroupMember1
-        val member2icon = binding.ivAddedGroupMember2
-        val member3icon = binding.ivAddedGroupMember3
-        val member4icon = binding.ivAddedGroupMember4
-        val member5icon = binding.ivAddedGroupMember5
+        member1icon = binding.ivAddedGroupMember1
+        member2icon = binding.ivAddedGroupMember2
+        member3icon = binding.ivAddedGroupMember3
+        member4icon = binding.ivAddedGroupMember4
+        member5icon = binding.ivAddedGroupMember5
 
-        val memberIconList = listOf(member1icon, member2icon, member3icon, member4icon, member5icon)
+        memberIconList = listOf(member1icon, member2icon, member3icon, member4icon, member5icon)
 
-        val member1name = binding.tvGroupMember1
-        val member2name = binding.tvGroupMember2
-        val member3name = binding.tvGroupMember3
-        val member4name = binding.tvGroupMember4
-        val member5name = binding.tvGroupMember5
+        member1name = binding.tvGroupMember1
+        member2name = binding.tvGroupMember2
+        member3name = binding.tvGroupMember3
+        member4name = binding.tvGroupMember4
+        member5name = binding.tvGroupMember5
 
-        val memberNameList = listOf(member1name, member2name, member3name, member4name, member5name)
+        memberNameList = listOf(member1name, member2name, member3name, member4name, member5name)
 
-        var currentUserGroup = listOf<GroupMember>()
+        currentUserGroup = mutableListOf()
         var realUserGroup = listOf<GroupMember>()
         userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
             currentUserGroup = data!!.group
@@ -250,8 +273,42 @@ class FilterFragment : Fragment() {
                         noMemberIconList[index].visibility = View.GONE
                         memberIconList[index].visibility = View.VISIBLE
                         memberNameList[index].setText(member.name)
+                        memberIconList[index].setOnClickListener{
+                            when (index) {
+                                0 -> {
+                                    isMemberSelectedList[1] = false
+                                    isMemberSelectedList[2] = false
+                                    isMemberSelectedList[3] = false
+                                    isMemberSelectedList[4] = false
+                                }
+                                1 -> {
+                                    isMemberSelectedList[0] = false
+                                    isMemberSelectedList[2] = false
+                                    isMemberSelectedList[3] = false
+                                    isMemberSelectedList[4] = false
+                                }
+                                2 -> {
+                                    isMemberSelectedList[0] = false
+                                    isMemberSelectedList[1] = false
+                                    isMemberSelectedList[3] = false
+                                    isMemberSelectedList[4] = false
+                                }
+                                3 -> {
+                                    isMemberSelectedList[0] = false
+                                    isMemberSelectedList[1] = false
+                                    isMemberSelectedList[2] = false
+                                    isMemberSelectedList[4] = false
+                                }
+                                4 -> {
+                                    isMemberSelectedList[0] = false
+                                    isMemberSelectedList[1] = false
+                                    isMemberSelectedList[2] = false
+                                    isMemberSelectedList[3] = false
+                                }
+                            }
+                            selectMember(index)
+                        }
                     }
-                    // member 클릭 시 색깔 바뀌고 알러지 체크되는 코드 fun으로 넣기
                 }
             }
 
@@ -375,10 +432,19 @@ class FilterFragment : Fragment() {
     private fun allergyCheckboxClicker(checkbox: CheckBox, position: Int) {
         checkbox.setOnCheckedChangeListener { _, isChecked ->
             if (checkbox.isChecked) {
+                if (checkbox.text.toString() !in selectedMember.allergy) {
+                    initializeMember()
+                }
                 selectedAllergiesByCheckbox.add(allergiesTextList[position])
             } else {
+                if (checkbox.text.toString() in selectedMember.allergy) {
+                    initializeMember()
+                }
                 selectedAllergiesByCheckbox.remove(allergiesTextList[position])
             }
+//            if (selectedMember != GroupMember()) {
+//                initializeMember()
+//            }
         }
     }
 
@@ -387,6 +453,72 @@ class FilterFragment : Fragment() {
             allergies[position].isChecked = true
         } else {
             allergies[position].isChecked = false
+        }
+    }
+
+    private fun selectMember(position: Int) {
+
+        val selectedMemberIcon = memberIconList[position]
+        val notSelectedMemberIcons = memberIconList - memberIconList[position]
+
+        val orangeColor = ContextCompat.getColor(requireContext(), R.color.main_color_orange)
+        val moreLightGrayColor =
+            ContextCompat.getColor(requireContext(), R.color.main_color_more_light_gray)
+
+        for (notSelectedMember in notSelectedMemberIcons) {
+            changeTint(notSelectedMember, moreLightGrayColor)
+        }
+
+        if (!isMemberSelectedList[position]) {
+            isMemberSelectedList[position] = true
+
+            selectedMember = currentUserGroup[position]
+            changeTint(selectedMemberIcon, orangeColor)
+
+            setSelectedMemberAllergies()
+
+        } else {
+            selectedMember = GroupMember()
+            isMemberSelectedList[position] = false
+            changeTint(selectedMemberIcon, moreLightGrayColor)
+            for (allergy in allergies) allergy.isChecked = false
+        }
+    }
+
+    private fun setSelectedMemberAllergies(){
+        selectedAllergiesByCheckbox = selectedMember.allergy.toMutableList()
+        if (selectedMember.allergy.isNotEmpty()) {
+
+            val notSelectedAllergies = allergiesTextList - selectedAllergiesByCheckbox
+
+            val iterator = allergiesTextList.iterator()
+            while (iterator.hasNext()) {
+                val allergy = iterator.next()
+                if (selectedAllergiesByCheckbox.contains(allergy)) {
+                    allergies[allergiesTextList.indexOf(allergy)].isChecked = true
+                } else {
+                    allergies[allergiesTextList.indexOf(allergy)].isChecked = false
+                }
+            }
+        } else {
+            for (allergy in allergies) {
+                allergy.isChecked = false
+            }
+        }
+    }
+
+    private fun changeTint(imageView: ImageView, color: Int) {
+        val drawable = imageView.drawable
+        drawable?.let {
+            DrawableCompat.setTint(drawable, color)
+            imageView.setImageDrawable(drawable)
+        }
+    }
+
+    private fun initializeMember() {
+        selectedMember = GroupMember()
+        for (memberIcon in memberIconList) {
+            changeTint(memberIcon, ContextCompat.getColor(requireContext(), R.color.main_color_more_light_gray))
         }
     }
 
