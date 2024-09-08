@@ -148,6 +148,36 @@
         />
 
     <ImageView
+        android:id="@+id/btn_scroll_up_empty"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/scroll_up_empty"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintWidth_percent="0.08"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerview_itemlist"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerview_itemlist"
+        app:tint="@color/main_color_light_gray"
+        />
+
+    <ImageView
+        android:id="@+id/btn_scroll_up_filled"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/scroll_up_filled"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintWidth_percent="0.08"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerview_itemlist"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerview_itemlist"
+        app:tint="@color/main_color_orange"
+        />
+
+    <ImageView
         android:id="@+id/btn_tab_home"
         android:layout_width="0dp"
         android:layout_height="0dp"

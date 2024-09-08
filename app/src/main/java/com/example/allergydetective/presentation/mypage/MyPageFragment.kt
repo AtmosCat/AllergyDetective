@@ -243,8 +243,18 @@ class MyPageFragment : Fragment() {
                             binding.ivProfileImage.load(sampleBitmap)
                         })
                 }
-                binding.tvProfileName.text = data?.nickname
-                binding.tvMyAllergies.text = "⚠️ 나의 알러지 성분: ${data?.allergy}"
+                if (data?.nickname == "") {
+                    binding.tvProfileName.text = "익명의 고양이"
+                } else {
+                    binding.tvProfileName.text = data?.nickname
+                }
+
+                if (data?.allergy!!.isEmpty()) {
+                    binding.tvMyAllergies.text = "프로필에서 나의 알러지 성분을 설정해주세요!"
+                } else {
+                    binding.tvMyAllergies.text = "⚠️ 나의 알러지 성분: ${data?.allergy}"
+                }
+
                 val currentUserAllergiesCount = data!!.allergy.size
 
                 val myAllergyFrame1 = binding.ivMyAllergyFrame

@@ -147,7 +147,7 @@ class EditProfileFragment : Fragment() {
 
         userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
             if (data?.photo == "") {
-                profileImageView.setImageBitmap(sampleBitmap)
+                profileImageView.setImageResource(R.drawable.cat)
             } else {
                 userViewModel.getDownloadUrl(
                     onSuccess = { downloadUrl ->
@@ -164,7 +164,11 @@ class EditProfileFragment : Fragment() {
                     })
             }
 
-            binding.etProfileName.setText(data!!.nickname)
+            if (data?.nickname == "") {
+                binding.etProfileName.setText("익명의 고양이")
+            } else {
+                binding.etProfileName.setText(data!!.nickname)
+            }
 
             val currentUserAllergies = data?.allergy
 

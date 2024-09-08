@@ -1,6 +1,8 @@
 package com.example.allergydetective.presentation.itemlist
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -16,6 +19,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 //import coil.load
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
@@ -78,6 +82,7 @@ class ItemListFragment : Fragment() {
         binding.btnItemlistSearch.setOnClickListener {
             viewModel.setSearchKeyword(binding.etItemlistSearch.text.toString())
             viewModel.getFilteredFoods2()
+            binding.btnSpinner.setSelection(0)
             viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
                 itemListAdapter.updateData(data)
             }
@@ -122,6 +127,11 @@ class ItemListFragment : Fragment() {
                 binding.tvFilteredAllergy.text = "✅ 필터: 없음"
             }
         }
+//
+//        viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
+//            sortedList = data // 기본순으로 초기화
+//            itemListAdapter.updateData(sortedList!!)
+//        }
 
         val spinnerItems = listOf("기본순 ▼", "가나다순 ▼", "인기순 ▼", "추천순 ▼", "조회수순 ▼", "가격순 ▼")
         val spinnerAdapter =
@@ -138,17 +148,18 @@ class ItemListFragment : Fragment() {
             ) {
                 viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
                     sortedList = when (position) {
-                        1 -> data.sortedBy { it.prdlstNm } // 이름순으로 정렬
+                        1 -> data.sortedBy { it.prdlstNm } // 가나다순으로 정렬
                         2 -> data.sortedBy { it.like } // 좋아요순으로 정렬
                         else -> data
                     }
+                    binding.recyclerviewItemlist.scrollToPosition(0)
                     itemListAdapter.updateData(sortedList!!)
                 }
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 sortedList = viewModel.filteredFoods.value
+                itemListAdapter.updateData(sortedList!!)
             }
         }
 
@@ -170,6 +181,39 @@ class ItemListFragment : Fragment() {
                     commit()
                 }
             }
+        }
+
+        val emptyScrollUpButton = binding.btnScrollUpEmpty
+        val filledScrollUpButton = binding.btnScrollUpFilled
+        binding.recyclerviewItemlist.addOnScrollListener (object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy>0) {
+                    if (emptyScrollUpButton.visibility == View.GONE){
+                        emptyScrollUpButton.apply{
+                            visibility = View.VISIBLE
+                            alpha = 0f
+                            animate().alpha(1f).setDuration(300).start()
+                        }
+                    }
+                } else {
+                    if(emptyScrollUpButton.visibility == View.VISIBLE){
+                        emptyScrollUpButton.animate()
+                            .alpha(0f)
+                            .setDuration(800)
+                            .withEndAction{emptyScrollUpButton.visibility = View.GONE}
+                            .start()
+                    }
+                }
+            }
+        })
+
+        emptyScrollUpButton.setOnClickListener{
+            binding.recyclerviewItemlist.smoothScrollToPosition(0)
+            filledScrollUpButton.visibility = ImageView.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
+                filledScrollUpButton.visibility = ImageView.GONE
+            }, 50) // 100밀리초, 0.1초
         }
 
         val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")

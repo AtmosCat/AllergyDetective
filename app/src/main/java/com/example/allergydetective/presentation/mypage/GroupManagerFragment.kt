@@ -1,6 +1,7 @@
 package com.example.allergydetective.presentation.mypage
 
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -267,15 +268,49 @@ class GroupManagerFragment : Fragment() {
                 selectMember(4)
             }
 
+            // 롱클릭 시 멤버 삭제
+            for (ivAddedMember in ivAddedMembers) {
+                ivAddedMember.setOnLongClickListener {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle("그룹 멤버 삭제")
+                        .setMessage("멤버를 삭제하시겠습니까?")
+                        .setPositiveButton("예") { dialog, which ->
+                            val index = ivAddedMembers.indexOf(ivAddedMember)
+                            currentUserGroup[index] = GroupMember()
+                            selectedMember = GroupMember()
+                            selectedAllergies = mutableListOf()
+                            userViewModel.updateGroup(currentUserGroup)
+                            ivAddedMembers[index].visibility = View.GONE
+                            ivAddMembers[index].visibility = View.VISIBLE
+                            binding.btnSave.visibility = View.GONE
+                            tvMembers[index].setText("추가하기")
+                            tvMembers[index].isEnabled = false
+                            for (allergen in allergyCheckboxes) {
+                                allergen.isChecked = false
+                                allergen.visibility = View.GONE
+                            }
+                            isMemberAddedList[index] = false
+                            addMember(index, "멤버")
+                        }
+                        .setNegativeButton("아니오") { dialog, which ->
+                        }
+                        .setNeutralButton("닫기") { dialog, which ->
+                        }
+                        .show()
+                    true
+                }
+            }
+
             for (pair in allergies) {
                 setAllergyFilter(pair.first, pair.second)
             }
         }
 
-        binding.btnSave.setOnClickListener{
-            selectedMember.name = selectedMemberNewName
-            selectedMember.allergy = selectedAllergies
+
+        binding.btnSave.setOnClickListener {
             val position = currentUserGroup.indexOf(selectedMember)
+            selectedMember.name = tvMembers[position].text.toString()
+            selectedMember.allergy = selectedAllergies
             currentUserGroup[position] = selectedMember
             userViewModel.updateGroup(currentUserGroup)
             Toast.makeText(requireContext(), "저장되었습니다.", Toast.LENGTH_SHORT).show()
@@ -355,7 +390,6 @@ class GroupManagerFragment : Fragment() {
             selectedMember = currentUserGroup[position]
             changeTint(selectedMemberIcon, orangeColor)
             selectedMemberName.isEnabled = true
-            selectedMemberNewName = selectedMemberName.text.toString()
 
             for (allergen in allergyCheckboxes) {
                 allergen.visibility = View.VISIBLE
