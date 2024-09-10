@@ -54,7 +54,7 @@ class PostListAdapter :
         val category = binding.tvCategory
         val title = binding.tvTitle
         val detail = binding.tvDetail
-        val like = binding.tvLike
+        val like = binding.tvScrap
         val comment = binding.tvComment
 
         fun bind(item: Post) {
@@ -62,7 +62,7 @@ class PostListAdapter :
             category.text = item.category
             title.text = item.title
             detail.text = item.detail
-            like.text = item.like.toString()
+            like.text = item.scrap.toString()
             comment.text = item.comments.size.toString()
         }
     }
