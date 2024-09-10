@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/recyclerview_posting_list"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_border"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardview_frame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.13">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview_iv_commenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="80dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_commenter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/cat" />
+
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_commenter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/nanum_square_extrabold"
+        android:maxLines="1"
+        android:text="댓글 작성자"
+        android:textColor="@color/main_color_dark_gray"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/cardview_frame"
+        app:layout_constraintStart_toEndOf="@+id/cardview_frame"
+        app:layout_constraintTop_toTopOf="@+id/cardview_frame" />
+
+    <TextView
+        android:id="@+id/tv_comment_detail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/nanum_square_bold"
+        android:maxLines="2"
+        android:lineSpacingExtra="3dp"
+        android:text="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"
+        android:textColor="@color/main_color_light_gray"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_commenter"
+        app:layout_constraintTop_toBottomOf="@+id/tv_commenter" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/btn_like_comment"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:paddingVertical="5dp"-->
+<!--        android:paddingHorizontal="10dp"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:background="@drawable/background_posting_category"-->
+<!--        android:text="좋아요"-->
+<!--        android:textColor="@color/main_color_dark_gray"-->
+<!--        android:textSize="12sp"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/tv_comment_detail"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/tv_comment_detail"-->
+<!--        />-->
+
+
+    <TextView
+        android:id="@+id/btn_reply_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_posting_category"
+        android:text="답글"
+        android:textColor="@color/main_color_dark_gray"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_comment_detail"
+        app:layout_constraintStart_toStartOf="@+id/tv_comment_detail"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_comment_replies"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintStart_toStartOf="@+id/btn_reply_comment"
+        app:layout_constraintTop_toBottomOf="@+id/btn_reply_comment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tv_comment_detail"
+        />
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/iv_like"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            app:layout_constraintDimensionRatio="1:1"-->
+    <!--            app:layout_constraintWidth_percent="0.08"-->
+    <!--            android:layout_marginEnd="5dp"-->
+    <!--            android:src="@drawable/heart"-->
+    <!--            app:layout_constraintBottom_toBottomOf="@+id/tv_like"-->
+    <!--            app:layout_constraintEnd_toStartOf="@+id/tv_like"-->
+    <!--            app:layout_constraintTop_toTopOf="@+id/tv_like" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/tv_like"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="00"-->
+    <!--            android:letterSpacing="0.03"-->
+    <!--            android:lineSpacingExtra="3dp"-->
+    <!--            android:textColor="#000000"-->
+    <!--            android:layout_marginEnd="5dp"-->
+    <!--            android:textSize="15sp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="@+id/iv_comment"-->
+    <!--            app:layout_constraintEnd_toStartOf="@+id/iv_comment"-->
+    <!--            app:layout_constraintTop_toTopOf="@+id/iv_comment" />-->
+
+    <!--        <ImageView-->
+    <!--            android:id="@+id/iv_comment"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            app:layout_constraintDimensionRatio="1:1"-->
+    <!--            app:layout_constraintWidth_percent="0.08"-->
+    <!--            android:layout_marginEnd="5dp"-->
+    <!--            android:src="@drawable/chat"-->
+    <!--            app:layout_constraintBottom_toBottomOf="@+id/tv_comment"-->
+    <!--            app:layout_constraintEnd_toStartOf="@+id/tv_comment"-->
+    <!--            app:layout_constraintTop_toTopOf="@+id/tv_comment" />-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/tv_comment"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="00"-->
+    <!--            android:letterSpacing="0.03"-->
+    <!--            android:lineSpacingExtra="3dp"-->
+    <!--            android:textColor="#000000"-->
+    <!--            android:textSize="15sp"-->
+    <!--            android:layout_marginBottom="15dp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

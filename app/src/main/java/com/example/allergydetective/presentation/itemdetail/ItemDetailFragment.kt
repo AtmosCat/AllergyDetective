@@ -113,14 +113,11 @@ class ItemDetailFragment : Fragment() {
                 isLiked = true
                 binding.btnLike.setImageResource(R.drawable.filled_heart)
                 userViewModel.currentUser.value?.like!!.add(clickedItem)
-//                userViewModel.addFavorite(clickedItem!!)
                 userViewModel.updateCurrentUserInfo()
             } else {
                 isLiked = false
                 binding.btnLike.setImageResource(R.drawable.heart)
-                userViewModel.removeFavorite(clickedItem!!)
                 userViewModel.currentUser.value?.like!!.remove(clickedItem)
-//                userViewModel.addFavorite(clickedItem!!)
                 userViewModel.updateCurrentUserInfo()
             }
         }

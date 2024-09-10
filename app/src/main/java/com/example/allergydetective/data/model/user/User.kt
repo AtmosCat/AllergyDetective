@@ -52,14 +52,6 @@ data class GroupMember(var name: String = "",
                        var allergy: MutableList<String> = mutableListOf())
 
 
-// 게시글 관리
-data class Post(val index: Int = 0,
-                val subject: String = "",
-                val poster: String = "",
-                val title: String = "",
-                val content: String = "",
-                val comment: Int =0,
-                val report: Boolean = false)
 
 
 

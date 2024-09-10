@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.community.CommunityHomeFragment">
+
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:hint="검색"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="15dp"
+        android:text=""
+        android:background="@drawable/round_border_search"
+        app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.78" />
+
+    <ImageView
+        android:id="@+id/btn_search"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/arrowbox"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintWidth_percent="0.08"
+        app:layout_constraintTop_toTopOf="@+id/et_search"
+        app:layout_constraintEnd_toEndOf="@+id/et_search"
+        app:layout_constraintBottom_toBottomOf="@+id/et_search"
+        app:tint="@color/main_color_light_gray" />
+
+
+    <ImageView
+        android:id="@+id/btn_filter"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="12dp"
+        app:tint="@color/white"
+        app:layout_constraintWidth_percent="0.12"
+        app:layout_constraintHeight_percent="0.06"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/filter"
+        app:layout_constraintTop_toTopOf="@+id/et_search"
+        app:layout_constraintStart_toEndOf="@+id/et_search"
+        app:layout_constraintBottom_toBottomOf="@+id/et_search"
+        android:background="@drawable/background_filter_button"
+        />
+
+    <TextView
+        android:id="@+id/tv_hot_topic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🔥핫한 주제"
+        android:textSize="16sp"
+        android:textColor="@color/main_color_dark_gray"
+        app:layout_constraintTop_toBottomOf="@+id/et_search"
+        app:layout_constraintStart_toStartOf="@+id/et_search"
+        android:layout_marginTop="10dp"
+        />
+
+    <HorizontalScrollView
+        android:id="@+id/layout_hot_topic"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintHeight_percent="0.08"
+        app:layout_constraintStart_toStartOf="@+id/tv_hot_topic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hot_topic"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_horizontal_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_my_allergy_frame1"
+                style="@style/allergy_icon_frame"
+                app:layout_constraintStart_toStartOf="@+id/layout_horizontal_scrollview"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy1"
+                style="@style/allergy_icon"
+                app:layout_constraintEnd_toEndOf="@+id/iv_my_allergy_frame1"
+                app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame1"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame1"
+                app:layout_constraintStart_toStartOf="@+id/iv_my_allergy_frame1"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy_frame2"
+                style="@style/allergy_icon_frame"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame1"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy2"
+                style="@style/allergy_icon"
+                app:layout_constraintEnd_toEndOf="@+id/iv_my_allergy_frame2"
+                app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame2"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame2"
+                app:layout_constraintStart_toStartOf="@+id/iv_my_allergy_frame2"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy_frame3"
+                style="@style/allergy_icon_frame"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame2"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy3"
+                style="@style/allergy_icon"
+                app:layout_constraintEnd_toEndOf="@+id/iv_my_allergy_frame3"
+                app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame3"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame3"
+                app:layout_constraintStart_toStartOf="@+id/iv_my_allergy_frame3"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy_frame4"
+                style="@style/allergy_icon_frame"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame3"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy4"
+                style="@style/allergy_icon"
+                app:layout_constraintEnd_toEndOf="@+id/iv_my_allergy_frame4"
+                app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame4"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame4"
+                app:layout_constraintStart_toStartOf="@+id/iv_my_allergy_frame4"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy_frame5"
+                style="@style/allergy_icon_frame"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame4"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy5"
+                style="@style/allergy_icon"
+                app:layout_constraintEnd_toEndOf="@+id/iv_my_allergy_frame5"
+                app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame5"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame5"
+                app:layout_constraintStart_toStartOf="@+id/iv_my_allergy_frame5"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy_frame6"
+                style="@style/allergy_icon_frame"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame5"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy6"
+                style="@style/allergy_icon"
+                app:layout_constraintEnd_toEndOf="@+id/iv_my_allergy_frame6"
+                app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame6"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame6"
+                app:layout_constraintStart_toStartOf="@+id/iv_my_allergy_frame6"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy_frame7"
+                style="@style/allergy_icon_frame"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame6"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy7"
+                style="@style/allergy_icon"
+                app:layout_constraintEnd_toEndOf="@+id/iv_my_allergy_frame7"
+                app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame7"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame7"
+                app:layout_constraintStart_toStartOf="@+id/iv_my_allergy_frame7"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy_frame8"
+                style="@style/allergy_icon_frame"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame7"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy8"
+                style="@style/allergy_icon"
+                app:layout_constraintEnd_toEndOf="@+id/iv_my_allergy_frame8"
+                app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame8"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame8"
+                app:layout_constraintStart_toStartOf="@+id/iv_my_allergy_frame8"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy_frame9"
+                style="@style/allergy_icon_frame"
+                android:layout_marginStart="5dp"
+                app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame8"
+                />
+
+            <ImageView
+                android:id="@+id/iv_my_allergy9"
+                style="@style/allergy_icon"
+                app:layout_constraintEnd_toEndOf="@+id/iv_my_allergy_frame9"
+                app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame9"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame9"
+                app:layout_constraintStart_toStartOf="@+id/iv_my_allergy_frame9"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </HorizontalScrollView>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/btn_tab_home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_hot_topic" />
+
+    <ImageView
+        android:id="@+id/btn_scroll_up_empty"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/scroll_up_empty"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintWidth_percent="0.08"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerview"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerview"
+        app:tint="@color/main_color_light_gray"
+        />
+
+    <ImageView
+        android:id="@+id/btn_scroll_up_filled"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/scroll_up_filled"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintWidth_percent="0.08"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerview"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerview"
+        app:tint="@color/main_color_orange"
+        />
+
+    <Button
+        android:id="@+id/btn_new_post"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="+ 글쓰기"
+        android:background="@drawable/background_spinner"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/white"
+        app:layout_constraintDimensionRatio="2:1"
+        app:layout_constraintWidth_percent="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_tab_mypage"
+        />
+
+    <ImageView
+        android:id="@+id/btn_tab_home"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/main_color_light_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.31"
+        android:src="@drawable/home"
+        android:layout_margin="5dp"
+        android:padding="25dp"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/btn_tab_community"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:background="@color/main_color_orange"
+        android:padding="25dp"
+        android:src="@drawable/community"
+        app:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toEndOf="@+id/btn_tab_home"
+        app:layout_constraintWidth_percent="0.32" />
+
+    <ImageView
+        android:id="@+id/btn_tab_mypage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:background="@color/main_color_light_gray"
+        android:padding="25dp"
+        android:src="@drawable/mypage"
+        app:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintStart_toEndOf="@+id/btn_tab_community"
+        app:layout_constraintWidth_percent="0.32" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

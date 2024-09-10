@@ -56,10 +56,6 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
     fun addUser(user: User) {
         viewModelScope.launch {
             runCatching {
-//                val newUsers = _users.value?: mutableListOf()
-//                newUsers.add(user)
-//                _users.value = newUsers
-
                 db.collection("user")
                     .document(user.email)
                     .set(user)
@@ -74,10 +70,6 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
     fun findUser(_email: String) {
         viewModelScope.launch {
             runCatching {
-//                val signingInUser =  _users.value?.find { it.id == _id }
-//                _signingInUser.value = signingInUser
-
-                // collection - document - field - value
                 db.collection("user")
                     .whereEqualTo("email", _email)
                     .get()
@@ -104,11 +96,6 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
     fun setCurrentUser(_email: String) {
         viewModelScope.launch {
             runCatching {
-//                var newUser = _currentUser.value
-//                newUser = user
-//                _currentUser.value = newUser
-
-                // collection - document - field - value
                 db.collection("user")
                     .whereEqualTo("email", _email)
                     .get()
@@ -125,7 +112,6 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
                     .addOnFailureListener {
                         _currentUser.value = null
                     }
-
             }.onFailure {
                 Log.e(TAG, "setCurrentUser() failed! : ${it.message}")
                 handleException(it)
@@ -136,67 +122,13 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
     fun updateCurrentUserInfo() {
         viewModelScope.launch {
             runCatching {
-
                 val updatedUserInfo = currentUser.value
-
                 if (updatedUserInfo != null) {
                     db.collection("user").document(currentUser.value!!.email)
                         .set(updatedUserInfo)
                 }
-
             }.onFailure {
-                Log.e(TAG, "updateCurrentUserAllergy() failed! : ${it.message}")
-                handleException(it)
-            }
-        }
-    }
-
-    fun updateCurrentUserAllergy(allergies: MutableList<String>) {
-        viewModelScope.launch {
-            runCatching {
-//                var newSelectedAllergies: MutableList<String>? = _currentUser.value?.allergy
-//                newSelectedAllergies = allergies
-//                _currentUser.value?.allergy = newSelectedAllergies
-
-                db.collection("user").document(currentUser.value!!.email)
-                    .update("allergy", allergies)
-
-            }.onFailure {
-                Log.e(TAG, "updateCurrentUserAllergy() failed! : ${it.message}")
-                handleException(it)
-            }
-        }
-    }
-
-    fun addFavorite(food: Food) {
-        viewModelScope.launch {
-            runCatching {
-//                var newLikedFood: MutableList<Food>? = _currentUser.value?.like
-//                newLikedFood?.add(food)
-//                _currentUser.value?.like = newLikedFood!!
-
-                db.collection("user").document(currentUser.value!!.email)
-                    .update("like", FieldValue.arrayUnion(food))
-
-            }.onFailure {
-                Log.e(TAG, "addFavorite() failed! : ${it.message}")
-                handleException(it)
-            }
-        }
-    }
-
-    fun removeFavorite(food: Food) {
-        viewModelScope.launch {
-            runCatching {
-//                var newLikedFood: MutableList<Food>? = _currentUser.value?.like
-//                newLikedFood?.remove(food)
-//                _currentUser.value?.like = newLikedFood!!
-
-                db.collection("user").document(currentUser.value!!.email)
-                    .update("like", FieldValue.arrayRemove(food))
-
-            }.onFailure {
-                Log.e(TAG, "removeFavorite() failed! : ${it.message}")
+                Log.e(TAG, "updateCurrentUserInfo() failed! : ${it.message}")
                 handleException(it)
             }
         }
@@ -205,28 +137,10 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
     fun updateGroup(newGroup: MutableList<GroupMember>) {
         viewModelScope.launch {
             runCatching {
-//                var newMembers= newGroup
-//                _currentUser.value!!.group = newMembers
-
                 db.collection("user").document(currentUser.value!!.email)
                     .update("group", newGroup)
-
             }.onFailure {
-                Log.e(TAG, "setGroupMember() failed! : ${it.message}")
-                handleException(it)
-            }
-        }
-    }
-
-    fun editGroupMemberInfo(position: Int, member: GroupMember) {
-        //        _uiState.value = UiState.Loading
-        viewModelScope.launch {
-            runCatching {
-                var newMember = _currentUser.value!!.group[position]
-                newMember = member
-                _currentUser.value!!.group[position] = newMember
-            }.onFailure {
-                Log.e(TAG, "setGroupMember() failed! : ${it.message}")
+                Log.e(TAG, "updateGroup() failed! : ${it.message}")
                 handleException(it)
             }
         }
@@ -249,7 +163,6 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-
     // 임시 저장하는 Bitmap 파일을 String 타입의 다운로드 URL 값으로 변환
     fun uploadImageToFirebaseStorage(onSuccess: () -> Unit) {
         val storageRef = FirebaseStorage.getInstance().reference.child("images/${System.currentTimeMillis()}.png")
@@ -268,7 +181,6 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
             // 업로드 실패 처리
         }
     }
-
 
     fun saveUserPhotoUrl(photoUrl: String) {
         db.collection("user").document(currentUser.value!!.email)

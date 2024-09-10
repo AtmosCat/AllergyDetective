@@ -89,7 +89,6 @@ class HomeFragment : Fragment() {
                 }
 //                else -> {}
             }
-
         }
 
 //        var homeFoodsData = listOf<Food>()
