@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
@@ -102,7 +103,14 @@ class ReplyDetailFragment : Fragment() {
             repliesAdapter.submitList(clickedComment.reply)
 
             binding.btnAddReply.setOnClickListener{
-                postViewModel.addReply(clickedItemId!!, clickedCommentId!!, binding.etAddReply.text.toString())
+                postViewModel.addReply(
+                    clickedItemId!!,
+                    clickedCommentId!!,
+                    currentUser.photo,
+                    currentUser.nickname,
+                    binding.etAddReply.text.toString())
+                Toast.makeText(this.requireContext(), "답글이 등록되었습니다.", Toast.LENGTH_SHORT).show()
+                binding.etAddReply.setText("")
             }
         }
 

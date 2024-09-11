@@ -27,4 +27,15 @@ data class Reply(
     val replierName: String = "",
     val detail: String = "",
     val like: Int = 0,
-    val report: Boolean = false)
+    val report: Boolean = false) {
+    fun toMap(): Map<String, Any> {
+        return mapOf(
+            "id" to id,
+            "replierPhoto" to replierPhoto,
+            "replierName" to replierName,
+            "detail" to detail,
+            "like" to like,
+            "report" to report
+        )
+    }
+}

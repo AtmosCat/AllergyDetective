@@ -20,6 +20,7 @@ import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentMyPageBinding
 import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
+import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
 import com.example.allergydetective.presentation.mypage.GroupManagerFragment
 import com.example.allergydetective.presentation.mypage.favorite.FavoriteFragment
 
@@ -211,6 +212,21 @@ class MyPageFragment : Fragment() {
                 commit()
             }
         }
+
+        val communityHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("CommunityHomeFragment")
+        binding.btnTabCommunity.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                hide(this@MyPageFragment)
+                if (communityHomeFragment == null) {
+                    add(R.id.main_frame, CommunityHomeFragment(), "CommunityHomeFragment")
+                } else if (communityHomeFragment != null && communityHomeFragment.isHidden){
+                    show(communityHomeFragment)
+                }
+                addToBackStack(null)
+                commit()
+            }
+        }
+
     }
 
 //    override fun onResume() {

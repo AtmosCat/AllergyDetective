@@ -200,6 +200,13 @@ class CommunityHomeFragment : Fragment() {
                 commit()
             }
         }
-
+    }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        postViewModel.getAllPosts()
+        postViewModel.allPosts.observe(viewLifecycleOwner) { data ->
+            communityHomeAdapter.submitList(data)
+            allPosts = data
+        }
     }
 }

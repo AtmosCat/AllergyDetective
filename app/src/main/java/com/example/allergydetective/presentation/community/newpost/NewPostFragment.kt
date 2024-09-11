@@ -32,6 +32,8 @@ import com.example.allergydetective.databinding.FragmentNewPostBinding
 import com.example.allergydetective.databinding.FragmentPostDetailBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
+import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
+import com.example.allergydetective.presentation.community.community_home.PostListAdapter
 import com.example.allergydetective.presentation.community.postdetail.CommentsAdapter
 import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
 import com.example.allergydetective.presentation.community.postdetail.ReplyDetailFragment
@@ -64,6 +66,10 @@ class NewPostFragment : Fragment() {
     private lateinit var categoryButtonTextList : List<String>
 
     private var selectedCategory = ""
+
+    private lateinit var viewPager : ViewPager2
+
+    private lateinit var viewPagerAdapter : ViewPagerAdapter
 
 
     private var currentUser = User()
@@ -159,11 +165,12 @@ class NewPostFragment : Fragment() {
         binding.btnAddPhoto.setOnClickListener{
             Toast.makeText(this.requireContext(), "올리실 사진을 선택해주세요.", Toast.LENGTH_SHORT).show()
             pickImages()
+            binding.btnAddPhoto.visibility = View.GONE
         }
 
-        val viewPager = binding.viewPager
+        viewPager = binding.viewPager
 
-        val viewPagerAdapter = ViewPagerAdapter(imageResources)
+        viewPagerAdapter = ViewPagerAdapter(imageResources)
         viewPager.adapter = viewPagerAdapter
 
         binding.ivPoster.load(currentUser.photo)
@@ -175,9 +182,24 @@ class NewPostFragment : Fragment() {
             } else {
                 postViewModel.addPost(
                     selectedCategory,
+                    currentUser.photo,
+                    currentUser.nickname,
                     binding.etTitle.text.toString(),
                     binding.etDetail.text.toString(),
+                    imageResources
                 )
+                Toast.makeText(this.requireContext(), "게시글이 업로드되었습니다.", Toast.LENGTH_SHORT).show()
+                val communityHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("CommunityHomeFragment")
+                requireActivity().supportFragmentManager.beginTransaction().apply {
+                    hide(this@NewPostFragment)
+                    if (communityHomeFragment == null) {
+                        add(R.id.main_frame, CommunityHomeFragment(), "CommunityHomeFragment")
+                    } else if (communityHomeFragment != null && communityHomeFragment.isHidden){
+                        show(communityHomeFragment)
+                    }
+                    addToBackStack(null)
+                    commit()
+                }
             }
         }
     }
@@ -240,10 +262,17 @@ class NewPostFragment : Fragment() {
         for (uri in uris) {
             val bitmap = uriToBitmap(uri)
             bitmap?.let {
-                val imageUrl = uploadImageToFirebaseStorage(it)
-                imageResources.add(imageUrl.toString())
-                // Firebase Storage에서 반환된 다운로드URL을 FireStore에 저장
-                imageUrl?.let { url -> postViewModel.saveTemporaryImageUrl(url) }
+                uploadImageToFirebaseStorage(it) { imageUrl ->
+                    imageUrl?.let { url ->
+                        imageResources.add(url)
+                        postViewModel.saveTemporaryImageUrl(url)
+                        // 모든 이미지가 처리된 후에 ViewPager를 업데이트
+                        if (uris.indexOf(uri) == uris.size - 1) {
+                            viewPagerAdapter = ViewPagerAdapter(imageResources)
+                            viewPager.adapter = viewPagerAdapter
+                        }
+                    }
+                }
             }
         }
     }
@@ -257,24 +286,23 @@ class NewPostFragment : Fragment() {
         }
     }
     // Bitmap 파일을 Firebase Storage에 저장하고 다운로드 URL을 반환
-    private fun uploadImageToFirebaseStorage(bitmap: Bitmap): String? {
+    private fun uploadImageToFirebaseStorage(bitmap: Bitmap, callback: (String?) -> Unit){
         val storageRef = FirebaseStorage.getInstance().reference.child("images/${System.currentTimeMillis()}.png")
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
         val data = baos.toByteArray()
 
-        var downloadUrl: String? = null
-        val uploadTask = storageRef.putBytes(data)
-        uploadTask.addOnSuccessListener {
-            storageRef.downloadUrl.addOnSuccessListener { uri ->
-                downloadUrl = uri.toString()
+        storageRef.putBytes(data)
+            .addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    callback(uri.toString())
+                }.addOnFailureListener {
+                    callback(null)
+                }
             }
-        }.addOnFailureListener {
-            // Handle upload failure
-        }
-        return downloadUrl
+            .addOnFailureListener {
+                callback(null)
+            }
     }
-
-
 }
 

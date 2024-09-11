@@ -24,10 +24,12 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import org.w3c.dom.Comment
 import retrofit2.HttpException
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.util.Locale
 import java.util.UUID
 
 class PostViewModel (application: Application) : AndroidViewModel(application) {
@@ -55,32 +57,30 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
     private val _temporaryImageUrls = MutableLiveData<List<String>>()
     val temporaryImageUrls : LiveData<List<String>> get() = _temporaryImageUrls
 
+    init {
+        getAllPosts()
+    }
+
     fun getAllPosts() {
-        viewModelScope.launch {
-            runCatching {
-                db.collection("post")
-                    .get()
-                    .addOnSuccessListener { result ->
-                        if (!result.isEmpty) {
-                            val posts = mutableListOf<Post>()
-                            for (document in result) {
-                                val post =
-                                    document.toObject(Post::class.java).copy(id = document.id)
-                                posts.add(post)
-                            }
-                            _allPosts.postValue(posts)
-                        } else {
-                            // 예외처리
-                        }
+        db.collection("post")
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Log.e(TAG, "getAllPosts() failed! : ${exception.message}")
+                    handleException(exception)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null) {
+                    val posts = mutableListOf<Post>()
+                    for (document in snapshot.documents) {
+                        val post = document.toObject(Post::class.java)?.copy(id = document.id)
+                        post?.let { posts.add(it) }
                     }
-                    .addOnFailureListener { exception ->
-                        println("문서 가져오기 실패: $exception")
-                    }
-            }.onFailure {
-                Log.e(TAG, "getAllPosts() failed! : ${it.message}")
-                handleException(it)
+                    _allPosts.value = posts
+                    _filteredPosts.value = posts
+                } else {
+                    // 예외처리: 스냅샷이 null일 때 처리
+                }
             }
-        }
     }
 
     fun setSearchKeyword(keyword: String) {
@@ -120,34 +120,30 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
     fun getFilteredPosts() {
         viewModelScope.launch {
             runCatching {
-                val allData = allPosts.value
-                val categories = selectedCategories.value
+                val allData = allPosts.value ?: emptyList()
+                val categories = selectedCategories.value ?: emptyList()
                 val searchOption = selectedSearchOption.value
-                val searchKeyword = searchKeyword.value
+                val searchKeyword = searchKeyword.value?.lowercase(Locale.getDefault()) ?: ""
 
                 var filteredPosts = mutableListOf<Post>()
 
-                for (category in categories!!) {
+                for (category in categories) {
                     when (searchOption) {
                         "제목 검색" -> {
-                            filteredPosts += allData!!.filter { post ->
+                            filteredPosts += allData.filter { post ->
                                 post.category == category
-                                        && post.title.contains(searchKeyword.toString())
+                                        && post.title.lowercase(Locale.ROOT).contains(searchKeyword)
                             }
                         }
                         "제목+내용 검색" -> {
-                            filteredPosts += allData!!.filter { post ->
+                            filteredPosts += allData.filter { post ->
                                 post.category == category
-                                        && post.title.contains(searchKeyword.toString())
-                            }
-                            filteredPosts += allData!!.filter { post ->
-                                post.category == category
-                                        && post.detail.contains(searchKeyword.toString())
+                                        && (post.title.lowercase(Locale.ROOT).contains(searchKeyword)
+                                        || post.detail.lowercase(Locale.ROOT).contains(searchKeyword))
                             }
                         }
                     }
                 }
-
                 _filteredPosts.postValue(filteredPosts)
             }.onFailure {
                 Log.e(TAG, "getFilteredPosts() failed! : ${it.message}")
@@ -156,21 +152,27 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun addPost(category: String, title: String, detail: String) {
+
+    fun addPost(category: String, posterPhoto: String, posterName: String, title: String, detail: String, detailPhotos: List<String>) {
         viewModelScope.launch {
             runCatching {
+                val randomId = generateRandomUUID()
                 val newPost = Post(
-                    id = generateRandomUUID(),
+                    id = randomId,
                     category = category,
-                    posterPhoto = currentUser.value!!.photo,
-                    posterName = currentUser.value!!.nickname,
+                    posterPhoto = posterPhoto,
+                    posterName = posterName,
                     title = title,
                     detail = detail,
-                    detailPhoto = temporaryImageUrls.value!!
+                    detailPhoto = detailPhotos,
+                    comments = mutableListOf(),
+                    scrap = 0,
+                    report = false
                 )
                 db.collection("post")
                     .document(newPost.id)
                     .set(newPost)
+                    .await()
             }.onFailure {
                 Log.e(TAG, "addPost() failed! : ${it.message}")
                 handleException(it)
@@ -178,17 +180,44 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun addComment(clickedItemId: String, commentDetail: String) {
+//    fun addComment(clickedItemId: String, commenterPhoto: String, commenterName: String, commentDetail: String) {
+//        viewModelScope.launch {
+//            runCatching {
+//                val newComment = Comments(
+//                    id = generateRandomUUID(),
+//                    commenterPhoto = commenterPhoto,
+//                    commenterName = commenterName,
+//                    detail = commentDetail
+//                )
+//                db.collection("post")
+//                    .document(clickedItemId)
+//                    .update("comments", FieldValue.arrayUnion(newComment))
+//                    .addOnSuccessListener {
+//                        println("Post: ${clickedItemId}에 Comment 추가 성공")
+//                    }
+//                    .addOnFailureListener { exception ->
+//                        println("Post: ${clickedItemId}에 Comment 추가 실패 / $exception")
+//                    }
+//            }.onFailure {
+//                Log.e(TAG, "addComment() failed! : ${it.message}")
+//                handleException(it)
+//            }
+//        }
+//    }
+
+    fun addComment(clickedItemId: String, commenterPhoto: String, commenterName: String, commentDetail: String) {
         viewModelScope.launch {
             runCatching {
-                val newComment = Comments(
-                    id = generateRandomUUID(),
-                    commenterPhoto = currentUser.value!!.photo,
-                    commenterName = currentUser.value!!.nickname,
-                    detail = commentDetail
+                val newComment = mapOf(
+                    "id" to generateRandomUUID(),
+                    "commenterPhoto" to commenterPhoto,
+                    "commenterName" to commenterName,
+                    "detail" to commentDetail,
+                    "like" to 0,
+                    "reply" to emptyList<Map<String, Any>>(), // 빈 List로 초기화
+                    "report" to false
                 )
-                db.collection("post")
-                    .document(clickedItemId)
+                db.collection("post").document(clickedItemId)
                     .update("comments", FieldValue.arrayUnion(newComment))
                     .addOnSuccessListener {
                         println("Post: ${clickedItemId}에 Comment 추가 성공")
@@ -196,40 +225,44 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                     .addOnFailureListener { exception ->
                         println("Post: ${clickedItemId}에 Comment 추가 실패 / $exception")
                     }
-
             }.onFailure {
-                Log.e(TAG, "addUser() failed! : ${it.message}")
+                Log.e(TAG, "addComment() failed! : ${it.message}")
                 handleException(it)
             }
         }
     }
 
-    fun addReply(clickedItemId: String, clickedCommentId: String, replyDetail: String) {
+    fun addReply(clickedItemId: String, clickedCommentId: String, replierPhoto: String, replierName: String, replyDetail: String) {
         viewModelScope.launch {
             runCatching {
-                val newReply = Reply(
-                    id = generateRandomUUID(),
-                    replierPhoto = currentUser.value!!.photo,
-                    replierName = currentUser.value!!.nickname,
-                    detail = replyDetail
+                val newReply = mapOf(
+                    "id" to generateRandomUUID(),
+                    "replierPhoto" to replierPhoto,
+                    "replierName" to replierName,
+                    "detail" to replyDetail,
+                    "like" to 0,
+                    "report" to false
                 )
-                val updateMap = hashMapOf<String, Any>(
-                    "comments" to hashMapOf(
-                        clickedCommentId to hashMapOf(
-                            "reply" to FieldValue.arrayUnion(newReply)
-                        )
-                    )
-                )
-                db.collection("post")
-                    .document(clickedItemId)
-                    .update(updateMap)
-                    .addOnSuccessListener {
-                        println("Comment: ${clickedCommentId}에 Comment 추가 성공")
-                    }
-                    .addOnFailureListener { exception ->
-                        println("Comment: ${clickedCommentId}에 Comment 추가 실패 / $exception")
-                    }
+                val postRef = db.collection("post").document(clickedItemId)
+                // Firestore 트랜잭션을 사용하여 동시에 여러 필드를 안전하게 업데이트
+                db.runTransaction { transaction ->
+                    val postSnapshot = transaction.get(postRef)
+                    val comments = postSnapshot.get("comments") as? List<Map<String, Any>> ?: emptyList()
+                    val commentIndex = comments.indexOfFirst { it["id"] == clickedCommentId }
 
+                    if (commentIndex != -1) {
+                        val comment = comments[commentIndex]
+                        val replies = comment["reply"] as? List<Map<String, Any>> ?: emptyList()
+                        val updatedReplies = replies + newReply
+                        transaction.update(postRef, "comments.$commentIndex.reply", updatedReplies)
+                    } else {
+                        throw IllegalArgumentException("Comment with id $clickedCommentId not found.")
+                    }
+                }.addOnSuccessListener {
+                    println("Reply added successfully")
+                }.addOnFailureListener { exception ->
+                    println("Failed to add reply: $exception")
+                }
             }.onFailure {
                 Log.e(TAG, "addReply() failed! : ${it.message}")
                 handleException(it)
@@ -327,7 +360,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun generateRandomUUID(): String {
+    private fun generateRandomUUID(): String {
         return UUID.randomUUID().toString()
     }
 }

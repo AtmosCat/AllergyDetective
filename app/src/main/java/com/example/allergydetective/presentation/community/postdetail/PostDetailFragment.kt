@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
@@ -78,7 +79,12 @@ class PostDetailFragment : Fragment() {
 
         currentUser = userViewModel.currentUser.value!!
 
+        binding.btnBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
         val clickedItemId = param1
+        val clickedItem2 = postViewModel.filteredPosts.value!!.find { it.id == clickedItemId }
         postViewModel.filteredPosts.observe(viewLifecycleOwner) { filteredPosts ->
             clickedItem = filteredPosts.find { it.id == clickedItemId }!!
 
@@ -93,6 +99,10 @@ class PostDetailFragment : Fragment() {
             binding.tvCategory.text = "주제: ${clickedItem.category}"
 
             val viewPager = binding.viewPager
+
+            if (clickedItem.detailPhoto.isEmpty()) {
+                viewPager.visibility = View.GONE
+            }
 
             val imageResources = clickedItem.detailPhoto
             val viewPagerAdapter = ViewPagerAdapter(imageResources)
@@ -130,28 +140,34 @@ class PostDetailFragment : Fragment() {
 
             commentsAdapter.submitList(clickedItem.comments)
 
-            val replyDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ReplyDetailFragment")
-            commentsAdapter.itemClick = object : CommentsAdapter.ItemClick {
-                override fun onClick(view: View, position: Int) {
-                    clickedComment = clickedItem.comments[position]
-                    val dataToSend1 = clickedItemId!!
-                    val dataToSend2 = clickedComment.id
-                    val replyDetail = ReplyDetailFragment.newInstance(dataToSend1, dataToSend2)
-                    requireActivity().supportFragmentManager.beginTransaction().apply {
-                        hide(this@PostDetailFragment)
-                        if (replyDetailFragment == null) {
-                            add(R.id.main_frame, replyDetail, "ReplyDetailFragment")
-                        } else {
-                            show(replyDetail)
-                        }
-                        addToBackStack(null)
-                        commit()
-                    }
-                }
-            }
+//            val replyDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ReplyDetailFragment")
+//            commentsAdapter.itemClick = object : CommentsAdapter.ItemClick {
+//                override fun onClick(view: View, position: Int) {
+//                    clickedComment = clickedItem.comments[position]
+//                    val dataToSend1 = clickedItemId!!
+//                    val dataToSend2 = clickedComment.id
+//                    val replyDetail = ReplyDetailFragment.newInstance(dataToSend1, dataToSend2)
+//                    requireActivity().supportFragmentManager.beginTransaction().apply {
+//                        hide(this@PostDetailFragment)
+//                        if (replyDetailFragment == null) {
+//                            add(R.id.main_frame, replyDetail, "ReplyDetailFragment")
+//                        } else {
+//                            show(replyDetail)
+//                        }
+//                        addToBackStack(null)
+//                        commit()
+//                    }
+//                }
+//            }
 
             binding.btnAddComment.setOnClickListener{
-                postViewModel.addComment(clickedItemId!!, binding.etAddComment.text.toString())
+                postViewModel.addComment(
+                    clickedItemId!!,
+                    currentUser.photo,
+                    currentUser.nickname,
+                    binding.etAddComment.text.toString())
+                Toast.makeText(this.requireContext(), "댓글이 등록되었습니다.", Toast.LENGTH_SHORT).show()
+                binding.etAddComment.setText("")
             }
 
 

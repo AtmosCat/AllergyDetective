@@ -62,4 +62,7 @@ class CommentsAdapter :
             detail.text = item.detail
         }
     }
+    fun updateData(newItems: List<Comments>) {
+        submitList(newItems)
+    }
 }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.Comments
 import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.databinding.RecyclerviewPostListBinding
@@ -59,13 +60,21 @@ class CommunityHomeAdapter :
         val comment = binding.tvComment
 
         fun bind(item: Post) {
-            photo.load(item.posterPhoto)
+            if (item.detailPhoto.isEmpty()) {
+                photo.setImageResource(R.drawable.gallery2)
+            } else {
+                photo.load(item.detailPhoto[0])
+            }
             category.text = item.category
             title.text = item.title
             detail.text = item.detail
             scrap.text = item.scrap.toString()
             comment.text = item.comments.size.toString()
         }
+
+    }
+    fun updateData(newItems: List<Post>) {
+        submitList(newItems)
     }
 }
 //
