@@ -16,6 +16,7 @@ import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.model.user.GroupMember
+import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.presentation.base.UiState
@@ -60,6 +61,25 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
                     .document(user.email)
                     .set(user)
 
+            }.onFailure {
+                Log.e(TAG, "addUser() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
+
+    fun addMyPost(email: String, post: Post) {
+        viewModelScope.launch {
+            runCatching {
+                db.collection("user")
+                    .document(email)
+                    .update("mypost", FieldValue.arrayUnion(post))
+                    .addOnSuccessListener {
+                        println("CurrentUser의 MyPost에 ${post.id} 추가 성공")
+                    }
+                    .addOnFailureListener { exception ->
+                        println("CurrentUser의 MyPost에 ${post.id} 추가 실패 / $exception")
+                    }
             }.onFailure {
                 Log.e(TAG, "addUser() failed! : ${it.message}")
                 handleException(it)

@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.allergydetective.R
 import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.model.user.Post
+import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.databinding.RecyclerviewPostListBinding
 
 class PostListAdapter :
@@ -54,15 +56,19 @@ class PostListAdapter :
         val category = binding.tvCategory
         val title = binding.tvTitle
         val detail = binding.tvDetail
-        val like = binding.tvScrap
+        val scrap = binding.tvScrap
         val comment = binding.tvComment
 
         fun bind(item: Post) {
-            photo.load(item.posterPhoto)
+            if (item.detailPhoto.isNotEmpty()) {
+                photo.load(item.detailPhoto[0])
+            } else {
+                photo.load(R.drawable.gallery2)
+            }
             category.text = item.category
             title.text = item.title
             detail.text = item.detail
-            like.text = item.scrap.toString()
+            scrap.text = item.scrap.toString()
             comment.text = item.comments.size.toString()
         }
     }

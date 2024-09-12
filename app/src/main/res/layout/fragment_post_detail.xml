@@ -52,17 +52,17 @@
                 app:layout_constraintTop_toTopOf="@+id/btn_back" />
 
             <ImageView
-                android:id="@+id/btn_report"
+                android:id="@+id/btn_menu"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintWidth_percent="0.08"
-                android:src="@drawable/siren"
+                android:src="@drawable/menu"
                 android:layout_marginEnd="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tv_category"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_category"
-                />
+                app:tint="@color/main_color_light_gray" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
@@ -74,6 +74,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_back" />
+
+            <TextView
+                android:id="@+id/tv_no_photos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="등록된 사진이 없습니다."
+                android:visibility="gone"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+                app:layout_constraintEnd_toEndOf="@+id/viewPager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/viewPager" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardview_frame"
@@ -100,6 +112,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:elevation="4dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/cat"
                         />

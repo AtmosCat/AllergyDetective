@@ -180,14 +180,16 @@ class NewPostFragment : Fragment() {
             if (selectedCategory.isEmpty()) {
                 Toast.makeText(this.requireContext(), "카테고리를 1가지 지정해주세요.", Toast.LENGTH_SHORT).show()
             } else {
-                postViewModel.addPost(
-                    selectedCategory,
-                    currentUser.photo,
-                    currentUser.nickname,
-                    binding.etTitle.text.toString(),
-                    binding.etDetail.text.toString(),
-                    imageResources
+                var newPost = Post(
+                    category = selectedCategory,
+                    posterPhoto = currentUser.photo,
+                    posterName =  currentUser.nickname,
+                    title = binding.etTitle.text.toString(),
+                    detail = binding.etDetail.text.toString(),
+                    detailPhoto = imageResources
                 )
+                postViewModel.addPost(newPost)
+                userViewModel.addMyPost(currentUser.email, newPost)
                 Toast.makeText(this.requireContext(), "게시글이 업로드되었습니다.", Toast.LENGTH_SHORT).show()
                 val communityHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("CommunityHomeFragment")
                 requireActivity().supportFragmentManager.beginTransaction().apply {

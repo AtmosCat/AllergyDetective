@@ -22,6 +22,7 @@ import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.newpost.NewPostFragment
 import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
+import com.example.allergydetective.presentation.community.postlist.PostListFragment
 import com.example.allergydetective.presentation.filter.PostFilterFragment
 import com.example.allergydetective.presentation.home.HomeFragment
 import com.example.allergydetective.presentation.home.MyPageFragment
@@ -65,7 +66,7 @@ class CommunityHomeFragment : Fragment() {
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
         postViewModel.getAllPosts()
-        postViewModel.allPosts.observe(viewLifecycleOwner) { data ->
+        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
             communityHomeAdapter.submitList(data)
             allPosts = data
         }
@@ -204,7 +205,7 @@ class CommunityHomeFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         postViewModel.getAllPosts()
-        postViewModel.allPosts.observe(viewLifecycleOwner) { data ->
+        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
             communityHomeAdapter.submitList(data)
             allPosts = data
         }

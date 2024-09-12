@@ -191,7 +191,6 @@ class PostFilterFragment : Fragment() {
             selectedSearchOption = ""
         }
 
-        // 알러지 버튼 ClickListener
         for (checkbox in optionCheckboxList) {
             optionCheckboxClicker(checkbox)
         }

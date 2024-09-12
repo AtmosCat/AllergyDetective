@@ -54,7 +54,6 @@ class CommentsAdapter :
         val photo = binding.ivCommenter
         val name = binding.tvCommenter
         val detail = binding.tvCommentDetail
-        val replyButton = binding.btnReplyComment
 
         fun bind(item: Comments) {
             photo.load(item.commenterPhoto)

@@ -32,7 +32,7 @@ data class User(val email: String = "",
                 val pw: String = "",
                 var name: String = "",
                 val contact: String = "",
-                var nickname: String = "",
+                var nickname: String = "익명",
                 var allergy: MutableList<String> = mutableListOf(),
                 var group: MutableList<GroupMember> = mutableListOf(
                     GroupMember("", mutableListOf()),

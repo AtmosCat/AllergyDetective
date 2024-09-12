@@ -10,20 +10,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import coil.load
-import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.Comments
 import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.User
-import com.example.allergydetective.databinding.FragmentPostDetailBinding
 import com.example.allergydetective.databinding.FragmentReplyDetailBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
-import com.example.allergydetective.presentation.community.community_home.CommunityHomeAdapter
 import com.example.allergydetective.presentation.community.postdetail.reply.RepliesAdapter
-import com.example.allergydetective.presentation.itemdetail.ViewPagerAdapter
-import org.w3c.dom.Comment
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"

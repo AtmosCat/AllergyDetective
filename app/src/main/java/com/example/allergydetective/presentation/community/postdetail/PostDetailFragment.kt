@@ -1,21 +1,25 @@
 package com.example.allergydetective.presentation.community.postdetail
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.Comments
 import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.User
+import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.databinding.FragmentPostDetailBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
@@ -92,23 +96,69 @@ class PostDetailFragment : Fragment() {
                 requireActivity().supportFragmentManager.popBackStack()
             }
 
-            binding.btnReport.setOnClickListener{
-                // 신고
+            binding.tvCategory.text = "주제: ${clickedItem.category}"
+
+            val reportDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_report_post, null)
+            val etReportReason = reportDialogView.findViewById<EditText>(R.id.et_report_post_reason)
+            val etReportDetail = reportDialogView.findViewById<EditText>(R.id.et_report_post_detail)
+
+            if (clickedItem !in currentUser.mypost) {
+                binding.btnMenu.setOnClickListener{ view ->
+                    val popupMenu = PopupMenu(requireContext(), view)
+                    popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+
+                    popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+                        when (item.itemId) {
+                            R.id.action_report -> {
+                                AlertDialog.Builder(requireContext())
+//                                    .setTitle("게시글 신고하기")
+//                                    .setMessage("항목을 선택해주세요.")
+                                    .setView(reportDialogView)
+                                    .setPositiveButton("제출") { dialog, _ ->
+                                        val userReportReason = etReportReason.text.toString()
+                                        val userReportDetail = etReportDetail.text.toString()
+                                        // 해당 게시글 report = true 처리
+                                        // report 데이터클래스 따로 관리?
+                                        dialog.dismiss()
+                                    }
+                                    .setNegativeButton("취소") { dialog, which ->
+                                        dialog.dismiss()
+                                    }
+                                    .show()
+                                true
+                            }
+                            else -> {
+                                false
+                            }
+                        }
+                    }
+                }
             }
 
-            binding.tvCategory.text = "주제: ${clickedItem.category}"
 
             val viewPager = binding.viewPager
 
-            if (clickedItem.detailPhoto.isEmpty()) {
-                viewPager.visibility = View.GONE
+            val imageResources = clickedItem.detailPhoto
+            if (imageResources.isEmpty()) {
+                binding.tvNoPhotos.visibility = View.VISIBLE
             }
 
-            val imageResources = clickedItem.detailPhoto
             val viewPagerAdapter = ViewPagerAdapter(imageResources)
             viewPager.adapter = viewPagerAdapter
 
-            binding.ivPoster.load(clickedItem.posterPhoto)
+            if (clickedItem.posterPhoto.isEmpty()) {
+                binding.ivPoster.setImageBitmap(sampleBitmap)
+            } else {
+                postViewModel.getPosterPhotoUrl(
+                    clickedItemId = clickedItemId!!,
+                    onSuccess = { downloadUrl ->
+                        binding.ivPoster.load(downloadUrl)
+                    },
+                    onFailure = { exception ->
+                        binding.ivPoster.setImageBitmap(sampleBitmap)
+                    })
+            }
+
             binding.tvPoster.text = clickedItem.posterName
             binding.tvTitle.text = clickedItem.title
             binding.tvDetail.text = clickedItem.detail
@@ -128,37 +178,41 @@ class PostDetailFragment : Fragment() {
                 if (!isScrapped) {
                     isScrapped = true
                     binding.ivScrap.setImageResource(R.drawable.scrap_filled)
+                    clickedItem.scrap += 1
                     userViewModel.currentUser.value?.scrap!!.add(clickedItem)
                     userViewModel.updateCurrentUserInfo()
+                    postViewModel.updateCurrentPostInfo(clickedItem)
                 } else {
                     isScrapped = false
                     binding.ivScrap.setImageResource(R.drawable.scrap)
+                    clickedItem.scrap -= 1
                     userViewModel.currentUser.value?.scrap!!.remove(clickedItem)
                     userViewModel.updateCurrentUserInfo()
+                    postViewModel.updateCurrentPostInfo(clickedItem)
                 }
             }
 
             commentsAdapter.submitList(clickedItem.comments)
 
-//            val replyDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ReplyDetailFragment")
-//            commentsAdapter.itemClick = object : CommentsAdapter.ItemClick {
-//                override fun onClick(view: View, position: Int) {
-//                    clickedComment = clickedItem.comments[position]
-//                    val dataToSend1 = clickedItemId!!
-//                    val dataToSend2 = clickedComment.id
-//                    val replyDetail = ReplyDetailFragment.newInstance(dataToSend1, dataToSend2)
-//                    requireActivity().supportFragmentManager.beginTransaction().apply {
-//                        hide(this@PostDetailFragment)
-//                        if (replyDetailFragment == null) {
-//                            add(R.id.main_frame, replyDetail, "ReplyDetailFragment")
-//                        } else {
-//                            show(replyDetail)
-//                        }
-//                        addToBackStack(null)
-//                        commit()
-//                    }
-//                }
-//            }
+            val replyDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ReplyDetailFragment")
+            commentsAdapter.itemClick = object : CommentsAdapter.ItemClick {
+                override fun onClick(view: View, position: Int) {
+                    clickedComment = clickedItem.comments[position]
+                    val dataToSend1 = clickedItemId!!
+                    val dataToSend2 = clickedComment.id
+                    val replyDetail = ReplyDetailFragment.newInstance(dataToSend1, dataToSend2)
+                    requireActivity().supportFragmentManager.beginTransaction().apply {
+                        hide(this@PostDetailFragment)
+                        if (replyDetailFragment == null) {
+                            add(R.id.main_frame, replyDetail, "ReplyDetailFragment")
+                        } else {
+                            show(replyDetail)
+                        }
+                        addToBackStack(null)
+                        commit()
+                    }
+                }
+            }
 
             binding.btnAddComment.setOnClickListener{
                 postViewModel.addComment(

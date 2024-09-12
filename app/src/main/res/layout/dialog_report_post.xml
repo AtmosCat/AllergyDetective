@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:background="#DADADA"
+    android:padding="20dp"
+    >
+
+    <TextView
+        android:id="@+id/tv_report_post_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanum_square_extrabold"
+        android:text="신고하기"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_report_post_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/nanum_square_extrabold"
+        android:text="신고 사유"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_report_post_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_report_post_title" />
+
+    <EditText
+        android:id="@+id/et_report_post_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:hint="신고 사유를 적어주세요."
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_report_post_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_report_post_reason"
+        />
+
+    <TextView
+        android:id="@+id/tv_report_post_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/nanum_square_extrabold"
+        android:text="신고 내용"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_report_post_title"
+        app:layout_constraintTop_toBottomOf="@+id/et_report_post_reason" />
+
+    <EditText
+        android:id="@+id/et_report_post_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:hint="신고 내용을 적어주세요."
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_report_post_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_report_post_detail"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

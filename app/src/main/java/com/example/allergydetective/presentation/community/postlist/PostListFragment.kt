@@ -1,4 +1,4 @@
-package com.example.allergydetective.presentation.community.community_home
+package com.example.allergydetective.presentation.community.postlist
 
 import android.os.Bundle
 import android.os.Handler
@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -20,6 +22,7 @@ import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.databinding.FragmentPostListBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
+import com.example.allergydetective.presentation.community.community_home.PostListAdapter
 import com.example.allergydetective.presentation.community.newpost.NewPostFragment
 import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
 import com.example.allergydetective.presentation.filter.PostFilterFragment
@@ -42,7 +45,9 @@ class PostListFragment : Fragment() {
 
     private val postListAdapter by lazy { PostListAdapter() }
 
-    private var allPosts = listOf<Post>()
+    private var filteredItems = listOf<Post>()
+
+    private var sortedList = listOf<Post>()
 
     private var clickedPost = Post()
 
@@ -67,6 +72,11 @@ class PostListFragment : Fragment() {
         postViewModel.getFilteredPosts()
         postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
             postListAdapter.submitList(data)
+            filteredItems = data
+        }
+
+        binding.btnBack.setOnClickListener{
+            requireActivity().supportFragmentManager.popBackStack()
         }
 
         binding.btnSearch.setOnClickListener() {
@@ -75,6 +85,7 @@ class PostListFragment : Fragment() {
             binding.btnSpinner.setSelection(0)
             postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
                 postListAdapter.updateData(data)
+                filteredItems = data
             }
         }
 
@@ -99,10 +110,40 @@ class PostListFragment : Fragment() {
             }
         }
 
+        val spinnerItems = listOf("최신순 ▼", "가나다순 ▼", "인기순 ▼", "댓글순 ▼")
+        val spinnerAdapter =
+            ArrayAdapter(requireContext(), R.layout.spinner_layout_custom, spinnerItems)
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_list_layout_custom)
+        binding.btnSpinner.adapter = spinnerAdapter
+
+        binding.btnSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                sortedList = when (position) {
+//                    0 -> filteredItems.sortedBy { it.timestamp.toString() }
+                    1 -> filteredItems.sortedBy { it.title }
+                    2 -> filteredItems.sortedBy { it.scrap }
+                    3 -> filteredItems.sortedBy { it.comments.size }
+                    else -> filteredItems
+                }
+                binding.recyclerview.scrollToPosition(0)
+                postListAdapter.updateData(sortedList!!)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                sortedList = filteredItems
+                postListAdapter.updateData(sortedList!!)
+            }
+        }
+
+
         val postDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("PostDetailFragment")
         postListAdapter.itemClick = object : PostListAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                clickedPost = allPosts[position]
+                clickedPost = filteredItems[position]
                 val dataToSend = clickedPost.id
                 val postDetail = PostDetailFragment.newInstance(dataToSend)
                 requireActivity().supportFragmentManager.beginTransaction().apply {
