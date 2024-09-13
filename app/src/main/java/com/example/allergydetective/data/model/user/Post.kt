@@ -7,31 +7,34 @@ import java.util.UUID
 data class Post(
     val id: String = UUID.randomUUID().toString(),
     val category: String = "",
+    val posterEmail: String = "",
     val posterPhoto: String = "",
-    val posterName: String = "",
+    val posterNickname: String = "",
     val title: String = "",
     val detail: String = "",
-    val detailPhoto: List<String> =mutableListOf(),
+    val detailPhoto: MutableList<String> = mutableListOf(),
     val comments: List<Comments> = mutableListOf(),
     var scrap: Int = 0,
     val report: Boolean = false,
-    val timestamp: Any? = null)
+    val timestamp: Any? = FieldValue.serverTimestamp())
 
 data class Comments(
     val id: String = UUID.randomUUID().toString(),
+    val commenterEmail: String = "",
     val commenterPhoto: String = "",
-    val commenterName: String = "",
+    val commenterNickname: String = "",
     val detail: String = "",
     val like: Int = 0,
     val reply: List<Reply> = mutableListOf(),
     val report: Boolean = false,
-    val timestamp: Any? = null)
+    val timestamp: Any? = FieldValue.serverTimestamp())
 
 data class Reply(
     val id: String = UUID.randomUUID().toString(),
+    val replierEmail: String = "",
     val replierPhoto: String = "",
-    val replierName: String = "",
+    val replierNickname: String = "",
     val detail: String = "",
     val like: Int = 0,
     val report: Boolean = false,
-    val timestamp: Any? = null)
+    val timestamp: Any? = FieldValue.serverTimestamp())

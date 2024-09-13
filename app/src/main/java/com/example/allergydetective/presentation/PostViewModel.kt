@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.allergydetective.data.model.user.Comments
 import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.Reply
+import com.example.allergydetective.data.model.user.Report
 import com.example.allergydetective.data.model.user.User
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -183,15 +184,9 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun addComment(clickedItemId: String, commenterPhoto: String, commenterName: String, commentDetail: String) {
+    fun addComment(clickedItemId: String, newComment: Comments) {
         viewModelScope.launch {
             runCatching {
-                val newComment = Comments(
-                    id = generateRandomUUID(),
-                    commenterPhoto = commenterPhoto,
-                    commenterName = commenterName,
-                    detail = commentDetail
-                )
                 db.collection("post")
                     .document(clickedItemId)
                     .update("comments", FieldValue.arrayUnion(newComment))
@@ -208,44 +203,28 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-//    fun addComment(clickedItemId: String, commenterPhoto: String, commenterName: String, commentDetail: String) {
-//        viewModelScope.launch {
-//            runCatching {
-//                val newComment = mapOf(
-//                    "id" to generateRandomUUID(),
-//                    "commenterPhoto" to commenterPhoto,
-//                    "commenterName" to commenterName,
-//                    "detail" to commentDetail,
-//                    "like" to 0,
-//                    "reply" to emptyList<Map<String, Any>>(), // 빈 List로 초기화
-//                    "report" to false
-//                )
-//                db.collection("post").document(clickedItemId)
-//                    .update("comments", FieldValue.arrayUnion(newComment))
-//                    .addOnSuccessListener {
-//                        println("Post: ${clickedItemId}에 Comment 추가 성공")
-//                    }
-//                    .addOnFailureListener { exception ->
-//                        println("Post: ${clickedItemId}에 Comment 추가 실패 / $exception")
-//                    }
-//            }.onFailure {
-//                Log.e(TAG, "addComment() failed! : ${it.message}")
-//                handleException(it)
-//            }
-//        }
-//    }
-
-    fun addReply(clickedItemId: String, clickedCommentId: String, replierPhoto: String, replierName: String, replyDetail: String) {
+    fun sendReport(newReport: Report) {
         viewModelScope.launch {
             runCatching {
-                val newReply = Reply(
-                    id = generateRandomUUID(),
-                    replierPhoto = replierPhoto,
-                    replierName = replierName,
-                    detail = replyDetail,
-                    like = 0,
-                    report = false
-                )
+                db.collection("report")
+                    .document(generateRandomUUID())
+                    .set(newReport)
+                    .addOnSuccessListener {
+                        println("Report: ${newReport.id}에 Report 추가 성공")
+                    }
+                    .addOnFailureListener { exception ->
+                        println("Report: ${newReport.id}에 Report 추가 실패 / $exception")
+                    }
+            }.onFailure {
+                Log.e(TAG, "sendReport() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
+
+    fun addReply(clickedItemId: String, clickedCommentId: String, newReply: Reply) {
+        viewModelScope.launch {
+            runCatching {
                 val postRef = db.collection("post").document(clickedItemId)
                 // Firestore 트랜잭션을 사용하여 동시에 여러 필드를 안전하게 업데이트
                 db.runTransaction { transaction ->
@@ -270,7 +249,24 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                 Log.e(TAG, "addReply() failed! : ${it.message}")
                 handleException(it)
             }
+        }
+    }
 
+    fun deletePost(clickedItemId: String) {
+        viewModelScope.launch {
+            runCatching {
+                db.collection("post")
+                    .document(clickedItemId)
+                    .delete()
+                .addOnSuccessListener {
+                    println("Post ${clickedItemId} deleted successfully")
+                }.addOnFailureListener { exception ->
+                    println("Failed to delete post : $exception")
+                }
+            }.onFailure {
+                Log.e(TAG, "deletePost() failed! : ${it.message}")
+                handleException(it)
+            }
         }
     }
 

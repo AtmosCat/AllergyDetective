@@ -13,11 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.allergydetective.data.model.user.Comments
 import com.example.allergydetective.data.model.user.Post
+import com.example.allergydetective.data.model.user.Reply
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.databinding.FragmentReplyDetailBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.postdetail.reply.RepliesAdapter
+import com.google.firebase.firestore.FieldValue
+import java.util.UUID
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -91,18 +94,21 @@ class ReplyDetailFragment : Fragment() {
             }
 
             binding.ivCommenter.load(clickedComment.commenterPhoto)
-            binding.tvCommenter.text = clickedComment.commenterName
+            binding.tvCommenter.text = clickedComment.commenterNickname
             binding.tvCommentDetail.text = clickedItem.detail
 
             repliesAdapter.submitList(clickedComment.reply)
-
             binding.btnAddReply.setOnClickListener{
+                var newReply = Reply(
+                    replierEmail = currentUser.email,
+                    replierPhoto = currentUser.photo,
+                    replierNickname = currentUser.nickname,
+                    detail = binding.etAddReply.text.toString()
+                )
                 postViewModel.addReply(
                     clickedItemId!!,
                     clickedCommentId!!,
-                    currentUser.photo,
-                    currentUser.nickname,
-                    binding.etAddReply.text.toString())
+                    newReply)
                 Toast.makeText(this.requireContext(), "답글이 등록되었습니다.", Toast.LENGTH_SHORT).show()
                 binding.etAddReply.setText("")
             }

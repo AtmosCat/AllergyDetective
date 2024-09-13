@@ -57,7 +57,7 @@ class RepliesAdapter :
 
         fun bind(item: Reply) {
             photo.load(item.replierPhoto)
-            name.text = item.replierName
+            name.text = item.replierNickname
             detail.text = item.detail
         }
     }

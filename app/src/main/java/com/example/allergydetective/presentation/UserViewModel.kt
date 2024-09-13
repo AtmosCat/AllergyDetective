@@ -70,10 +70,12 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
 
     fun addMyPost(email: String, post: Post) {
         viewModelScope.launch {
+            val postWithoutTimeStamp = post.copy(timestamp = null)
+
             runCatching {
                 db.collection("user")
                     .document(email)
-                    .update("mypost", FieldValue.arrayUnion(post))
+                    .update("mypost", FieldValue.arrayUnion(postWithoutTimeStamp))
                     .addOnSuccessListener {
                         println("CurrentUser의 MyPost에 ${post.id} 추가 성공")
                     }
@@ -81,7 +83,7 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
                         println("CurrentUser의 MyPost에 ${post.id} 추가 실패 / $exception")
                     }
             }.onFailure {
-                Log.e(TAG, "addUser() failed! : ${it.message}")
+                Log.e(TAG, "addMyPost() failed! : ${it.message}")
                 handleException(it)
             }
         }

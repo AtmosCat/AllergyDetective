@@ -1,10 +1,13 @@
 package com.example.allergydetective.data.model.user
 
+import java.util.UUID
+
 data class Report(
+    val id: String = UUID.randomUUID().toString(),
     val type: String = "",  // Post, Comment, Reply
-    val id: String = "", // 게시대상 정보
-    val reporter: String = "", // 이메일계정
-    val reportee: String = "", // 이메일계정
+    val postId: String = "", // 게시대상 정보
+    val reporterEmail: String = "", // 이메일계정
+    val reporteeEmail: String = "", // 이메일계정
     val reportReason: String = "",
     val reportDetail: String = "",
     val timestamp: Any? = null // 제출시각

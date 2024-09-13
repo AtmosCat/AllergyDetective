@@ -57,7 +57,7 @@ class CommentsAdapter :
 
         fun bind(item: Comments) {
             photo.load(item.commenterPhoto)
-            name.text = item.commenterName
+            name.text = item.commenterNickname
             detail.text = item.detail
         }
     }

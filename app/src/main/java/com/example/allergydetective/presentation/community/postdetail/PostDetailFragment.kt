@@ -18,13 +18,18 @@ import coil.load
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.Comments
 import com.example.allergydetective.data.model.user.Post
+import com.example.allergydetective.data.model.user.Reply
+import com.example.allergydetective.data.model.user.Report
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.databinding.FragmentPostDetailBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
+import com.example.allergydetective.presentation.community.editpost.EditPostFragment
 import com.example.allergydetective.presentation.community.postdetail.reply.RepliesAdapter
 import com.example.allergydetective.presentation.itemdetail.ViewPagerAdapter
+import com.google.firebase.firestore.FieldValue
+import java.util.UUID
 
 private const val ARG_PARAM1 = "param1"
 class PostDetailFragment : Fragment() {
@@ -102,23 +107,80 @@ class PostDetailFragment : Fragment() {
             val etReportReason = reportDialogView.findViewById<EditText>(R.id.et_report_post_reason)
             val etReportDetail = reportDialogView.findViewById<EditText>(R.id.et_report_post_detail)
 
-            if (clickedItem !in currentUser.mypost) {
-                binding.btnMenu.setOnClickListener{ view ->
-                    val popupMenu = PopupMenu(requireContext(), view)
-                    popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+            if (clickedItem.posterEmail != currentUser.email) {
+                for (mypost in currentUser.mypost) {
+                    binding.btnMenu.setOnClickListener { view ->
+                        val popupMenu = PopupMenu(requireContext(), view)
+                        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+                        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+                            when (item.itemId) {
+                                R.id.action_report -> {
+                                    AlertDialog.Builder(requireContext())
+                                        .setView(reportDialogView)
+                                        .setPositiveButton("제출") { dialog, _ ->
+                                            val userReportReason = etReportReason.text.toString()
+                                            val userReportDetail = etReportDetail.text.toString()
+                                            val newReport = Report(
+                                                type = "Post",
+                                                postId = clickedItem.id,
+                                                reporterEmail = currentUser.email,
+                                                reporteeEmail = clickedItem.posterEmail,
+                                                reportReason = userReportReason,
+                                                reportDetail = userReportDetail
+                                            )
+                                            postViewModel.sendReport(newReport)
+                                            Toast.makeText(
+                                                this.requireContext(),
+                                                "신고가 접수되었습니다.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            dialog.dismiss()
+                                        }
+                                        .setNegativeButton("취소") { dialog, which ->
+                                            dialog.dismiss()
+                                        }
+                                        .show()
+                                    true
+                                }
 
+                                else -> {
+                                    false
+                                }
+                            }
+                        }
+                        popupMenu.show()
+                    }
+                }
+            } else {
+                binding.btnMenu.setOnClickListener { view ->
+                    val popupMenu = PopupMenu(requireContext(), view)
+                    popupMenu.menuInflater.inflate(R.menu.popup_menu_mine, popupMenu.menu)
                     popupMenu.setOnMenuItemClickListener { item: MenuItem ->
                         when (item.itemId) {
-                            R.id.action_report -> {
+                            R.id.action_edit -> {
+                                val editPostFragment = requireActivity().supportFragmentManager.findFragmentByTag("EditPostFragment")
+                                val dataToSend = clickedItem.id
+                                val editPost = EditPostFragment.newInstance(dataToSend)
+                                requireActivity().supportFragmentManager.beginTransaction().apply {
+                                    hide(this@PostDetailFragment)
+                                    if (editPostFragment == null) {
+                                        add(R.id.main_frame, editPost, "EditPostFragment")
+                                    } else {
+                                        show(editPost)
+                                    }
+                                    addToBackStack(null)
+                                    commit()
+                                }
+                                true
+                            }
+                            R.id.action_delete -> {
                                 AlertDialog.Builder(requireContext())
-//                                    .setTitle("게시글 신고하기")
-//                                    .setMessage("항목을 선택해주세요.")
-                                    .setView(reportDialogView)
-                                    .setPositiveButton("제출") { dialog, _ ->
-                                        val userReportReason = etReportReason.text.toString()
-                                        val userReportDetail = etReportDetail.text.toString()
-                                        // 해당 게시글 report = true 처리
-                                        // report 데이터클래스 따로 관리?
+                                    .setTitle("게시글 삭제하기")
+                                    .setMessage("게시글을 삭제하시겠습니까?")
+                                    .setPositiveButton("삭제") { dialog, _ ->
+                                        postViewModel.deletePost(clickedItem.id)
+                                        requireActivity().supportFragmentManager.popBackStack()
+                                        Toast.makeText(this.requireContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show()
                                         dialog.dismiss()
                                     }
                                     .setNegativeButton("취소") { dialog, which ->
@@ -132,6 +194,7 @@ class PostDetailFragment : Fragment() {
                             }
                         }
                     }
+                    popupMenu.show()
                 }
             }
 
@@ -152,14 +215,21 @@ class PostDetailFragment : Fragment() {
                 postViewModel.getPosterPhotoUrl(
                     clickedItemId = clickedItemId!!,
                     onSuccess = { downloadUrl ->
-                        binding.ivPoster.load(downloadUrl)
+                        binding.ivPoster.load(downloadUrl) {
+                        //                            listener(onSuccess = {
+//
+//                            },
+//                                onError = {
+//
+//                                })
+                        }
                     },
                     onFailure = { exception ->
                         binding.ivPoster.setImageBitmap(sampleBitmap)
                     })
             }
 
-            binding.tvPoster.text = clickedItem.posterName
+            binding.tvPoster.text = clickedItem.posterNickname
             binding.tvTitle.text = clickedItem.title
             binding.tvDetail.text = clickedItem.detail
 
@@ -215,13 +285,16 @@ class PostDetailFragment : Fragment() {
             }
 
             binding.btnAddComment.setOnClickListener{
-                postViewModel.addComment(
-                    clickedItemId!!,
-                    currentUser.photo,
-                    currentUser.nickname,
-                    binding.etAddComment.text.toString())
+                val newComment = Comments(
+                    commenterEmail = currentUser.email,
+                    commenterPhoto = currentUser.photo,
+                    commenterNickname = currentUser.nickname,
+                    detail = binding.etAddComment.text.toString()
+                )
+                postViewModel.addComment(clickedItemId!!, newComment)
                 Toast.makeText(this.requireContext(), "댓글이 등록되었습니다.", Toast.LENGTH_SHORT).show()
                 binding.etAddComment.setText("")
+
             }
 
 

@@ -1,6 +1,7 @@
-package com.example.allergydetective.presentation.community.newpost
+package com.example.allergydetective.presentation.community.editpost
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,37 +21,30 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.user.Comments
 import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.User
-import com.example.allergydetective.databinding.FragmentNewPostBinding
-import com.example.allergydetective.databinding.FragmentPostDetailBinding
+import com.example.allergydetective.data.model.user.sampleBitmap
+import com.example.allergydetective.databinding.FragmentEditPostBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
-import com.example.allergydetective.presentation.community.community_home.PostListAdapter
-import com.example.allergydetective.presentation.community.postdetail.CommentsAdapter
 import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
-import com.example.allergydetective.presentation.community.postdetail.ReplyDetailFragment
-import com.example.allergydetective.presentation.community.postdetail.reply.RepliesAdapter
 import com.example.allergydetective.presentation.itemdetail.ViewPagerAdapter
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.util.UUID
 
 private const val ARG_PARAM1 = "param1"
-class NewPostFragment : Fragment() {
+class EditPostFragment : Fragment() {
     private var param1: String? = null
 
-    private var _binding: FragmentNewPostBinding? = null
+    private var _binding: FragmentEditPostBinding? = null
     private val binding get() = _binding!!
 
     private var isCategoryButtonCheckedList = mutableListOf(false, false, false, false, false)
@@ -72,6 +65,7 @@ class NewPostFragment : Fragment() {
 
     private lateinit var viewPagerAdapter : ViewPagerAdapter
 
+    private var clickedItem = Post()
 
     private var currentUser = User()
 
@@ -99,8 +93,17 @@ class NewPostFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentNewPostBinding.inflate(inflater, container, false)
+        _binding = FragmentEditPostBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    companion object {
+        fun newInstance(param1: String) =
+            EditPostFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                }
+            }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -129,81 +132,124 @@ class NewPostFragment : Fragment() {
                 }
             }
 
-        // 카테고리 관련 부분
-        categoryButton1 = binding.customButton1
-        categoryButton2 = binding.customButton2
-        categoryButton3 = binding.customButton3
-        categoryButton4 = binding.customButton4
-        categoryButton5 = binding.customButton5
+        val clickedItemId = param1
 
-        categoryButtonList = listOf(
-            categoryButton1,
-            categoryButton2,
-            categoryButton3,
-            categoryButton4,
-            categoryButton5,
-        )
+        postViewModel.filteredPosts.observe(viewLifecycleOwner) { filteredPosts ->
+            clickedItem = filteredPosts.find { it.id == clickedItemId }!!
 
-        categoryButtonTextList = listOf(
-            categoryButton1.text.toString(),
-            categoryButton2.text.toString(),
-            categoryButton3.text.toString(),
-            categoryButton4.text.toString(),
-            categoryButton5.text.toString(),
-        )
+            val imageResources = clickedItem.detailPhoto
 
-        for (i in 0..categoryButtonList.size-1) {
-            categoryButtonClicker(categoryButtonList[i], i)
-        }
+            viewPager = binding.viewPager
+            viewPagerAdapter = ViewPagerAdapter(imageResources)
+            viewPager.adapter = viewPagerAdapter
 
-        currentUser = userViewModel.currentUser.value!!
-
-        binding.btnCancel.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
-            postViewModel.initializeTemporaryImageUrls()
-        }
-
-        binding.btnAddPhoto.setOnClickListener{
-            Toast.makeText(this.requireContext(), "올리실 사진을 선택해주세요.", Toast.LENGTH_SHORT).show()
-            pickImages()
-            binding.btnAddPhoto.visibility = View.GONE
-        }
-
-        viewPager = binding.viewPager
-
-        viewPagerAdapter = ViewPagerAdapter(imageResources)
-        viewPager.adapter = viewPagerAdapter
-
-        binding.ivPoster.load(currentUser.photo)
-        binding.tvPoster.text = currentUser.nickname
-
-        binding.btnNewPost.setOnClickListener{
-            if (selectedCategory.isEmpty()) {
-                Toast.makeText(this.requireContext(), "카테고리를 1가지 지정해주세요.", Toast.LENGTH_SHORT).show()
+            if (imageResources.size == 0) {
+                binding.btnAddPhoto.visibility = View.VISIBLE
+                binding.btnDeletePhoto.visibility = View.GONE
             } else {
-                var newPost = Post(
-                    id = UUID.randomUUID().toString(),
-                    category = selectedCategory,
-                    posterEmail = currentUser.email,
-                    posterPhoto = currentUser.photo,
-                    posterNickname =  currentUser.nickname,
-                    title = binding.etTitle.text.toString(),
-                    detail = binding.etDetail.text.toString(),
-                    detailPhoto = imageResources
-                )
-                postViewModel.addPost(newPost)
-                userViewModel.addMyPost(currentUser.email, newPost)
-                Toast.makeText(this.requireContext(), "게시글이 업로드되었습니다.", Toast.LENGTH_SHORT).show()
-                val communityHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("CommunityHomeFragment")
-                requireActivity().supportFragmentManager.beginTransaction().apply {
-                    hide(this@NewPostFragment)
-                    if (communityHomeFragment == null) {
-                        add(R.id.main_frame, CommunityHomeFragment(), "CommunityHomeFragment")
-                    } else if (communityHomeFragment != null && communityHomeFragment.isHidden){
-                        show(communityHomeFragment)
+                binding.btnAddPhoto.visibility = View.GONE
+                binding.btnDeletePhoto.visibility = View.VISIBLE
+            }
+
+            binding.btnDeletePhoto.setOnClickListener{
+                AlertDialog.Builder(requireContext())
+                    .setMessage("이 사진을 삭제할까요?")
+                    .setPositiveButton("삭제") { dialog, _ ->
+                        imageResources.removeAt(0)
+                        viewPagerAdapter = ViewPagerAdapter(imageResources)
+                        viewPager.adapter = viewPagerAdapter
+                        requireActivity().supportFragmentManager.popBackStack()
+                        Toast.makeText(this.requireContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
                     }
-                    addToBackStack(null)
-                    commit()
+                    .setNegativeButton("취소") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .show()
+                true
+            }
+
+            if (clickedItem.posterPhoto.isEmpty()) {
+                binding.ivPoster.setImageBitmap(sampleBitmap)
+            } else {
+                postViewModel.getPosterPhotoUrl(
+                    clickedItemId = clickedItemId!!,
+                    onSuccess = { downloadUrl ->
+                        binding.ivPoster.load(downloadUrl) {
+                        }
+                    },
+                    onFailure = { exception ->
+                        binding.ivPoster.setImageBitmap(sampleBitmap)
+                    })
+            }
+
+            binding.tvPoster.text = clickedItem.posterNickname
+            binding.etTitle.setText(clickedItem.title)
+            binding.etDetail.setText(clickedItem.detail)
+
+
+
+
+            // 카테고리 관련 부분
+            categoryButton1 = binding.customButton1
+            categoryButton2 = binding.customButton2
+            categoryButton3 = binding.customButton3
+            categoryButton4 = binding.customButton4
+            categoryButton5 = binding.customButton5
+
+            categoryButtonList = listOf(
+                categoryButton1,
+                categoryButton2,
+                categoryButton3,
+                categoryButton4,
+                categoryButton5,
+            )
+
+            categoryButtonTextList = listOf(
+                categoryButton1.text.toString(),
+                categoryButton2.text.toString(),
+                categoryButton3.text.toString(),
+                categoryButton4.text.toString(),
+                categoryButton5.text.toString(),
+            )
+
+            val index = categoryButtonTextList.indexOf(clickedItem.category)
+            categoryButtonClicker(categoryButtonList[index], index)
+
+            for (i in 0..categoryButtonList.size-1) {
+                categoryButtonClicker(categoryButtonList[i], i)
+            }
+
+            currentUser = userViewModel.currentUser.value!!
+
+            binding.btnCancel.setOnClickListener {
+                requireActivity().supportFragmentManager.popBackStack()
+                postViewModel.initializeTemporaryImageUrls()
+            }
+
+            binding.btnAddPhoto.setOnClickListener{
+                Toast.makeText(this.requireContext(), "올리실 사진을 선택해주세요.", Toast.LENGTH_SHORT).show()
+                pickImages()
+            }
+
+            binding.btnEditPost.setOnClickListener{
+                if (selectedCategory.isEmpty()) {
+                    Toast.makeText(this.requireContext(), "카테고리를 1가지 지정해주세요.", Toast.LENGTH_SHORT).show()
+                } else {
+                    var edittedPost = Post(
+                        id = clickedItem.id,
+                        category = selectedCategory,
+                        posterEmail = currentUser.email,
+                        posterPhoto = currentUser.photo,
+                        posterNickname =  currentUser.nickname,
+                        title = binding.etTitle.text.toString(),
+                        detail = binding.etDetail.text.toString(),
+                        detailPhoto = imageResources
+                    )
+                    postViewModel.addPost(edittedPost)
+                    userViewModel.addMyPost(currentUser.email, edittedPost)
+                    Toast.makeText(this.requireContext(), "게시글이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                    requireActivity().supportFragmentManager.popBackStack()
                 }
             }
         }
