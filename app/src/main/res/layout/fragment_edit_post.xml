@@ -45,11 +45,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_edit_post" />
 
+            <TextView
+                android:id="@+id/notice_delete_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="삭제하시려면 사진을 길게 누르세요."
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/viewPager"
+                app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+                android:layout_marginBottom="2dp"
+                />
+
             <ImageView
                 android:id="@+id/btn_add_photo"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:src="@drawable/gallery2"
+                android:src="@drawable/add_photo"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintWidth_percent="0.15"
                 app:layout_constraintEnd_toEndOf="@+id/viewPager"
@@ -58,15 +69,15 @@
                 app:layout_constraintBottom_toBottomOf="@+id/viewPager"
                 app:tint="@color/main_color_light_gray" />
 
-            <ImageView
-                android:id="@+id/btn_delete_photo"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/x"
-                app:layout_constraintTop_toTopOf="@+id/viewPager"
-                app:layout_constraintEnd_toEndOf="@+id/viewPager"
-                android:layout_margin="10dp"
-                app:tint="@color/main_color_light_gray" />
+<!--            <ImageView-->
+<!--                android:id="@+id/btn_delete_photo"-->
+<!--                android:layout_width="30dp"-->
+<!--                android:layout_height="30dp"-->
+<!--                android:src="@drawable/x"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/viewPager"-->
+<!--                app:layout_constraintEnd_toEndOf="@+id/viewPager"-->
+<!--                android:layout_margin="10dp"-->
+<!--                app:tint="@color/main_color_light_gray" />-->
 
             <TextView
                 android:id="@+id/btn_cancel"

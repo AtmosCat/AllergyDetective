@@ -19,8 +19,18 @@ class ViewPagerAdapter(private val imageUrls: List<String>) : RecyclerView.Adapt
         return ImageViewHolder(view)
     }
 
+    interface ItemClick {
+        fun onClick(view: View, position: Int)
+    }
+
+    var itemClick : ItemClick? = null
+
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val imageUrl = imageUrls[position]
+        holder.itemView.setOnLongClickListener {
+            itemClick?.onClick(it, position)
+            true
+        }
         holder.imageView.load(imageUrl) {
             placeholder(R.drawable.placeholder) // 이미지 로딩 중 보여줄 플레이스홀더 이미지
             error(R.drawable.error_image) // 이미지 로딩 실패 시 보여줄 이미지

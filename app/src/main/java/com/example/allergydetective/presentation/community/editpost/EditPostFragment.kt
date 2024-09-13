@@ -32,8 +32,11 @@ import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
 import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
+import com.example.allergydetective.presentation.itemdetail.ItemDetailFragment
 import com.example.allergydetective.presentation.itemdetail.ViewPagerAdapter
+import com.example.allergydetective.presentation.itemlist.ItemListAdapter
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.wire.internal.copyOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -69,7 +72,10 @@ class EditPostFragment : Fragment() {
 
     private var currentUser = User()
 
-    private val imageResources = mutableListOf<String>()
+    private var imageResources = mutableListOf<String>()
+
+    private var newImageResources = mutableListOf<String>()
+
 
     private val userViewModel: UserViewModel by activityViewModels {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
@@ -137,37 +143,34 @@ class EditPostFragment : Fragment() {
         postViewModel.filteredPosts.observe(viewLifecycleOwner) { filteredPosts ->
             clickedItem = filteredPosts.find { it.id == clickedItemId }!!
 
-            val imageResources = clickedItem.detailPhoto
+            imageResources = clickedItem.detailPhoto
 
             viewPager = binding.viewPager
             viewPagerAdapter = ViewPagerAdapter(imageResources)
             viewPager.adapter = viewPagerAdapter
 
-            if (imageResources.size == 0) {
-                binding.btnAddPhoto.visibility = View.VISIBLE
-                binding.btnDeletePhoto.visibility = View.GONE
-            } else {
-                binding.btnAddPhoto.visibility = View.GONE
-                binding.btnDeletePhoto.visibility = View.VISIBLE
+            viewPagerAdapter.itemClick = object : ViewPagerAdapter.ItemClick {
+                override fun onClick(view: View, position: Int) {
+                    AlertDialog.Builder(requireContext())
+                        .setMessage("이 사진을 삭제할까요?")
+                        .setPositiveButton("삭제") { dialog, _ ->
+                            newImageResources = imageResources.toMutableList()
+                            newImageResources.removeAt(position)
+                            imageResources = newImageResources
+                            viewPager.adapter = ViewPagerAdapter(imageResources)
+                            viewPagerAdapter.notifyItemRemoved(position)
+                            viewPagerAdapter.notifyItemRangeChanged(position, imageResources.size)
+                            Toast.makeText(requireContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton("취소") { dialog, which ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                    true
+                }
             }
 
-            binding.btnDeletePhoto.setOnClickListener{
-                AlertDialog.Builder(requireContext())
-                    .setMessage("이 사진을 삭제할까요?")
-                    .setPositiveButton("삭제") { dialog, _ ->
-                        imageResources.removeAt(0)
-                        viewPagerAdapter = ViewPagerAdapter(imageResources)
-                        viewPager.adapter = viewPagerAdapter
-                        requireActivity().supportFragmentManager.popBackStack()
-                        Toast.makeText(this.requireContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton("취소") { dialog, which ->
-                        dialog.dismiss()
-                    }
-                    .show()
-                true
-            }
 
             if (clickedItem.posterPhoto.isEmpty()) {
                 binding.ivPoster.setImageBitmap(sampleBitmap)
@@ -186,9 +189,6 @@ class EditPostFragment : Fragment() {
             binding.tvPoster.text = clickedItem.posterNickname
             binding.etTitle.setText(clickedItem.title)
             binding.etDetail.setText(clickedItem.detail)
-
-
-
 
             // 카테고리 관련 부분
             categoryButton1 = binding.customButton1
