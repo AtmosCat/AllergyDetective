@@ -28,6 +28,7 @@ import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.editpost.EditPostFragment
 import com.example.allergydetective.presentation.community.postdetail.reply.RepliesAdapter
+import com.example.allergydetective.presentation.home.HomeFragment
 import com.example.allergydetective.presentation.itemdetail.ViewPagerAdapter
 import com.google.firebase.firestore.FieldValue
 import java.util.UUID
@@ -95,7 +96,8 @@ class PostDetailFragment : Fragment() {
 
         val clickedItemId = param1
         val clickedItem2 = postViewModel.filteredPosts.value!!.find { it.id == clickedItemId }
-        postViewModel.filteredPosts.observe(viewLifecycleOwner) { filteredPosts ->
+//        postViewModel.filteredPosts.observe(viewLifecycleOwner) { filteredPosts ->
+            var filteredPosts = postViewModel.filteredPosts.value!!
             clickedItem = filteredPosts.find { it.id == clickedItemId }!!
 
             binding.btnBack.setOnClickListener {
@@ -180,9 +182,21 @@ class PostDetailFragment : Fragment() {
                                     .setMessage("게시글을 삭제하시겠습니까?")
                                     .setPositiveButton("삭제") { dialog, _ ->
                                         postViewModel.deletePost(clickedItem.id)
-                                        requireActivity().supportFragmentManager.popBackStack()
+                                        userViewModel.deleteMyPost(currentUser.email, clickedItem)
                                         Toast.makeText(this.requireContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show()
                                         dialog.dismiss()
+                                        requireActivity().supportFragmentManager.popBackStack()
+//                                        val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
+//                                        requireActivity().supportFragmentManager.beginTransaction().apply {
+//                                            hide(this@PostDetailFragment)
+//                                            if (homeFragment == null) {
+//                                                add(R.id.main_frame, HomeFragment(), "HomeFragment")
+//                                            } else {
+//                                                show(homeFragment)
+//                                            }
+//                                            addToBackStack(null)
+//                                            commit()
+//                                        }
                                     }
                                     .setNegativeButton("취소") { dialog, which ->
                                         dialog.dismiss()
@@ -307,7 +321,7 @@ class PostDetailFragment : Fragment() {
             }
 
 
-        }
+//        }
 
     }
 }

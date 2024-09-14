@@ -17,6 +17,7 @@ import coil.request.SuccessResult
 import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.model.user.GroupMember
 import com.example.allergydetective.data.model.user.Post
+import com.example.allergydetective.data.model.user.Reply
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.presentation.base.UiState
@@ -87,20 +88,57 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun editMyPost(email: String, post: Post) {
+    fun editMyPost(email: String, edittedPost: Post) {
         viewModelScope.launch {
             runCatching {
-                db.collection("user")
-                    .document(email)
-                    .update("mypost", post)
-                    .addOnSuccessListener {
-                        println("CurrentUser의 MyPost에 ${post.id} 추가 성공")
+                val userRef = db.collection("user").document(email)
+                db.runTransaction { transaction ->
+                    val userSnapshot = transaction.get(userRef)
+                    val user = userSnapshot.toObject(User::class.java)
+                    val myposts = user?.mypost ?: emptyList()
+
+                    val mypostIndex = myposts.indexOfFirst { it.id == edittedPost.id }
+                    if (mypostIndex != -1) {
+                        val updatedMyPosts = myposts.toMutableList()
+                        updatedMyPosts[mypostIndex] = edittedPost
+                        transaction.update(userRef, "mypost", updatedMyPosts)
+                    }
+                    }.addOnSuccessListener {
+                        println("CurrentUser의 MyPost에 ${edittedPost.id} 업데이트 성공")
                     }
                     .addOnFailureListener { exception ->
-                        println("CurrentUser의 MyPost에 ${post.id} 추가 실패 / $exception")
+                        println("CurrentUser의 MyPost에 ${edittedPost.id} 업데이트 실패 / $exception")
                     }
             }.onFailure {
-                Log.e(TAG, "addMyPost() failed! : ${it.message}")
+                Log.e(TAG, "editMyPost() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
+
+    fun deleteMyPost(email: String, post: Post) {
+        viewModelScope.launch {
+            runCatching {
+                val userRef = db.collection("user").document(email)
+                db.runTransaction { transaction ->
+                    val userSnapshot = transaction.get(userRef)
+                    val user = userSnapshot.toObject(User::class.java)
+                    val myposts = user?.mypost ?: emptyList()
+
+                    val mypostIndex = myposts.indexOfFirst { it.id == post.id }
+                    if (mypostIndex != -1) {
+                        val updatedMyPosts = myposts.toMutableList()
+                        updatedMyPosts.removeAt(mypostIndex)
+                        transaction.update(userRef, "mypost", updatedMyPosts)
+                    }
+                }.addOnSuccessListener {
+                    println("CurrentUser의 MyPost에서 ${post.id} 삭제 성공")
+                }
+                    .addOnFailureListener { exception ->
+                        println("CurrentUser의 MyPost에서 ${post.id} 삭제 실패 / $exception")
+                    }
+            }.onFailure {
+                Log.e(TAG, "deleteMyPost() failed! : ${it.message}")
                 handleException(it)
             }
         }

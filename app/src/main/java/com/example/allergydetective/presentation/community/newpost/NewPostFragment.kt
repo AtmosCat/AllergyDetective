@@ -32,6 +32,7 @@ import com.example.allergydetective.databinding.FragmentNewPostBinding
 import com.example.allergydetective.databinding.FragmentPostDetailBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
+import com.example.allergydetective.presentation.community.community_home.CommunityHomeAdapter
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
 import com.example.allergydetective.presentation.community.community_home.PostListAdapter
 import com.example.allergydetective.presentation.community.editpost.EditPhotoAdapter
@@ -203,11 +204,12 @@ class NewPostFragment : Fragment() {
                     detailPhoto = imageResources
                 )
                 postViewModel.addPost(newPost)
+                CommunityHomeAdapter().updateData(postViewModel.filteredPosts.value!!)
                 userViewModel.addMyPost(currentUser.email, newPost)
                 Toast.makeText(this.requireContext(), "게시글이 업로드되었습니다.", Toast.LENGTH_SHORT).show()
                 val communityHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("CommunityHomeFragment")
                 requireActivity().supportFragmentManager.beginTransaction().apply {
-                    hide(this@NewPostFragment)
+                    remove(this@NewPostFragment)
                     if (communityHomeFragment == null) {
                         add(R.id.main_frame, CommunityHomeFragment(), "CommunityHomeFragment")
                     } else if (communityHomeFragment != null && communityHomeFragment.isHidden){

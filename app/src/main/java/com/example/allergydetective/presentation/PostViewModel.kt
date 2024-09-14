@@ -284,7 +284,6 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-
     fun saveUserPhotoUrl(photoUrl: String) {
         db.collection("user").document(currentUser.value!!.email)
             .update("photo", photoUrl)

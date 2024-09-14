@@ -235,21 +235,21 @@ class EditPostFragment : Fragment() {
                     )
                     postViewModel.editPost(edittedPost)
                     CommunityHomeAdapter().updateData(postViewModel.filteredPosts.value!!)
-                    userViewModel.addMyPost(currentUser.email, edittedPost)
+                    userViewModel.editMyPost(currentUser.email, edittedPost)
 
                     Toast.makeText(this.requireContext(), "게시글이 수정되었습니다.", Toast.LENGTH_SHORT).show()
-//                    requireActivity().supportFragmentManager.popBackStack()
-                    val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
-                          requireActivity().supportFragmentManager.beginTransaction().apply {
-                                hide(this@EditPostFragment)
-                                if (homeFragment == null) {
-                                    add(R.id.main_frame, HomeFragment(), "PostDetailFragment")
-                                } else {
-                                    show(homeFragment)
-                                }
-                                addToBackStack(null)
-                                commit()
-                            }
+                    requireActivity().supportFragmentManager.popBackStack()
+//                    val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
+//                    requireActivity().supportFragmentManager.beginTransaction().apply {
+//                        hide(this@EditPostFragment)
+//                        if (homeFragment == null) {
+//                            add(R.id.main_frame, HomeFragment(), "HomeFragment")
+//                        } else {
+//                            show(homeFragment)
+//                        }
+//                        addToBackStack(null)
+//                        commit()
+//                    }
 
                 }
             }
