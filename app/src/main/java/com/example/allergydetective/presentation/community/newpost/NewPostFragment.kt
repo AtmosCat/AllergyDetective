@@ -34,17 +34,21 @@ import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
 import com.example.allergydetective.presentation.community.community_home.PostListAdapter
+import com.example.allergydetective.presentation.community.editpost.EditPhotoAdapter
 import com.example.allergydetective.presentation.community.postdetail.CommentsAdapter
 import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
 import com.example.allergydetective.presentation.community.postdetail.ReplyDetailFragment
 import com.example.allergydetective.presentation.community.postdetail.reply.RepliesAdapter
 import com.example.allergydetective.presentation.itemdetail.ViewPagerAdapter
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 private const val ARG_PARAM1 = "param1"
@@ -53,6 +57,8 @@ class NewPostFragment : Fragment() {
 
     private var _binding: FragmentNewPostBinding? = null
     private val binding get() = _binding!!
+
+    private val newPostAdapter by lazy { NewPostAdapter() }
 
     private var isCategoryButtonCheckedList = mutableListOf(false, false, false, false, false)
 
@@ -105,6 +111,9 @@ class NewPostFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.recyclerviewPostPhoto.adapter = newPostAdapter
+        binding.recyclerviewPostPhoto.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
 
         // 2. 갤러리에서 이미지 선택
         pickImageLauncher =
@@ -166,18 +175,20 @@ class NewPostFragment : Fragment() {
         binding.btnAddPhoto.setOnClickListener{
             Toast.makeText(this.requireContext(), "올리실 사진을 선택해주세요.", Toast.LENGTH_SHORT).show()
             pickImages()
-            binding.btnAddPhoto.visibility = View.GONE
         }
 
-        viewPager = binding.viewPager
-
-        viewPagerAdapter = ViewPagerAdapter(imageResources)
-        viewPager.adapter = viewPagerAdapter
+        newPostAdapter.submitList(imageResources)
+        newPostAdapter.itemClick = object : NewPostAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+                imageResources.removeAt(position)
+                newPostAdapter.updateData(imageResources)
+            }
+        }
 
         binding.ivPoster.load(currentUser.photo)
         binding.tvPoster.text = currentUser.nickname
 
-        binding.btnNewPost.setOnClickListener{
+        binding.btnSaveNewPost.setOnClickListener{
             if (selectedCategory.isEmpty()) {
                 Toast.makeText(this.requireContext(), "카테고리를 1가지 지정해주세요.", Toast.LENGTH_SHORT).show()
             } else {
@@ -273,8 +284,7 @@ class NewPostFragment : Fragment() {
                         postViewModel.saveTemporaryImageUrl(url)
                         // 모든 이미지가 처리된 후에 ViewPager를 업데이트
                         if (uris.indexOf(uri) == uris.size - 1) {
-                            viewPagerAdapter = ViewPagerAdapter(imageResources)
-                            viewPager.adapter = viewPagerAdapter
+                            newPostAdapter.updateData(imageResources)
                         }
                     }
                 }

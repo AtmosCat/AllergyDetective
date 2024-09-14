@@ -95,7 +95,7 @@ class ReplyDetailFragment : Fragment() {
 
             binding.ivCommenter.load(clickedComment.commenterPhoto)
             binding.tvCommenter.text = clickedComment.commenterNickname
-            binding.tvCommentDetail.text = clickedItem.detail
+            binding.tvCommentDetail.text = clickedComment.detail
 
             repliesAdapter.submitList(clickedComment.reply)
             binding.btnAddReply.setOnClickListener{

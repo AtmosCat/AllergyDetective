@@ -41,7 +41,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
     private val _selectedCategories = MutableLiveData<MutableList<String>>()
     val selectedCategories : LiveData<MutableList<String>> get() = _selectedCategories
 
-    private val _selectedSearchOption = MutableLiveData<String>()
+      private val _selectedSearchOption = MutableLiveData<String>()
     val selectedSearchOption : LiveData<String> get() = _selectedSearchOption
 
     private val _temporaryImageUrls = MutableLiveData<List<String>>()
@@ -177,6 +177,20 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                     .document(newPost.id)
                     .set(newPost)
                     .await()
+            }.onFailure {
+                Log.e(TAG, "addPost() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
+
+    fun editPost(post: Post) {
+        viewModelScope.launch {
+            runCatching {
+                val edittedPost = post
+                db.collection("post")
+                    .document(post.id)
+                    .set(post)
             }.onFailure {
                 Log.e(TAG, "addPost() failed! : ${it.message}")
                 handleException(it)

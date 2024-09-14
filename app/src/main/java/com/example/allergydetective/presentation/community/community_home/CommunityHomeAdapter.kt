@@ -75,6 +75,7 @@ class CommunityHomeAdapter :
     }
     fun updateData(newItems: List<Post>) {
         submitList(newItems)
+        notifyDataSetChanged()
     }
 }
 //

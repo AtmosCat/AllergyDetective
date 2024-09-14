@@ -21,6 +21,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.example.allergydetective.R
@@ -30,8 +31,11 @@ import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.databinding.FragmentEditPostBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
+import com.example.allergydetective.presentation.community.community_home.CommunityHomeAdapter
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
+import com.example.allergydetective.presentation.community.community_home.PostListAdapter
 import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
+import com.example.allergydetective.presentation.home.HomeFragment
 import com.example.allergydetective.presentation.itemdetail.ItemDetailFragment
 import com.example.allergydetective.presentation.itemdetail.ViewPagerAdapter
 import com.example.allergydetective.presentation.itemlist.ItemListAdapter
@@ -50,6 +54,8 @@ class EditPostFragment : Fragment() {
     private var _binding: FragmentEditPostBinding? = null
     private val binding get() = _binding!!
 
+    private val editPhotoAdapter by lazy { EditPhotoAdapter() }
+
     private var isCategoryButtonCheckedList = mutableListOf(false, false, false, false, false)
 
     private lateinit var categoryButton1: Button
@@ -64,17 +70,11 @@ class EditPostFragment : Fragment() {
 
     private var selectedCategory = ""
 
-    private lateinit var viewPager : ViewPager2
-
-    private lateinit var viewPagerAdapter : ViewPagerAdapter
-
     private var clickedItem = Post()
 
     private var currentUser = User()
 
     private var imageResources = mutableListOf<String>()
-
-    private var newImageResources = mutableListOf<String>()
 
 
     private val userViewModel: UserViewModel by activityViewModels {
@@ -115,6 +115,9 @@ class EditPostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.recyclerviewPostPhoto.adapter = editPhotoAdapter
+        binding.recyclerviewPostPhoto.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+
         // 2. 갤러리에서 이미지 선택
         pickImageLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -145,32 +148,18 @@ class EditPostFragment : Fragment() {
 
             imageResources = clickedItem.detailPhoto
 
-            viewPager = binding.viewPager
-            viewPagerAdapter = ViewPagerAdapter(imageResources)
-            viewPager.adapter = viewPagerAdapter
-
-            viewPagerAdapter.itemClick = object : ViewPagerAdapter.ItemClick {
-                override fun onClick(view: View, position: Int) {
-                    AlertDialog.Builder(requireContext())
-                        .setMessage("이 사진을 삭제할까요?")
-                        .setPositiveButton("삭제") { dialog, _ ->
-                            newImageResources = imageResources.toMutableList()
-                            newImageResources.removeAt(position)
-                            imageResources = newImageResources
-                            viewPager.adapter = ViewPagerAdapter(imageResources)
-                            viewPagerAdapter.notifyItemRemoved(position)
-                            viewPagerAdapter.notifyItemRangeChanged(position, imageResources.size)
-                            Toast.makeText(requireContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                            dialog.dismiss()
-                        }
-                        .setNegativeButton("취소") { dialog, which ->
-                            dialog.dismiss()
-                        }
-                        .show()
-                    true
-                }
+            binding.btnAddPhoto.setOnClickListener{
+                Toast.makeText(this.requireContext(), "올리실 사진을 선택해주세요.", Toast.LENGTH_SHORT).show()
+                pickImages()
             }
 
+            editPhotoAdapter.submitList(imageResources)
+            editPhotoAdapter.itemClick = object : EditPhotoAdapter.ItemClick {
+                override fun onClick(view: View, position: Int) {
+                    imageResources.removeAt(position)
+                    editPhotoAdapter.updateData(imageResources)
+                }
+            }
 
             if (clickedItem.posterPhoto.isEmpty()) {
                 binding.ivPoster.setImageBitmap(sampleBitmap)
@@ -214,7 +203,9 @@ class EditPostFragment : Fragment() {
             )
 
             val index = categoryButtonTextList.indexOf(clickedItem.category)
-            categoryButtonClicker(categoryButtonList[index], index)
+            isCategoryButtonCheckedList[index] = true
+            updateButtonState(categoryButtonList[index], index)
+            setCategory(categoryButtonList[index], index)
 
             for (i in 0..categoryButtonList.size-1) {
                 categoryButtonClicker(categoryButtonList[i], i)
@@ -227,12 +218,8 @@ class EditPostFragment : Fragment() {
                 postViewModel.initializeTemporaryImageUrls()
             }
 
-            binding.btnAddPhoto.setOnClickListener{
-                Toast.makeText(this.requireContext(), "올리실 사진을 선택해주세요.", Toast.LENGTH_SHORT).show()
-                pickImages()
-            }
 
-            binding.btnEditPost.setOnClickListener{
+            binding.btnSaveEditPost.setOnClickListener{
                 if (selectedCategory.isEmpty()) {
                     Toast.makeText(this.requireContext(), "카테고리를 1가지 지정해주세요.", Toast.LENGTH_SHORT).show()
                 } else {
@@ -246,10 +233,24 @@ class EditPostFragment : Fragment() {
                         detail = binding.etDetail.text.toString(),
                         detailPhoto = imageResources
                     )
-                    postViewModel.addPost(edittedPost)
+                    postViewModel.editPost(edittedPost)
+                    CommunityHomeAdapter().updateData(postViewModel.filteredPosts.value!!)
                     userViewModel.addMyPost(currentUser.email, edittedPost)
+
                     Toast.makeText(this.requireContext(), "게시글이 수정되었습니다.", Toast.LENGTH_SHORT).show()
-                    requireActivity().supportFragmentManager.popBackStack()
+//                    requireActivity().supportFragmentManager.popBackStack()
+                    val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
+                          requireActivity().supportFragmentManager.beginTransaction().apply {
+                                hide(this@EditPostFragment)
+                                if (homeFragment == null) {
+                                    add(R.id.main_frame, HomeFragment(), "PostDetailFragment")
+                                } else {
+                                    show(homeFragment)
+                                }
+                                addToBackStack(null)
+                                commit()
+                            }
+
                 }
             }
         }
@@ -319,8 +320,7 @@ class EditPostFragment : Fragment() {
                         postViewModel.saveTemporaryImageUrl(url)
                         // 모든 이미지가 처리된 후에 ViewPager를 업데이트
                         if (uris.indexOf(uri) == uris.size - 1) {
-                            viewPagerAdapter = ViewPagerAdapter(imageResources)
-                            viewPager.adapter = viewPagerAdapter
+                            editPhotoAdapter.updateData(imageResources)
                         }
                     }
                 }

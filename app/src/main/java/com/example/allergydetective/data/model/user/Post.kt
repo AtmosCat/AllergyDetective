@@ -2,6 +2,9 @@ package com.example.allergydetective.data.model.user
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 data class Post(
@@ -16,7 +19,8 @@ data class Post(
     val comments: List<Comments> = mutableListOf(),
     var scrap: Int = 0,
     val report: Boolean = false,
-    val timestamp: Any? = FieldValue.serverTimestamp())
+    val timestamp: String? = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+)
 
 data class Comments(
     val id: String = UUID.randomUUID().toString(),
@@ -27,7 +31,8 @@ data class Comments(
     val like: Int = 0,
     val reply: List<Reply> = mutableListOf(),
     val report: Boolean = false,
-    val timestamp: Any? = FieldValue.serverTimestamp())
+    val timestamp: String? = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+)
 
 data class Reply(
     val id: String = UUID.randomUUID().toString(),
@@ -37,4 +42,5 @@ data class Reply(
     val detail: String = "",
     val like: Int = 0,
     val report: Boolean = false,
-    val timestamp: Any? = FieldValue.serverTimestamp())
+    val timestamp: String? = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+)

@@ -14,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import coil.load
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.Comments
@@ -208,6 +209,14 @@ class PostDetailFragment : Fragment() {
 
             val viewPagerAdapter = ViewPagerAdapter(imageResources)
             viewPager.adapter = viewPagerAdapter
+
+            viewPager.registerOnPageChangeCallback(object: OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    binding.tvPhotoNumber.text = "${position + 1} / ${imageResources.size}"
+                }
+            })
+
 
             if (clickedItem.posterPhoto.isEmpty()) {
                 binding.ivPoster.setImageBitmap(sampleBitmap)
