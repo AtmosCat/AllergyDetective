@@ -234,7 +234,6 @@ class EditPostFragment : Fragment() {
                         detailPhoto = imageResources
                     )
                     postViewModel.editPost(edittedPost)
-                    CommunityHomeAdapter().updateData(postViewModel.filteredPosts.value!!)
                     userViewModel.editMyPost(currentUser.email, edittedPost)
 
                     Toast.makeText(this.requireContext(), "게시글이 수정되었습니다.", Toast.LENGTH_SHORT).show()

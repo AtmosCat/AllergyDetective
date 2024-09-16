@@ -30,6 +30,7 @@ import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.databinding.FragmentNewPostBinding
 import com.example.allergydetective.databinding.FragmentPostDetailBinding
+import com.example.allergydetective.presentation.PostCallback
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeAdapter
@@ -189,37 +190,43 @@ class NewPostFragment : Fragment() {
         binding.ivPoster.load(currentUser.photo)
         binding.tvPoster.text = currentUser.nickname
 
-        binding.btnSaveNewPost.setOnClickListener{
+        binding.btnSaveNewPost.setOnClickListener {
             if (selectedCategory.isEmpty()) {
                 Toast.makeText(this.requireContext(), "카테고리를 1가지 지정해주세요.", Toast.LENGTH_SHORT).show()
             } else {
-                var newPost = Post(
+                val newPost = Post(
                     id = UUID.randomUUID().toString(),
                     category = selectedCategory,
                     posterEmail = currentUser.email,
                     posterPhoto = currentUser.photo,
-                    posterNickname =  currentUser.nickname,
+                    posterNickname = currentUser.nickname,
                     title = binding.etTitle.text.toString(),
                     detail = binding.etDetail.text.toString(),
                     detailPhoto = imageResources
                 )
-                postViewModel.addPost(newPost)
-                CommunityHomeAdapter().updateData(postViewModel.filteredPosts.value!!)
-                userViewModel.addMyPost(currentUser.email, newPost)
-                Toast.makeText(this.requireContext(), "게시글이 업로드되었습니다.", Toast.LENGTH_SHORT).show()
-                val communityHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("CommunityHomeFragment")
-                requireActivity().supportFragmentManager.beginTransaction().apply {
-                    remove(this@NewPostFragment)
-                    if (communityHomeFragment == null) {
-                        add(R.id.main_frame, CommunityHomeFragment(), "CommunityHomeFragment")
-                    } else if (communityHomeFragment != null && communityHomeFragment.isHidden){
-                        show(communityHomeFragment)
+                postViewModel.addPost(newPost, object : PostCallback {
+                    override fun onSuccess() {
+                        userViewModel.addMyPost(currentUser.email, newPost)
+                        Toast.makeText(requireContext(), "게시글이 업로드되었습니다.", Toast.LENGTH_SHORT).show()
+                        val communityHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("CommunityHomeFragment")
+                        requireActivity().supportFragmentManager.beginTransaction().apply {
+                            remove(this@NewPostFragment)
+                            if (communityHomeFragment == null) {
+                                add(R.id.main_frame, CommunityHomeFragment(), "CommunityHomeFragment")
+                            } else if (communityHomeFragment != null && communityHomeFragment.isHidden) {
+                                show(communityHomeFragment)
+                            }
+                            addToBackStack(null)
+                            commit()
+                        }
                     }
-                    addToBackStack(null)
-                    commit()
-                }
+                    override fun onFailure(throwable: Throwable) {
+                        Toast.makeText(requireContext(), "게시글 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                })
             }
         }
+
     }
 
     private fun categoryButtonClicker(button: Button, position: Int){

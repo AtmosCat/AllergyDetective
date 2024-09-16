@@ -26,6 +26,7 @@ import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.databinding.FragmentPostDetailBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
+import com.example.allergydetective.presentation.community.community_home.CommunityHomeAdapter
 import com.example.allergydetective.presentation.community.editpost.EditPostFragment
 import com.example.allergydetective.presentation.community.postdetail.reply.RepliesAdapter
 import com.example.allergydetective.presentation.home.HomeFragment
@@ -46,6 +47,8 @@ class PostDetailFragment : Fragment() {
     private var currentUser = User()
 
     private var clickedItem = Post()
+
+    private var clickedItemId = ""
 
     private var clickedComment = Comments()
 
@@ -94,9 +97,9 @@ class PostDetailFragment : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        val clickedItemId = param1
+        clickedItemId = param1.toString()
         val clickedItem2 = postViewModel.filteredPosts.value!!.find { it.id == clickedItemId }
-//        postViewModel.filteredPosts.observe(viewLifecycleOwner) { filteredPosts ->
+        postViewModel.filteredPosts.observe(viewLifecycleOwner) { filteredPosts ->
             var filteredPosts = postViewModel.filteredPosts.value!!
             clickedItem = filteredPosts.find { it.id == clickedItemId }!!
 
@@ -182,6 +185,8 @@ class PostDetailFragment : Fragment() {
                                     .setMessage("게시글을 삭제하시겠습니까?")
                                     .setPositiveButton("삭제") { dialog, _ ->
                                         postViewModel.deletePost(clickedItem.id)
+                                        var newItems = postViewModel.filteredPosts.value!!.sortedBy { it.timestamp }
+                                        CommunityHomeAdapter().updateData(newItems)
                                         userViewModel.deleteMyPost(currentUser.email, clickedItem)
                                         Toast.makeText(this.requireContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show()
                                         dialog.dismiss()
@@ -317,12 +322,19 @@ class PostDetailFragment : Fragment() {
                 postViewModel.addComment(clickedItemId!!, newComment)
                 Toast.makeText(this.requireContext(), "댓글이 등록되었습니다.", Toast.LENGTH_SHORT).show()
                 binding.etAddComment.setText("")
-
             }
+        }
 
-
-//        }
-
+    }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        var filteredPosts = postViewModel.filteredPosts.value!!
+        clickedItem = filteredPosts.find { it.id == clickedItemId }!!
+    }
+    override fun onResume() {
+        super.onResume()
+        var filteredPosts = postViewModel.filteredPosts.value!!
+        clickedItem = filteredPosts.find { it.id == clickedItemId }!!
     }
 }
 

@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import retrofit2.HttpException
 import java.io.IOException
-import java.util.Locale
 import java.util.UUID
 
 class PostViewModel (application: Application) : AndroidViewModel(application) {
@@ -169,7 +168,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
     }
 
 
-    fun addPost(post: Post) {
+    fun addPost(post: Post, callback: PostCallback) {
         viewModelScope.launch {
             runCatching {
                 val newPost = post
@@ -177,12 +176,15 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                     .document(newPost.id)
                     .set(newPost)
                     .await()
+                callback.onSuccess()
             }.onFailure {
                 Log.e(TAG, "addPost() failed! : ${it.message}")
                 handleException(it)
+                callback.onFailure(it)
             }
         }
     }
+
 
     fun editPost(post: Post) {
         viewModelScope.launch {

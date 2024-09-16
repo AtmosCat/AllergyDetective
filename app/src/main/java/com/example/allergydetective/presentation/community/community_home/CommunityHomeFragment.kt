@@ -67,8 +67,8 @@ class CommunityHomeFragment : Fragment() {
 
         postViewModel.getAllPosts()
         postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
-            communityHomeAdapter.submitList(data)
             allPosts = data
+            communityHomeAdapter.submitList(allPosts)
         }
 
         val postListFragment = requireActivity().supportFragmentManager.findFragmentByTag("PostListFragment")
@@ -206,7 +206,15 @@ class CommunityHomeFragment : Fragment() {
         super.onHiddenChanged(hidden)
         postViewModel.getAllPosts()
         postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
-            communityHomeAdapter.submitList(data)
+            communityHomeAdapter.updateData(data)
+            allPosts = data
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        postViewModel.getAllPosts()
+        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
+            communityHomeAdapter.updateData(data)
             allPosts = data
         }
     }

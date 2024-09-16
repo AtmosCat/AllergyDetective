@@ -71,21 +71,9 @@ class CommunityHomeAdapter :
             scrap.text = item.scrap.toString()
             comment.text = item.comments.size.toString()
         }
-
     }
     fun updateData(newItems: List<Post>) {
         submitList(newItems)
         notifyDataSetChanged()
     }
 }
-//
-//data class Post(
-//    val id: String = "",
-//    val category: String = "",
-//    val posterPhoto: String = "",
-//    val posterName : String = "",
-//    val title: String = "",
-//    val detail: String = "",
-//    val comments: List<Comments> = mutableListOf(),
-//    val like: Int = 0,
-//    val report: Boolean = false)
