@@ -29,7 +29,7 @@ data class Comments(
     val commenterNickname: String = "",
     val detail: String = "",
     val like: Int = 0,
-    val reply: List<Reply> = mutableListOf(),
+    var reply: List<Reply> = mutableListOf(),
     val report: Boolean = false,
     val timestamp: String? = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
 )

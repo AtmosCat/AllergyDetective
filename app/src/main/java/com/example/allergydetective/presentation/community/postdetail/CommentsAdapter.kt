@@ -28,7 +28,12 @@ class CommentsAdapter :
         fun onClick(view: View, position: Int)
     }
 
+    interface ItemClick2 {
+        fun onClick2(view: View, position: Int)
+    }
+
     var itemClick : ItemClick? = null
+    var itemClick2 : ItemClick2? = null
 
     // RecyclerView 돌아갈 때 새로운 뷰 홀더 생성 및 초기화
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -44,6 +49,9 @@ class CommentsAdapter :
             holder.itemView.setOnClickListener {
                 itemClick?.onClick(it, position)
             }
+            holder.menu.setOnClickListener{
+                itemClick2?.onClick2(it, position)
+            }
         }.onFailure { exception ->
             Log.e("CommentsAdapter", "Exception! ${exception.message}")
         }
@@ -54,14 +62,18 @@ class CommentsAdapter :
         val photo = binding.ivCommenter
         val name = binding.tvCommenter
         val detail = binding.tvCommentDetail
+        val reply = binding.btnReplyComment
+        val menu = binding.btnMenu
 
         fun bind(item: Comments) {
             photo.load(item.commenterPhoto)
             name.text = item.commenterNickname
             detail.text = item.detail
+            reply.text = "↳ 답글 ${item.reply.size}"
         }
     }
     fun updateData(newItems: List<Comments>) {
         submitList(newItems)
+        notifyDataSetChanged()
     }
 }

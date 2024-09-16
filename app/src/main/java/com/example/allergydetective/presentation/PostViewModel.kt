@@ -286,6 +286,64 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun deleteComment(clickedItemId: String, commentToDelete: Comments, callback: DeleteCommentCallback) {
+        viewModelScope.launch {
+            runCatching {
+                val postRef = db.collection("post").document(clickedItemId)
+                db.runTransaction { transaction ->
+                    val postSnapshot = transaction.get(postRef)
+                    val post = postSnapshot.toObject(Post::class.java)
+                    val comments = post?.comments ?: emptyList()
+
+                    val commentIndex = comments.indexOfFirst { it.id == commentToDelete.id }
+                    if (commentIndex != -1) {
+                        val updatedComments = comments.toMutableList()
+                        updatedComments.removeAt(commentIndex)
+                        transaction.update(postRef, "comments", updatedComments)
+                    }
+                }.addOnSuccessListener {
+                    callback.onSuccess()  // 콜백의 onSuccess 호출
+                }.addOnFailureListener { exception ->
+                    callback.onFailure(exception)  // 콜백의 onFailure 호출
+                }
+            }.onFailure {
+                Log.e(TAG, "deleteComment() failed! : ${it.message}")
+                handleException(it)
+                callback.onFailure(it)  // 콜백의 onFailure 호출
+            }
+        }
+    }
+    fun deleteReply(clickedItemId: String, clickedCommentId: String, clickedReplyId: String) {
+        viewModelScope.launch {
+            runCatching {
+                val postRef = db.collection("post").document(clickedItemId)
+                db.runTransaction { transaction ->
+                    val postSnapshot = transaction.get(postRef)
+                    val post = postSnapshot.toObject(Post::class.java)
+                    val comments = post?.comments ?: emptyList()
+                    val commentIndex = comments.indexOfFirst { it.id == clickedCommentId }
+                    val replies = comments[commentIndex].reply
+                    val replyIndex = replies.indexOfFirst { it.id == clickedReplyId }
+                    if (replyIndex != -1) {
+                        val updatedComments = comments.toMutableList()
+                        val updatedReplies = updatedComments[commentIndex].reply.toMutableList()
+                        updatedReplies.removeAt(replyIndex)
+                        updatedComments[commentIndex].reply = updatedReplies
+                        transaction.update(postRef, "comments", updatedComments)
+                    }
+                }.addOnSuccessListener {
+                    println("답글 삭제 성공")
+                }
+                    .addOnFailureListener { exception ->
+                        println("답글 삭제 실패 / $exception")
+                    }
+            }.onFailure {
+                Log.e(TAG, "deleteComment() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
+
     fun saveUserPhotoUrl(photoUrl: String) {
         db.collection("user").document(currentUser.value!!.email)
             .update("photo", photoUrl)

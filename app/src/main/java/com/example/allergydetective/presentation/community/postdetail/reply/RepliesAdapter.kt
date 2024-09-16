@@ -28,7 +28,12 @@ class RepliesAdapter :
         fun onClick(view: View, position: Int)
     }
 
+    interface ItemClick2 {
+        fun onClick2(view: View, position: Int)
+    }
+
     var itemClick : ItemClick? = null
+    var itemClick2 : ItemClick2? = null
 
     // RecyclerView 돌아갈 때 새로운 뷰 홀더 생성 및 초기화
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -44,6 +49,9 @@ class RepliesAdapter :
             holder.itemView.setOnClickListener {
                 itemClick?.onClick(it, position)
             }
+            holder.menu.setOnClickListener{
+                itemClick2?.onClick2(it, position)
+            }
         }.onFailure { exception ->
             Log.e("RepliesAdapter", "Exception! ${exception.message}")
         }
@@ -54,6 +62,7 @@ class RepliesAdapter :
         val photo = binding.ivReplier
         val name = binding.tvReplier
         val detail = binding.tvReplyDetail
+        val menu = binding.btnMenu
 
         fun bind(item: Reply) {
             photo.load(item.replierPhoto)

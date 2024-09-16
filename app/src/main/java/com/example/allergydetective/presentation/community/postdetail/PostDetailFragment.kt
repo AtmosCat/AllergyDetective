@@ -24,6 +24,7 @@ import com.example.allergydetective.data.model.user.Report
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.databinding.FragmentPostDetailBinding
+import com.example.allergydetective.presentation.DeleteCommentCallback
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeAdapter
@@ -51,6 +52,8 @@ class PostDetailFragment : Fragment() {
     private var clickedItemId = ""
 
     private var clickedComment = Comments()
+
+    private var filteredPosts = listOf<Post>()
 
     private val userViewModel: UserViewModel by activityViewModels {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
@@ -99,8 +102,8 @@ class PostDetailFragment : Fragment() {
 
         clickedItemId = param1.toString()
         val clickedItem2 = postViewModel.filteredPosts.value!!.find { it.id == clickedItemId }
-        postViewModel.filteredPosts.observe(viewLifecycleOwner) { filteredPosts ->
-            var filteredPosts = postViewModel.filteredPosts.value!!
+        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
+            filteredPosts = data
             clickedItem = filteredPosts.find { it.id == clickedItemId }!!
 
             binding.btnBack.setOnClickListener {
@@ -188,20 +191,9 @@ class PostDetailFragment : Fragment() {
                                         var newItems = postViewModel.filteredPosts.value!!.sortedBy { it.timestamp }
                                         CommunityHomeAdapter().updateData(newItems)
                                         userViewModel.deleteMyPost(currentUser.email, clickedItem)
-                                        Toast.makeText(this.requireContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this.requireContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                                         dialog.dismiss()
                                         requireActivity().supportFragmentManager.popBackStack()
-//                                        val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
-//                                        requireActivity().supportFragmentManager.beginTransaction().apply {
-//                                            hide(this@PostDetailFragment)
-//                                            if (homeFragment == null) {
-//                                                add(R.id.main_frame, HomeFragment(), "HomeFragment")
-//                                            } else {
-//                                                show(homeFragment)
-//                                            }
-//                                            addToBackStack(null)
-//                                            commit()
-//                                        }
                                     }
                                     .setNegativeButton("취소") { dialog, which ->
                                         dialog.dismiss()
@@ -217,7 +209,6 @@ class PostDetailFragment : Fragment() {
                     popupMenu.show()
                 }
             }
-
 
             val viewPager = binding.viewPager
 
@@ -235,7 +226,6 @@ class PostDetailFragment : Fragment() {
                     binding.tvPhotoNumber.text = "${position + 1} / ${imageResources.size}"
                 }
             })
-
 
             if (clickedItem.posterPhoto.isEmpty()) {
                 binding.ivPoster.setImageBitmap(sampleBitmap)
@@ -292,6 +282,98 @@ class PostDetailFragment : Fragment() {
 
             commentsAdapter.submitList(clickedItem.comments)
 
+            commentsAdapter.itemClick2 = object : CommentsAdapter.ItemClick2 {
+                override fun onClick2(view: View, position: Int) {
+                    val clickedComment = clickedItem.comments[position]
+                    if (clickedComment.commenterEmail != currentUser.email) {
+                        val popupMenu = PopupMenu(requireContext(), view)
+                        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+                        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+                            when (item.itemId) {
+                                R.id.action_report -> {
+                                    AlertDialog.Builder(requireContext())
+                                        .setView(reportDialogView)
+                                        .setPositiveButton("제출") { dialog, _ ->
+                                            val userReportReason = etReportReason.text.toString()
+                                            val userReportDetail = etReportDetail.text.toString()
+                                            val newReport = Report(
+                                                type = "Comment",
+                                                postId = clickedComment.id,
+                                                reporterEmail = currentUser.email,
+                                                reporteeEmail = clickedComment.commenterEmail,
+                                                reportReason = userReportReason,
+                                                reportDetail = userReportDetail
+                                            )
+                                            postViewModel.sendReport(newReport)
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "신고가 접수되었습니다.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            dialog.dismiss()
+                                        }
+                                        .setNegativeButton("취소") { dialog, which ->
+                                            dialog.dismiss()
+                                        }
+                                        .show()
+                                    true
+                                }
+                                else -> false
+                            }
+                        }
+                        popupMenu.show()
+                    } else {
+                        val popupMenu = PopupMenu(requireContext(), view)
+                        popupMenu.menuInflater.inflate(R.menu.popup_menu_mine_comment, popupMenu.menu)
+                        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+                            when (item.itemId) {
+                                R.id.action_delete -> {
+                                    AlertDialog.Builder(requireContext())
+                                        .setTitle("댓글 삭제하기")
+                                        .setMessage("댓글을 삭제하시겠습니까?")
+                                        .setPositiveButton("삭제") { dialog, _ ->
+                                            postViewModel.deleteComment(clickedItem.id, clickedComment, object :
+                                                DeleteCommentCallback {
+                                                override fun onSuccess() {
+                                                    // 댓글 삭제 성공 후 처리
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        "댓글이 삭제되었습니다.",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                    postViewModel.getAllPosts()
+                                                    postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
+                                                        clickedItem = data.find { it.id == clickedItemId }!!
+                                                        commentsAdapter.updateData(clickedItem.comments)
+                                                    }
+                                                }
+
+                                                override fun onFailure(throwable: Throwable) {
+                                                    // 댓글 삭제 실패 후 처리
+                                                    Toast.makeText(
+                                                        requireContext(),
+                                                        "댓글 삭제 실패",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                            })
+                                            dialog.dismiss()
+                                        }
+                                        .setNegativeButton("취소") { dialog, which ->
+                                            dialog.dismiss()
+                                        }
+                                        .show()
+                                    true
+                                }
+                                else -> false
+                            }
+                        }
+                        popupMenu.show()
+                    }
+                }
+            }
+
+
             val replyDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ReplyDetailFragment")
             commentsAdapter.itemClick = object : CommentsAdapter.ItemClick {
                 override fun onClick(view: View, position: Int) {
@@ -324,17 +406,22 @@ class PostDetailFragment : Fragment() {
                 binding.etAddComment.setText("")
             }
         }
-
     }
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        var filteredPosts = postViewModel.filteredPosts.value!!
-        clickedItem = filteredPosts.find { it.id == clickedItemId }!!
+        postViewModel.getAllPosts()
+        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
+            clickedItem = data.find { it.id == clickedItemId }!!
+//            commentsAdapter.updateData(clickedItem.comments)
+        }
     }
     override fun onResume() {
         super.onResume()
-        var filteredPosts = postViewModel.filteredPosts.value!!
-        clickedItem = filteredPosts.find { it.id == clickedItemId }!!
+        postViewModel.getAllPosts()
+        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
+            clickedItem = data.find { it.id == clickedItemId }!!
+//            commentsAdapter.updateData(clickedItem.comments)
+        }
     }
 }
 
