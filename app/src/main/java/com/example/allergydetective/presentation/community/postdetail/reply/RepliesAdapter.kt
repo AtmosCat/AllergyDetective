@@ -47,10 +47,17 @@ class RepliesAdapter :
         runCatching {
             holder.bind(getItem(position))
             holder.itemView.setOnClickListener {
-                itemClick?.onClick(it, position)
+                val adapterPosition = holder.bindingAdapterPosition
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    itemClick?.onClick(it, adapterPosition)
+                }
             }
-            holder.menu.setOnClickListener{
-                itemClick2?.onClick2(it, position)
+
+            holder.menu.setOnClickListener {
+                val adapterPosition = holder.bindingAdapterPosition
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    itemClick2?.onClick2(it, adapterPosition)
+                }
             }
         }.onFailure { exception ->
             Log.e("RepliesAdapter", "Exception! ${exception.message}")
@@ -72,5 +79,12 @@ class RepliesAdapter :
     }
     fun updateData(newItems: List<Reply>) {
         submitList(newItems)
+    }
+
+    fun removeItem(fromPosition: Int) {
+        val currentList = currentList.toMutableList() // 현재 리스트를 mutable로 복사
+        currentList.removeAt(fromPosition) // 아이템 제거
+
+        submitList(currentList) // 변경된 리스트를 제출
     }
 }

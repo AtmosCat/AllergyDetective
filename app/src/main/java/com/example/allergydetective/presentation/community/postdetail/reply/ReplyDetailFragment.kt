@@ -178,6 +178,7 @@ class ReplyDetailFragment : Fragment() {
                                         .setTitle("답글 삭제하기")
                                         .setMessage("답글을 삭제하시겠습니까?")
                                         .setPositiveButton("삭제") { dialog, _ ->
+                                            repliesAdapter.removeItem(position)
                                             postViewModel.deleteReply(clickedItem.id, clickedComment.id, clickedReply.id)
                                             Toast.makeText(
                                                 requireContext(),
@@ -205,21 +206,9 @@ class ReplyDetailFragment : Fragment() {
     }
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        postViewModel.getAllPosts()
-        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
-            clickedItem = data.find { it.id == clickedItemId }!!
-            clickedComment = clickedItem.comments.find { it.id == clickedCommentId }!!
-            repliesAdapter.updateData(clickedComment.reply)
-        }
     }
     override fun onResume() {
         super.onResume()
-        postViewModel.getAllPosts()
-        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
-            clickedItem = data.find { it.id == clickedItemId }!!
-            clickedComment = clickedItem.comments.find { it.id == clickedCommentId }!!
-            repliesAdapter.updateData(clickedComment.reply)
-        }
     }
 }
 
