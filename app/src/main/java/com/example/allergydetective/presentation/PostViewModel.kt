@@ -140,7 +140,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                             }
                         }
                     }
-                } else if (categories.isNotEmpty() && searchKeyword.isNotBlank()) {
+                } else if (categories.isEmpty() && searchKeyword.isNotBlank()) {
                     when (searchOption) {
                         "제목 검색" -> {
                             filteredPosts += allData.filter { post ->

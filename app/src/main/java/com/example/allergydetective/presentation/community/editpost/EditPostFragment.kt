@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.example.allergydetective.R
+import com.example.allergydetective.data.model.user.Comments
 import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.data.model.user.sampleBitmap
@@ -45,6 +46,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 private const val ARG_PARAM1 = "param1"
@@ -218,7 +221,6 @@ class EditPostFragment : Fragment() {
                 postViewModel.initializeTemporaryImageUrls()
             }
 
-
             binding.btnSaveEditPost.setOnClickListener{
                 if (selectedCategory.isEmpty()) {
                     Toast.makeText(this.requireContext(), "카테고리를 1가지 지정해주세요.", Toast.LENGTH_SHORT).show()
@@ -231,25 +233,16 @@ class EditPostFragment : Fragment() {
                         posterNickname =  currentUser.nickname,
                         title = binding.etTitle.text.toString(),
                         detail = binding.etDetail.text.toString(),
-                        detailPhoto = imageResources
+                        detailPhoto = imageResources,
+                        comments = clickedItem.comments,
+                        scrap = clickedItem.scrap,
+                        report = clickedItem.report
                     )
                     postViewModel.editPost(edittedPost)
                     userViewModel.editMyPost(currentUser.email, edittedPost)
 
                     Toast.makeText(this.requireContext(), "게시글이 수정되었습니다.", Toast.LENGTH_SHORT).show()
                     requireActivity().supportFragmentManager.popBackStack()
-//                    val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
-//                    requireActivity().supportFragmentManager.beginTransaction().apply {
-//                        hide(this@EditPostFragment)
-//                        if (homeFragment == null) {
-//                            add(R.id.main_frame, HomeFragment(), "HomeFragment")
-//                        } else {
-//                            show(homeFragment)
-//                        }
-//                        addToBackStack(null)
-//                        commit()
-//                    }
-
                 }
             }
         }

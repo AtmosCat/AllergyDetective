@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -187,7 +188,18 @@ class NewPostFragment : Fragment() {
             }
         }
 
-        binding.ivPoster.load(currentUser.photo)
+        binding.ivPoster.load(currentUser.photo) {
+            placeholder(R.drawable.placeholder) // 로딩 중 보여줄 이미지
+            error(R.drawable.group_member) // 로드 실패 시 보여줄 기본 이미지
+            listener(
+                onSuccess = { _, result ->
+                    Log.d("Coil", "Image load succeeded")
+                },
+                onError = { _, result ->
+                    Log.e("Coil", "Image load failed: ${result.throwable.message}")
+                }
+            )
+        }
         binding.tvPoster.text = currentUser.nickname
 
         binding.btnSaveNewPost.setOnClickListener {

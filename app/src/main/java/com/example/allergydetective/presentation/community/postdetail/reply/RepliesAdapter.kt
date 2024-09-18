@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.Reply
 import com.example.allergydetective.databinding.RecyclerviewCommentRepliesBinding
@@ -72,7 +73,19 @@ class RepliesAdapter :
         val menu = binding.btnMenu
 
         fun bind(item: Reply) {
-            photo.load(item.replierPhoto)
+            val imageUrl = item.replierPhoto
+            photo.load(imageUrl) {
+                placeholder(R.drawable.placeholder) // 로딩 중 보여줄 이미지
+                error(R.drawable.group_member) // 로드 실패 시 보여줄 기본 이미지
+                listener(
+                    onSuccess = { _, result ->
+                        Log.d("Coil", "Image load succeeded")
+                    },
+                    onError = { _, result ->
+                        Log.e("Coil", "Image load failed: ${result.throwable.message}")
+                    }
+                )
+            }
             name.text = item.replierNickname
             detail.text = item.detail
         }

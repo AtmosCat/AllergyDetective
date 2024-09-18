@@ -43,7 +43,10 @@ class PostListAdapter :
         runCatching {
             holder.bind(getItem(position))
             holder.itemView.setOnClickListener {
-                itemClick?.onClick(it, position)
+                val adapterPosition = holder.bindingAdapterPosition
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    itemClick?.onClick(it, adapterPosition)
+                }
             }
         }.onFailure { exception ->
             Log.e("PostListAdapter", "Exception! ${exception.message}")

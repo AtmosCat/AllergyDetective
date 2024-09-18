@@ -1,4 +1,4 @@
-package com.example.allergydetective.presentation.community.community_home
+package com.example.allergydetective.presentation.mypage.savedpost
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,17 +9,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.user.Comments
+import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.model.user.Post
+import com.example.allergydetective.databinding.RecyclerviewItemlistBinding
 import com.example.allergydetective.databinding.RecyclerviewPostListBinding
 
-class CommunityHomeAdapter :
-    ListAdapter<Post, CommunityHomeAdapter.Holder>(object :
+
+class SavedPostAdapter :
+    ListAdapter<Post, SavedPostAdapter.Holder>(object :
         DiffUtil.ItemCallback<Post>() {
         // 구 값, 신 값 비교해서 바뀐 것들만 업데이트
         override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
             return oldItem.id == newItem.id
         }
+
         override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
             return oldItem == newItem
         }
@@ -31,7 +34,6 @@ class CommunityHomeAdapter :
 
     var itemClick : ItemClick? = null
 
-    // RecyclerView 돌아갈 때 새로운 뷰 홀더 생성 및 초기화
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding =
             RecyclerviewPostListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -43,13 +45,10 @@ class CommunityHomeAdapter :
         runCatching {
             holder.bind(getItem(position))
             holder.itemView.setOnClickListener {
-                val adapterPosition = holder.bindingAdapterPosition
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    itemClick?.onClick(it, adapterPosition)
-                }
+                itemClick?.onClick(it, position)
             }
         }.onFailure { exception ->
-            Log.e("CommunityHomeAdapter", "Exception! ${exception.message}")
+            Log.e("SavedPostAdapter", "Exception! ${exception.message}")
         }
     }
 
@@ -77,6 +76,5 @@ class CommunityHomeAdapter :
     }
     fun updateData(newItems: List<Post>) {
         submitList(newItems)
-        notifyDataSetChanged()
     }
 }

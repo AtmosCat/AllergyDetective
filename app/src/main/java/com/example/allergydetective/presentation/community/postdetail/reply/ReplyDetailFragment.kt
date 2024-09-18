@@ -2,6 +2,7 @@ package com.example.allergydetective.presentation.community.postdetail
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -102,7 +103,18 @@ class ReplyDetailFragment : Fragment() {
                 requireActivity().supportFragmentManager.popBackStack()
             }
 
-            binding.ivCommenter.load(clickedComment.commenterPhoto)
+            binding.ivCommenter.load(clickedComment.commenterPhoto) {
+                placeholder(R.drawable.placeholder) // 로딩 중 보여줄 이미지
+                error(R.drawable.group_member) // 로드 실패 시 보여줄 기본 이미지
+                listener(
+                    onSuccess = { _, result ->
+                        Log.d("Coil", "Image load succeeded")
+                    },
+                    onError = { _, result ->
+                        Log.e("Coil", "Image load failed: ${result.throwable.message}")
+                    }
+                )
+            }
             binding.tvCommenter.text = clickedComment.commenterNickname
             binding.tvCommentDetail.text = clickedComment.detail
 

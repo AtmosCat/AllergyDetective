@@ -15,14 +15,13 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.load
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.sampleBitmap
-import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
-import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentMyPageBinding
-import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
 import com.example.allergydetective.presentation.mypage.GroupManagerFragment
 import com.example.allergydetective.presentation.mypage.favorite.FavoriteFragment
+import com.example.allergydetective.presentation.mypage.mypost.MyPostFragment
+import com.example.allergydetective.presentation.mypage.savedpost.SavedPostFragment
 
 
 class MyPageFragment : Fragment() {

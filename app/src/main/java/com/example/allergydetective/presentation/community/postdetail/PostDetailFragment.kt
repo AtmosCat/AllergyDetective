@@ -2,6 +2,7 @@ package com.example.allergydetective.presentation.community.postdetail
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -43,7 +44,6 @@ class PostDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val commentsAdapter by lazy { CommentsAdapter() }
-    private val repliesAdapter by lazy { RepliesAdapter() }
 
     private var currentUser = User()
 
@@ -90,6 +90,8 @@ class PostDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        postViewModel.getAllPosts()
 
         binding.recyclerviewComments.adapter = commentsAdapter
         binding.recyclerviewComments.layoutManager = LinearLayoutManager(requireContext())
@@ -218,6 +220,8 @@ class PostDetailFragment : Fragment() {
             val imageResources = clickedItem.detailPhoto
             if (imageResources.isEmpty()) {
                 binding.tvNoPhotos.visibility = View.VISIBLE
+            } else {
+                binding.tvNoPhotos.visibility = View.GONE
             }
 
             val viewPagerAdapter = ViewPagerAdapter(imageResources)
@@ -231,18 +235,22 @@ class PostDetailFragment : Fragment() {
             })
 
             if (clickedItem.posterPhoto.isEmpty()) {
-                binding.ivPoster.setImageBitmap(sampleBitmap)
+                binding.ivPoster.setImageResource(R.drawable.group_member)
             } else {
                 postViewModel.getPosterPhotoUrl(
                     clickedItemId = clickedItemId!!,
                     onSuccess = { downloadUrl ->
-                        binding.ivPoster.load(downloadUrl) {
-                        //                            listener(onSuccess = {
-//
-//                            },
-//                                onError = {
-//
-//                                })
+                        binding.ivPoster.load(clickedItem.posterPhoto) {
+                            placeholder(R.drawable.placeholder) // 로딩 중 보여줄 이미지
+                            error(R.drawable.group_member) // 로드 실패 시 보여줄 기본 이미지
+                            listener(
+                                onSuccess = { _, result ->
+                                    Log.d("Coil", "Image load succeeded")
+                                },
+                                onError = { _, result ->
+                                    Log.e("Coil", "Image load failed: ${result.throwable.message}")
+                                }
+                            )
                         }
                     },
                     onFailure = { exception ->
