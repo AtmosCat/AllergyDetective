@@ -12,6 +12,7 @@ import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.Reply
 import com.example.allergydetective.data.model.user.Report
 import com.example.allergydetective.data.model.user.User
+import com.example.allergydetective.presentation.community.postdetail.CommentsAdapter
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -302,7 +303,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                         transaction.update(postRef, "comments", updatedComments)
                     }
                 }.addOnSuccessListener {
-                    callback.onSuccess()  // 콜백의 onSuccess 호출
+                    callback.onSuccess()
                 }.addOnFailureListener { exception ->
                     callback.onFailure(exception)  // 콜백의 onFailure 호출
                 }

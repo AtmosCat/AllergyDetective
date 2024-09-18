@@ -45,17 +45,41 @@ class CommentsAdapter :
     // 홀더에 실제 데이터 할당
     override fun onBindViewHolder(holder: Holder, position: Int) {
         runCatching {
-            holder.bind(getItem(position))
+            val item = getItem(position)
+            holder.bind(item)
+
             holder.itemView.setOnClickListener {
-                itemClick?.onClick(it, position)
+                val adapterPosition = holder.bindingAdapterPosition
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    itemClick?.onClick(it, adapterPosition)
+                }
             }
-            holder.menu.setOnClickListener{
-                itemClick2?.onClick2(it, position)
+
+            holder.menu.setOnClickListener {
+                val adapterPosition = holder.bindingAdapterPosition
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    itemClick2?.onClick2(it, adapterPosition)
+                }
             }
         }.onFailure { exception ->
             Log.e("CommentsAdapter", "Exception! ${exception.message}")
         }
     }
+
+    fun addItem(toPosition: Int, item: Comments) {
+        val currentList = currentList.toMutableList() // 현재 리스트를 mutable로 복사
+        currentList.add(toPosition, item) // 아이템 제거
+
+        submitList(currentList) // 변경된 리스트를 제출
+    }
+
+    fun removeItem(fromPosition: Int) {
+        val currentList = currentList.toMutableList() // 현재 리스트를 mutable로 복사
+        currentList.removeAt(fromPosition) // 아이템 제거
+
+        submitList(currentList) // 변경된 리스트를 제출
+    }
+
 
     class Holder(binding: RecyclerviewCommentsBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -74,6 +98,5 @@ class CommentsAdapter :
     }
     fun updateData(newItems: List<Comments>) {
         submitList(newItems)
-        notifyDataSetChanged()
     }
 }

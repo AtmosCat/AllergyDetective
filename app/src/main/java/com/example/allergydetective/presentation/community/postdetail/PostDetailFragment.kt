@@ -106,6 +106,9 @@ class PostDetailFragment : Fragment() {
             filteredPosts = data
             clickedItem = filteredPosts.find { it.id == clickedItemId }!!
 
+            val comments = clickedItem.comments.toMutableList()
+            commentsAdapter.submitList(comments)
+
             binding.btnBack.setOnClickListener {
                 requireActivity().supportFragmentManager.popBackStack()
             }
@@ -280,7 +283,6 @@ class PostDetailFragment : Fragment() {
                 }
             }
 
-            commentsAdapter.submitList(clickedItem.comments)
 
             commentsAdapter.itemClick2 = object : CommentsAdapter.ItemClick2 {
                 override fun onClick2(view: View, position: Int) {
@@ -332,24 +334,17 @@ class PostDetailFragment : Fragment() {
                                         .setTitle("댓글 삭제하기")
                                         .setMessage("댓글을 삭제하시겠습니까?")
                                         .setPositiveButton("삭제") { dialog, _ ->
+                                            commentsAdapter.removeItem(position)
                                             postViewModel.deleteComment(clickedItem.id, clickedComment, object :
                                                 DeleteCommentCallback {
                                                 override fun onSuccess() {
-                                                    // 댓글 삭제 성공 후 처리
                                                     Toast.makeText(
                                                         requireContext(),
                                                         "댓글이 삭제되었습니다.",
                                                         Toast.LENGTH_SHORT
                                                     ).show()
-                                                    postViewModel.getAllPosts()
-                                                    postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
-                                                        clickedItem = data.find { it.id == clickedItemId }!!
-                                                        commentsAdapter.updateData(clickedItem.comments)
-                                                    }
                                                 }
-
                                                 override fun onFailure(throwable: Throwable) {
-                                                    // 댓글 삭제 실패 후 처리
                                                     Toast.makeText(
                                                         requireContext(),
                                                         "댓글 삭제 실패",
@@ -358,6 +353,7 @@ class PostDetailFragment : Fragment() {
                                                 }
                                             })
                                             dialog.dismiss()
+//                                            reloadFragment()
                                         }
                                         .setNegativeButton("취소") { dialog, which ->
                                             dialog.dismiss()
@@ -372,7 +368,6 @@ class PostDetailFragment : Fragment() {
                     }
                 }
             }
-
 
             val replyDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ReplyDetailFragment")
             commentsAdapter.itemClick = object : CommentsAdapter.ItemClick {
@@ -417,11 +412,17 @@ class PostDetailFragment : Fragment() {
     }
     override fun onResume() {
         super.onResume()
-        postViewModel.getAllPosts()
-        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
-            clickedItem = data.find { it.id == clickedItemId }!!
+//        postViewModel.getAllPosts()
+//        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
+//            clickedItem = data.find { it.id == clickedItemId }!!
 //            commentsAdapter.updateData(clickedItem.comments)
-        }
+//        }
+    }
+    fun reloadFragment() {
+        val fragmentTransaction = parentFragmentManager.beginTransaction()
+        fragmentTransaction.detach(this)
+        fragmentTransaction.attach(this)
+        fragmentTransaction.commit()
     }
 }
 
