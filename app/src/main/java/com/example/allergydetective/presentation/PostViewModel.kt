@@ -158,6 +158,9 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                 } else {
                     filteredPosts += allPosts.value!!
                 }
+                for (blockedUserEmail in currentUser.value!!.blockedUsers) {
+                    filteredPosts.filter { it.posterEmail != blockedUserEmail }
+                }
                 _filteredPosts.value = filteredPosts
             }.onFailure {
                 Log.e(TAG, "getFilteredPosts() failed! : ${it.message}")
@@ -285,7 +288,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun deleteComment(clickedItemId: String, commentToDelete: Comments, callback: DeleteCommentCallback) {
+    fun deleteComment(clickedItemId: String, commentToDelete: Comments) {
         viewModelScope.launch {
             runCatching {
                 val postRef = db.collection("post").document(clickedItemId)
@@ -301,17 +304,17 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                         transaction.update(postRef, "comments", updatedComments)
                     }
                 }.addOnSuccessListener {
-                    callback.onSuccess()
+                    println("Comment ${commentToDelete.id} deleted successfully")
                 }.addOnFailureListener { exception ->
-                    callback.onFailure(exception)  // 콜백의 onFailure 호출
+                    println("Failed to delete Comment ${commentToDelete.id} : $exception")
                 }
             }.onFailure {
                 Log.e(TAG, "deleteComment() failed! : ${it.message}")
                 handleException(it)
-                callback.onFailure(it)  // 콜백의 onFailure 호출
             }
         }
     }
+
     fun deleteReply(clickedItemId: String, clickedCommentId: String, clickedReplyId: String) {
         viewModelScope.launch {
             runCatching {

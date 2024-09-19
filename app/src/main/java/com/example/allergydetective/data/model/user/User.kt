@@ -45,7 +45,8 @@ data class User(val email: String = "",
                 var like: MutableList<Food> = mutableListOf(),
                 val mypost: MutableList<Post> = mutableListOf(),
                 val scrap: MutableList<Post> = mutableListOf(),
-                var photo: String = "")
+                var photo: String = "",
+                var blockedUsers: MutableList<String> = mutableListOf())
 
 // 유저 - 그룹 관리
 data class GroupMember(var name: String = "",

@@ -7,8 +7,11 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.PopupMenu
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -54,6 +57,10 @@ class PostDetailFragment : Fragment() {
     private var clickedComment = Comments()
 
     private var filteredPosts = listOf<Post>()
+
+    private var selectedReportPostReason = ""
+
+    private var selectedReportUserReason = ""
 
     private val userViewModel: UserViewModel by activityViewModels {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
@@ -117,53 +124,131 @@ class PostDetailFragment : Fragment() {
 
             binding.tvCategory.text = "주제: ${clickedItem.category}"
 
-            val reportDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_report_post, null)
-            val etReportReason = reportDialogView.findViewById<EditText>(R.id.et_report_post_reason)
-            val etReportDetail = reportDialogView.findViewById<EditText>(R.id.et_report_post_detail)
+            // 글 신고
+            val reportPostDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_report_post, null)
+            val etReportPostDetail = reportPostDialogView.findViewById<EditText>(R.id.et_report_post_detail)
+            val spinnerReportPostReason = reportPostDialogView.findViewById<Spinner>(R.id.spinner_report_post_reason)
+            val reportPostReasonList = arrayOf(
+                "도용",
+                "비방 및 욕설",
+                "원치 않는 상업성 게시물",
+                "증오심 표현 및 노골적인 폭력",
+                "잘못된 정보",
+                "기타")
+            val spinnerReportPostAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, reportPostReasonList)
+            spinnerReportPostReason.adapter = spinnerReportPostAdapter
+            spinnerReportPostReason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?,view: View?,position: Int,id: Long) {
+                    selectedReportPostReason = parent?.getItemAtPosition(position).toString()
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
+
+            // 유저 신고
+            val reportUserDialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_report_user, null)
+            val etReportUserDetail = reportUserDialogView.findViewById<EditText>(R.id.et_report_user_detail)
+            val spinnerReportUserReason = reportUserDialogView.findViewById<Spinner>(R.id.spinner_report_user_reason)
+            val reportUserReasonList = arrayOf(
+                "도용",
+                "비방 및 욕설",
+                "미성년자 대상 유해한 내용",
+                "증오심 표현 및 노골적인 폭력",
+                "개인정보 노출 위험",
+                "기타"
+            )
+            val spinnerReportUserAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, reportUserReasonList)
+            spinnerReportUserReason.adapter = spinnerReportUserAdapter
+            spinnerReportUserReason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?,view: View?,position: Int,id: Long) {
+                    selectedReportUserReason = parent?.getItemAtPosition(position).toString()
+                }
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
+
 
             if (clickedItem.posterEmail != currentUser.email) {
-                for (mypost in currentUser.mypost) {
-                    binding.btnMenu.setOnClickListener { view ->
-                        val popupMenu = PopupMenu(requireContext(), view)
-                        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
-                        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
-                            when (item.itemId) {
-                                R.id.action_report -> {
-                                    AlertDialog.Builder(requireContext())
-                                        .setView(reportDialogView)
-                                        .setPositiveButton("제출") { dialog, _ ->
-                                            val userReportReason = etReportReason.text.toString()
-                                            val userReportDetail = etReportDetail.text.toString()
-                                            val newReport = Report(
-                                                type = "Post",
-                                                postId = clickedItem.id,
-                                                reporterEmail = currentUser.email,
-                                                reporteeEmail = clickedItem.posterEmail,
-                                                reportReason = userReportReason,
-                                                reportDetail = userReportDetail
-                                            )
-                                            postViewModel.sendReport(newReport)
-                                            Toast.makeText(
-                                                this.requireContext(),
-                                                "신고가 접수되었습니다.",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                            dialog.dismiss()
-                                        }
-                                        .setNegativeButton("취소") { dialog, which ->
-                                            dialog.dismiss()
-                                        }
-                                        .show()
-                                    true
-                                }
-
-                                else -> {
-                                    false
-                                }
+                binding.btnMenu.setOnClickListener { view ->
+                    val popupMenu = PopupMenu(requireContext(), view)
+                    popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+                    popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+                        when (item.itemId) {
+                            R.id.action_report -> {
+                                AlertDialog.Builder(requireContext())
+                                    .setView(reportPostDialogView)
+                                    .setPositiveButton("제출") { dialog, _ ->
+                                        val reportReason = selectedReportPostReason
+                                        val reportDetail = etReportPostDetail.text.toString()
+                                        val newReport = Report(
+                                            type = "Post",
+                                            postId = clickedItem.id,
+                                            postDetail = clickedItem.detail,
+                                            reporterEmail = currentUser.email,
+                                            reporteeEmail = clickedItem.posterEmail,
+                                            reportReason = reportReason,
+                                            reportDetail = reportDetail
+                                        )
+                                        postViewModel.sendReport(newReport)
+                                        postViewModel.deletePost(clickedItem.id)
+                                        Toast.makeText(requireContext(), "신고가 접수되었습니다.", Toast.LENGTH_SHORT).show()
+                                        dialog.dismiss()
+                                        selectedReportPostReason = ""
+                                    }
+                                    .setNegativeButton("취소") { dialog, which ->
+                                        dialog.dismiss()
+                                    }
+                                    .show()
+                                true
+                            }
+                            R.id.action_report_user -> {
+                                AlertDialog.Builder(requireContext())
+                                    .setView(reportUserDialogView)
+                                    .setPositiveButton("제출") { dialog, _ ->
+                                        val reportReason = selectedReportUserReason
+                                        val reportDetail = etReportUserDetail.text.toString()
+                                        val newReport = Report(
+                                            type = "Post_User",
+                                            postId = clickedItem.id,
+                                            postDetail = clickedItem.detail,
+                                            reporterEmail = currentUser.email,
+                                            reporteeEmail = clickedItem.posterEmail,
+                                            reportReason = reportReason,
+                                            reportDetail = reportDetail
+                                        )
+                                        postViewModel.sendReport(newReport)
+                                        postViewModel.deletePost(clickedItem.id)
+                                        Toast.makeText(requireContext(), "신고가 접수되었습니다.", Toast.LENGTH_SHORT).show()
+                                        dialog.dismiss()
+                                        selectedReportUserReason = ""
+                                    }
+                                    .setNegativeButton("취소") { dialog, which ->
+                                        dialog.dismiss()
+                                    }
+                                    .show()
+                                true
+                            }
+                            R.id.action_block_user -> {
+                                AlertDialog.Builder(requireContext())
+                                    .setTitle("유저 차단")
+                                    .setMessage("이 유저를 차단할까요?")
+                                    .setPositiveButton("확인") { dialog, _ ->
+                                        userViewModel.addBlockedUser(clickedItem.posterEmail)
+                                        Toast.makeText(requireContext(), "유저가 차단되었습니다.", Toast.LENGTH_SHORT).show()
+                                        dialog.dismiss()
+                                    }
+                                    .setNegativeButton("취소") { dialog, which ->
+                                        dialog.dismiss()
+                                    }
+                                    .show()
+                                true
+                            }
+                            else -> {
+                                false
                             }
                         }
-                        popupMenu.show()
                     }
+                    popupMenu.show()
                 }
             } else {
                 binding.btnMenu.setOnClickListener { view ->
@@ -291,7 +376,6 @@ class PostDetailFragment : Fragment() {
                 }
             }
 
-
             commentsAdapter.itemClick2 = object : CommentsAdapter.ItemClick2 {
                 override fun onClick2(view: View, position: Int) {
                     val clickedComment = clickedItem.comments[position]
@@ -302,24 +386,69 @@ class PostDetailFragment : Fragment() {
                             when (item.itemId) {
                                 R.id.action_report -> {
                                     AlertDialog.Builder(requireContext())
-                                        .setView(reportDialogView)
+                                        .setView(reportPostDialogView)
                                         .setPositiveButton("제출") { dialog, _ ->
-                                            val userReportReason = etReportReason.text.toString()
-                                            val userReportDetail = etReportDetail.text.toString()
+                                            val reportReason = selectedReportPostReason
+                                            val reportDetail = etReportPostDetail.text.toString()
                                             val newReport = Report(
                                                 type = "Comment",
                                                 postId = clickedComment.id,
+                                                postDetail = clickedComment.detail,
                                                 reporterEmail = currentUser.email,
                                                 reporteeEmail = clickedComment.commenterEmail,
-                                                reportReason = userReportReason,
-                                                reportDetail = userReportDetail
+                                                reportReason = reportReason,
+                                                reportDetail = reportDetail
                                             )
                                             postViewModel.sendReport(newReport)
+                                            postViewModel.deleteComment(clickedItem.id, clickedComment)
                                             Toast.makeText(
                                                 requireContext(),
                                                 "신고가 접수되었습니다.",
                                                 Toast.LENGTH_SHORT
                                             ).show()
+                                            dialog.dismiss()
+                                            selectedReportPostReason = ""
+                                        }
+                                        .setNegativeButton("취소") { dialog, which ->
+                                            dialog.dismiss()
+                                        }
+                                        .show()
+                                    true
+                                }
+                                R.id.action_report_user -> {
+                                    AlertDialog.Builder(requireContext())
+                                        .setView(reportUserDialogView)
+                                        .setPositiveButton("제출") { dialog, _ ->
+                                            val reportReason = selectedReportUserReason
+                                            val reportDetail = etReportUserDetail.text.toString()
+                                            val newReport = Report(
+                                                type = "Comment_User",
+                                                postId = clickedComment.id,
+                                                postDetail = clickedComment.detail,
+                                                reporterEmail = currentUser.email,
+                                                reporteeEmail = clickedComment.commenterEmail,
+                                                reportReason = reportReason,
+                                                reportDetail = reportDetail
+                                            )
+                                            postViewModel.sendReport(newReport)
+                                            postViewModel.deleteComment(clickedItem.id, clickedComment)
+                                            Toast.makeText(requireContext(), "신고가 접수되었습니다.", Toast.LENGTH_SHORT).show()
+                                            dialog.dismiss()
+                                            selectedReportUserReason = ""
+                                        }
+                                        .setNegativeButton("취소") { dialog, which ->
+                                            dialog.dismiss()
+                                        }
+                                        .show()
+                                    true
+                                }
+                                R.id.action_block_user -> {
+                                    AlertDialog.Builder(requireContext())
+                                        .setTitle("유저 차단")
+                                        .setMessage("이 유저를 차단할까요?")
+                                        .setPositiveButton("확인") { dialog, _ ->
+                                            userViewModel.addBlockedUser(clickedComment.commenterEmail)
+                                            Toast.makeText(requireContext(), "유저가 차단되었습니다.", Toast.LENGTH_SHORT).show()
                                             dialog.dismiss()
                                         }
                                         .setNegativeButton("취소") { dialog, which ->
@@ -328,7 +457,9 @@ class PostDetailFragment : Fragment() {
                                         .show()
                                     true
                                 }
-                                else -> false
+                                else -> {
+                                    false
+                                }
                             }
                         }
                         popupMenu.show()
@@ -343,25 +474,9 @@ class PostDetailFragment : Fragment() {
                                         .setMessage("댓글을 삭제하시겠습니까?")
                                         .setPositiveButton("삭제") { dialog, _ ->
                                             commentsAdapter.removeItem(position)
-                                            postViewModel.deleteComment(clickedItem.id, clickedComment, object :
-                                                DeleteCommentCallback {
-                                                override fun onSuccess() {
-                                                    Toast.makeText(
-                                                        requireContext(),
-                                                        "댓글이 삭제되었습니다.",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }
-                                                override fun onFailure(throwable: Throwable) {
-                                                    Toast.makeText(
-                                                        requireContext(),
-                                                        "댓글 삭제 실패",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }
-                                            })
+                                            postViewModel.deleteComment(clickedItem.id, clickedComment)
+                                            Toast.makeText(requireContext(), "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                                             dialog.dismiss()
-//                                            reloadFragment()
                                         }
                                         .setNegativeButton("취소") { dialog, which ->
                                             dialog.dismiss()

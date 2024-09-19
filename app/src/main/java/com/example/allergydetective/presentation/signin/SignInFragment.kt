@@ -98,14 +98,6 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var user1 = User("1", "1", "1", "1", "1")
-        var user2 = User("2", "2", "2", "2", "2")
-        var user3 = User("3", "3", "3", "3", "3")
-
-        viewModel.addUser(user1)
-        viewModel.addUser(user2)
-        viewModel.addUser(user3)
-
         binding.btnSignin.setOnClickListener {
             var email = binding.etSigninEmail.text.toString()
             var pw = binding.etSigninPw.text.toString()

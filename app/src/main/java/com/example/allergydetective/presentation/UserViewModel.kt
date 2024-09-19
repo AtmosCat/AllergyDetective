@@ -259,6 +259,20 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun addBlockedUser(email: String){
+        viewModelScope.launch {
+            runCatching {
+                var newBlockedUsers = currentUser.value!!.blockedUsers
+                newBlockedUsers.add(email)
+                currentUser.value!!.blockedUsers = newBlockedUsers
+                updateCurrentUserInfo()
+            }.onFailure {
+                Log.e(TAG, "deleteID() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
+
     fun updateGroup(newGroup: MutableList<GroupMember>) {
         viewModelScope.launch {
             runCatching {

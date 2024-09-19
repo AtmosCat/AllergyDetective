@@ -13,56 +13,56 @@
     >
 
     <TextView
-        android:id="@+id/tv_report_post_title"
+        android:id="@+id/tv_report_user_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nanum_square_extrabold"
-        android:text="글 신고하기"
+        android:text="유저 신고하기"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_report_post_reason"
+        android:id="@+id/tv_report_user_reason"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="@font/nanum_square_extrabold"
         android:text="신고 사유"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/tv_report_post_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_report_post_title" />
+        app:layout_constraintStart_toStartOf="@+id/tv_report_user_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_report_user_title" />
 
     <Spinner
-        android:id="@+id/spinner_report_post_reason"
+        android:id="@+id/spinner_report_user_reason"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/tv_report_post_reason"
-        app:layout_constraintTop_toBottomOf="@+id/tv_report_post_reason"
+        app:layout_constraintStart_toStartOf="@+id/tv_report_user_reason"
+        app:layout_constraintTop_toBottomOf="@+id/tv_report_user_reason"
         />
 
     <TextView
-        android:id="@+id/tv_report_post_detail"
+        android:id="@+id/tv_report_user_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/nanum_square_extrabold"
         android:text="신고 내용"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/tv_report_post_title"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_report_post_reason" />
+        app:layout_constraintStart_toStartOf="@+id/tv_report_user_title"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_report_user_reason" />
 
     <EditText
-        android:id="@+id/et_report_post_detail"
+        android:id="@+id/et_report_user_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:hint="신고 내용을 적어주세요."
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/tv_report_post_title"
-        app:layout_constraintTop_toBottomOf="@+id/tv_report_post_detail"
+        app:layout_constraintStart_toStartOf="@+id/tv_report_user_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_report_user_detail"
         />
 
 

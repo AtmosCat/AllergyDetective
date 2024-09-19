@@ -65,8 +65,8 @@ class CommunityHomeFragment : Fragment() {
         binding.recyclerview.adapter = communityHomeAdapter
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        postViewModel.getAllPosts()
-        postViewModel.allPosts.observe(viewLifecycleOwner) { data ->
+        postViewModel.getFilteredPosts()
+        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
             allPosts = data
             communityHomeAdapter.submitList(allPosts)
         }
@@ -91,7 +91,6 @@ class CommunityHomeFragment : Fragment() {
             repeatMode = Animation.REVERSE // 애니메이션을 반대로 반복
             repeatCount = Animation.INFINITE // 무한 반복
         }
-
 
         val postFilterFragment = requireActivity().supportFragmentManager.findFragmentByTag("PostFilterFragment")
         binding.btnFilter.setOnClickListener {
