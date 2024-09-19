@@ -27,6 +27,7 @@ import com.example.allergydetective.presentation.mypage.GroupManagerFragment
 import com.example.allergydetective.presentation.mypage.favorite.FavoriteFragment
 import com.example.allergydetective.presentation.mypage.mypost.MyPostFragment
 import com.example.allergydetective.presentation.mypage.savedpost.SavedPostFragment
+import com.example.allergydetective.presentation.signin.SignInFragment
 
 
 class MyPageFragment : Fragment() {
@@ -60,29 +61,28 @@ class MyPageFragment : Fragment() {
         currentUser = userViewModel.currentUser.value!!
 
         binding.btnMypageSettings.setOnClickListener{
-            val popupMenu = PopupMenu(requireContext(), view)
+            val popupMenu = PopupMenu(requireContext(), binding.btnMypageSettings)
             popupMenu.menuInflater.inflate(R.menu.popup_menu_settings, popupMenu.menu)
             popupMenu.setOnMenuItemClickListener { item: MenuItem ->
                 when (item.itemId) {
                     R.id.action_signout -> {
                         AlertDialog.Builder(requireContext())
                             .setTitle("로그아웃")
-                            .setPositiveButton("로그아웃하시겠습니까?") { dialog, _ ->
+                            .setMessage("로그아웃하시겠습니까?")
+                            .setPositiveButton("확인") { dialog, _ ->
                                 userViewModel.signOut()
                                 Toast.makeText(requireContext(),"로그아웃되었습니다.",Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
-                                val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
-                                binding.btnEditProfile.setOnClickListener{
-                                    requireActivity().supportFragmentManager.beginTransaction().apply {
-                                        remove(this@MyPageFragment)
-                                        if (homeFragment == null) {
-                                            add(R.id.main_frame, HomeFragment(), "HomeFragment")
-                                        } else {
-                                            show(homeFragment)
-                                        }
-                                        addToBackStack(null)
-                                        commit()
+                                val signInFragment = requireActivity().supportFragmentManager.findFragmentByTag("SignInFragment")
+                                requireActivity().supportFragmentManager.beginTransaction().apply {
+                                    remove(this@MyPageFragment)
+                                    if (signInFragment == null) {
+                                        add(R.id.main_frame, SignInFragment(), "SignInFragment")
+                                    } else {
+                                        show(signInFragment)
                                     }
+                                    addToBackStack(null)
+                                    commit()
                                 }
                             }
                             .setNegativeButton("취소") { dialog, which ->
@@ -94,22 +94,21 @@ class MyPageFragment : Fragment() {
                     R.id.action_delete_id -> {
                         AlertDialog.Builder(requireContext())
                             .setTitle("회원탈퇴")
-                            .setPositiveButton("회원탈퇴하시겠습니까?\n삭제된 계정 정보는 복구하실 수 없습니다.") { dialog, _ ->
+                            .setMessage("회원탈퇴하시겠습니까?\n삭제된 계정 정보는 복구하실 수 없습니다.")
+                            .setPositiveButton("확인") { dialog, _ ->
                                 userViewModel.deleteID(currentUser)
                                 Toast.makeText(requireContext(),"회원탈퇴되었습니다.",Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
-                                val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
-                                binding.btnEditProfile.setOnClickListener{
-                                    requireActivity().supportFragmentManager.beginTransaction().apply {
-                                        remove(this@MyPageFragment)
-                                        if (homeFragment == null) {
-                                            add(R.id.main_frame, HomeFragment(), "HomeFragment")
-                                        } else {
-                                            show(homeFragment)
-                                        }
-                                        addToBackStack(null)
-                                        commit()
+                                val signInFragment = requireActivity().supportFragmentManager.findFragmentByTag("SignInFragment")
+                                requireActivity().supportFragmentManager.beginTransaction().apply {
+                                    remove(this@MyPageFragment)
+                                    if (signInFragment == null) {
+                                        add(R.id.main_frame, SignInFragment(), "SignInFragment")
+                                    } else {
+                                        show(signInFragment)
                                     }
+                                    addToBackStack(null)
+                                    commit()
                                 }
                             }
                             .setNegativeButton("취소") { dialog, which ->

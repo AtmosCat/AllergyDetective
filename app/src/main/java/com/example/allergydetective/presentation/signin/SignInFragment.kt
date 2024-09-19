@@ -217,24 +217,4 @@ class SignInFragment : Fragment() {
             }
         }
     }
-
-//    private fun initViewModel() {
-//        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-//            when (uiState) {
-//                is UiState.Loading -> {
-//                    binding.progress.isVisible = true
-//                }
-//
-//                is UiState.Success -> {
-//                    binding.progress.isVisible = false
-//
-//                }
-//
-//                is UiState.Error -> {
-//                    Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
-//                }
-//            }
-//        }
-////        viewModel.set
-//    }
 }

@@ -174,14 +174,12 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             runCatching {
                 db.collection("user")
-                    .whereEqualTo("email", _email)
+                    .document(_email)
                     .get()
                     .addOnSuccessListener { result ->
                         if (result != null) {
-                            for (document in result) {
-                                val user = document.toObject(User::class.java)
-                                _currentUser.value = user
-                            }
+                            val user = result.toObject(User::class.java)
+                            _currentUser.value = user
                         } else {
                             _currentUser.value = null
                         }
@@ -214,7 +212,7 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
     fun signOut() {
         viewModelScope.launch {
             runCatching {
-                _currentUser.value = null
+                _currentUser.value = User()
             }.onFailure {
                 Log.e(TAG, "updateCurrentUserInfo() failed! : ${it.message}")
                 handleException(it)
