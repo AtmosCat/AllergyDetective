@@ -64,7 +64,8 @@ class CommunityHomeAdapter :
 
         fun bind(item: Post) {
             if (item.detailPhoto.isEmpty()) {
-                photo.setImageResource(R.drawable.gallery2)
+                photo.setImageResource(R.drawable.no_photo)
+                photo.setPadding(20, 20, 20, 20)
             } else {
                 photo.load(item.detailPhoto[0])
             }

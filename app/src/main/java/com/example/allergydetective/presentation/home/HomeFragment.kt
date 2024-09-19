@@ -106,7 +106,7 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
-            if (data == null) {
+            if (data.isEmpty()) {
                 binding.btnHomeFilter.startAnimation(blinkAnimation)
             } else {
                 binding.btnHomeSearch.startAnimation(blinkAnimation)

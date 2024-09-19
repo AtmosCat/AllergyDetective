@@ -129,7 +129,7 @@
                         android:layout_gravity="center"
                         android:elevation="4dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/cat"
+                        android:src="@drawable/profile2"
                         />
 
                 </androidx.cardview.widget.CardView>

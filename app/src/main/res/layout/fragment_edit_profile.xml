@@ -65,7 +65,7 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:src="@drawable/cat"
+                android:src="@drawable/profile2"
                 />
 
         </androidx.cardview.widget.CardView>

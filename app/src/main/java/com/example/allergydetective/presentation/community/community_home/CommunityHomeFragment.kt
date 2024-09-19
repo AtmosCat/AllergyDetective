@@ -93,6 +93,14 @@ class CommunityHomeFragment : Fragment() {
             repeatCount = Animation.INFINITE // 무한 반복
         }
 
+        postViewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
+            if (data.isEmpty()) {
+                binding.btnFilter.startAnimation(blinkAnimation)
+            } else {
+                binding.btnFilter.startAnimation(blinkAnimation)
+            }
+        }
+
         val postFilterFragment = requireActivity().supportFragmentManager.findFragmentByTag("PostFilterFragment")
         binding.btnFilter.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction().apply {

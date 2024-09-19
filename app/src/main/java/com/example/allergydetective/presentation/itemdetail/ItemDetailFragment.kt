@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -172,6 +173,7 @@ class ItemDetailFragment : Fragment() {
 
             shoppingListAdapter.itemClick = object : ShoppingMallAdapter.ItemClick {
                 override fun onClick(view: View, position: Int) {
+                    Toast.makeText(requireContext(), "외부 쇼핑몰 링크로 이동합니다.", Toast.LENGTH_SHORT).show()
                     val url = marketList!![position].link.toString()
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(url)
@@ -183,21 +185,3 @@ class ItemDetailFragment : Fragment() {
     }
 }
 
-//    private fun initViewModel() {
-//        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-//            when (uiState) {
-//                is UiState.Loading -> {
-//                    binding.progress.isVisible = true
-//                }
-//
-//                is UiState.Success -> {
-//                    binding.progress.isVisible = false
-//                }
-//
-//                is UiState.Error -> {
-//                    Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
-//                }
-//            }
-//        }
-////        viewModel.setFilter()
-//    }

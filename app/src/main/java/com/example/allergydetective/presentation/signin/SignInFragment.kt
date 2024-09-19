@@ -144,26 +144,26 @@ class SignInFragment : Fragment() {
                 .commit()
         }
 
-        binding.btnSigninFindIdPw.setOnClickListener{
-            AlertDialog.Builder(requireContext())
-                .setTitle("이메일/비밀번호 찾기")
-                .setMessage("항목을 선택해주세요.")
-                .setPositiveButton("이메일 찾기") { dialog, which ->
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frame, FindIdFragment())
-                        .addToBackStack(null)
-                        .commit()
-                }
-                .setNegativeButton("비밀번호 찾기") { dialog, which ->
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frame, FindPwFragment())
-                        .addToBackStack(null)
-                        .commit()
-                }
-                .setNeutralButton("닫기") { dialog, which ->
-                }
-                .show()
-        }
+//        binding.btnSigninFindIdPw.setOnClickListener{
+//            AlertDialog.Builder(requireContext())
+//                .setTitle("이메일/비밀번호 찾기")
+//                .setMessage("항목을 선택해주세요.")
+//                .setPositiveButton("비밀번호 찾기") { dialog, which ->
+//                    requireActivity().supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_frame, FindPwFragment())
+//                        .addToBackStack(null)
+//                        .commit()
+//                }
+//                .setNegativeButton("이메일 찾기") { dialog, which ->
+//                    requireActivity().supportFragmentManager.beginTransaction()
+//                        .replace(R.id.main_frame, FindIdFragment())
+//                        .addToBackStack(null)
+//                        .commit()
+//                }
+//                .setNeutralButton("닫기") { dialog, which ->
+//                }
+//                .show()
+//        }
 
         binding.btnGoogleSignin.setOnClickListener{
             googleLogin()

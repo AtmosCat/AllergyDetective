@@ -229,19 +229,19 @@ class MyPageFragment : Fragment() {
             }
         }
 
-        val membershipFragment = requireActivity().supportFragmentManager.findFragmentByTag("MembershipFragment")
-        binding.viewMypageMenu3.setOnClickListener{
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                hide(this@MyPageFragment)
-                if (membershipFragment == null) {
-                    add(R.id.main_frame, MembershipFragment(), "MembershipFragment")
-                } else {
-                    show(membershipFragment)
-                }
-                addToBackStack(null)
-                commit()
-            }
-        }
+//        val membershipFragment = requireActivity().supportFragmentManager.findFragmentByTag("MembershipFragment")
+//        binding.viewMypageMenu3.setOnClickListener{
+//            requireActivity().supportFragmentManager.beginTransaction().apply {
+//                hide(this@MyPageFragment)
+//                if (membershipFragment == null) {
+//                    add(R.id.main_frame, MembershipFragment(), "MembershipFragment")
+//                } else {
+//                    show(membershipFragment)
+//                }
+//                addToBackStack(null)
+//                commit()
+//            }
+//        }
 
         val myPostFragment = requireActivity().supportFragmentManager.findFragmentByTag("MyPostFragment")
         binding.viewMypageMenu4.setOnClickListener{
