@@ -66,7 +66,7 @@ class CommunityHomeFragment : Fragment() {
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
         postViewModel.getAllPosts()
-        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
+        postViewModel.allPosts.observe(viewLifecycleOwner) { data ->
             allPosts = data
             communityHomeAdapter.submitList(allPosts)
         }

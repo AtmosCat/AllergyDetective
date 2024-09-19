@@ -47,9 +47,6 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
     private val _temporaryImageUrls = MutableLiveData<List<String>>()
     val temporaryImageUrls : LiveData<List<String>> get() = _temporaryImageUrls
 
-    init {
-        getAllPosts()
-    }
 
     fun getAllPosts() {
         db.collection("post")
@@ -67,8 +64,8 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                         val post = document.toObject(Post::class.java)?.copy(id = document.id)
                         post?.let { posts.add(it) }
                     }
-//                    _allPosts.value = posts
-                    _filteredPosts.value = posts
+                    _allPosts.value = posts
+//                    _filteredPosts.value = posts
                 } else {
                     // 예외처리: 스냅샷이 null일 때 처리
                 }
@@ -108,7 +105,6 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
-
     fun getFilteredPosts() {
         viewModelScope.launch {
             runCatching {
@@ -117,7 +113,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                 val searchOption = selectedSearchOption.value
                 val searchKeyword = searchKeyword.value ?: ""
 
-                var filteredPosts = mutableListOf<Post>()
+                val filteredPosts = mutableListOf<Post>()
 
                 if (categories.isNotEmpty() && searchKeyword.isNotBlank()) {
                     for (category in categories) {
@@ -159,6 +155,8 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                             post.category == category
                         }
                     }
+                } else {
+                    filteredPosts += allPosts.value!!
                 }
                 _filteredPosts.value = filteredPosts
             }.onFailure {
