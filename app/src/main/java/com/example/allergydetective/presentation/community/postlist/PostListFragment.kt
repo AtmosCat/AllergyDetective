@@ -71,8 +71,9 @@ class PostListFragment : Fragment() {
 
         postViewModel.getFilteredPosts()
         postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
-            postListAdapter.submitList(data)
             filteredItems = data
+            filteredItems.filter { it.posterEmail !in userViewModel.currentUser.value!!.blockedUsers }
+            postListAdapter.submitList(filteredItems)
         }
 
         binding.btnBack.setOnClickListener{
@@ -84,8 +85,9 @@ class PostListFragment : Fragment() {
             postViewModel.getFilteredPosts()
             binding.btnSpinner.setSelection(0)
             postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
-                postListAdapter.updateData(data)
                 filteredItems = data
+                filteredItems.filter { it.posterEmail !in userViewModel.currentUser.value!!.blockedUsers }
+                postListAdapter.updateData(filteredItems)
             }
         }
 

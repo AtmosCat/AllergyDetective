@@ -65,9 +65,10 @@ class CommunityHomeFragment : Fragment() {
         binding.recyclerview.adapter = communityHomeAdapter
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
-        postViewModel.getFilteredPosts()
-        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
+        postViewModel.getAllPosts()
+        postViewModel.allPosts.observe(viewLifecycleOwner) { data ->
             allPosts = data
+            allPosts.filter { it.posterEmail !in userViewModel.currentUser.value!!.blockedUsers }
             communityHomeAdapter.submitList(allPosts)
         }
 

@@ -253,7 +253,8 @@ class ReplyDetailFragment : Fragment() {
                                 R.id.action_block_user -> {
                                     AlertDialog.Builder(requireContext())
                                         .setTitle("유저 차단")
-                                        .setMessage("이 유저를 차단할까요?")
+                                        .setMessage("이 유저를 차단할까요?\n" +
+                                                "차단 시 해당 유저의 게시글이 노출되지 않습니다.")
                                         .setPositiveButton("확인") { dialog, _ ->
                                             userViewModel.addBlockedUser(clickedReply.replierEmail)
                                             Toast.makeText(requireContext(), "유저가 차단되었습니다.", Toast.LENGTH_SHORT).show()

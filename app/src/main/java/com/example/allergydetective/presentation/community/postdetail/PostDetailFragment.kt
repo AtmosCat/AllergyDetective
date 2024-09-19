@@ -56,6 +56,8 @@ class PostDetailFragment : Fragment() {
 
     private var clickedComment = Comments()
 
+    private var allPosts = listOf<Post>()
+
     private var filteredPosts = listOf<Post>()
 
     private var selectedReportPostReason = ""
@@ -110,10 +112,10 @@ class PostDetailFragment : Fragment() {
         }
 
         clickedItemId = param1.toString()
-        val clickedItem2 = postViewModel.filteredPosts.value!!.find { it.id == clickedItemId }
-        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
-            filteredPosts = data
-            clickedItem = filteredPosts.find { it.id == clickedItemId }!!
+//        val clickedItem2 = postViewModel.filteredPosts.value!!.find { it.id == clickedItemId }
+        postViewModel.allPosts.observe(viewLifecycleOwner) { data ->
+            allPosts = data
+            clickedItem = allPosts.find { it.id == clickedItemId }!!
 
             val comments = clickedItem.comments.toMutableList()
             commentsAdapter.submitList(comments)
@@ -231,7 +233,7 @@ class PostDetailFragment : Fragment() {
                             R.id.action_block_user -> {
                                 AlertDialog.Builder(requireContext())
                                     .setTitle("유저 차단")
-                                    .setMessage("이 유저를 차단할까요?")
+                                    .setMessage("이 유저를 차단할까요?\n차단 시 해당 유저의 게시글이 노출되지 않습니다.")
                                     .setPositiveButton("확인") { dialog, _ ->
                                         userViewModel.addBlockedUser(clickedItem.posterEmail)
                                         Toast.makeText(requireContext(), "유저가 차단되었습니다.", Toast.LENGTH_SHORT).show()
@@ -445,7 +447,8 @@ class PostDetailFragment : Fragment() {
                                 R.id.action_block_user -> {
                                     AlertDialog.Builder(requireContext())
                                         .setTitle("유저 차단")
-                                        .setMessage("이 유저를 차단할까요?")
+                                        .setMessage("이 유저를 차단할까요?\n" +
+                                                "차단 시 해당 유저의 게시글이 노출되지 않습니다.")
                                         .setPositiveButton("확인") { dialog, _ ->
                                             userViewModel.addBlockedUser(clickedComment.commenterEmail)
                                             Toast.makeText(requireContext(), "유저가 차단되었습니다.", Toast.LENGTH_SHORT).show()

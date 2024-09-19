@@ -12,6 +12,7 @@ import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.Reply
 import com.example.allergydetective.data.model.user.Report
 import com.example.allergydetective.data.model.user.User
+import com.example.allergydetective.presentation.community.community_home.PostListAdapter
 import com.example.allergydetective.presentation.community.postdetail.CommentsAdapter
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -47,7 +48,6 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
     private val _temporaryImageUrls = MutableLiveData<List<String>>()
     val temporaryImageUrls : LiveData<List<String>> get() = _temporaryImageUrls
 
-
     fun getAllPosts() {
         db.collection("post")
             // 가장 최근에 추가된 데이터부터 새로 정렬
@@ -65,11 +65,10 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                         post?.let { posts.add(it) }
                     }
                     _allPosts.value = posts
-//                    _filteredPosts.value = posts
                 } else {
                     // 예외처리: 스냅샷이 null일 때 처리
                 }
-            }
+        }
     }
 
     fun setSearchKeyword(keyword: String) {
@@ -108,12 +107,12 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
     fun getFilteredPosts() {
         viewModelScope.launch {
             runCatching {
-                val allData = allPosts.value ?: emptyList()
+                var allData = allPosts.value ?: emptyList()
                 val categories = selectedCategories.value ?: emptyList()
-                val searchOption = selectedSearchOption.value
+                val searchOption = selectedSearchOption.value ?: ""
                 val searchKeyword = searchKeyword.value ?: ""
 
-                val filteredPosts = mutableListOf<Post>()
+                var filteredPosts = mutableListOf<Post>()
 
                 if (categories.isNotEmpty() && searchKeyword.isNotBlank()) {
                     for (category in categories) {
@@ -158,9 +157,7 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                 } else {
                     filteredPosts += allPosts.value!!
                 }
-                for (blockedUserEmail in currentUser.value!!.blockedUsers) {
-                    filteredPosts.filter { it.posterEmail != blockedUserEmail }
-                }
+//                filteredPosts.filter { it.posterEmail !in currentUser.value!!.blockedUsers }
                 _filteredPosts.value = filteredPosts
             }.onFailure {
                 Log.e(TAG, "getFilteredPosts() failed! : ${it.message}")
@@ -168,7 +165,6 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
             }
         }
     }
-
 
     fun addPost(post: Post, callback: PostCallback) {
         viewModelScope.launch {
