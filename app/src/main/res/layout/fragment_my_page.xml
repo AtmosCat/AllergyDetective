@@ -17,19 +17,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.08" />
+        app:layout_constraintWidth_percent="0.08"
+        app:tint="@color/main_color_dark_gray" />
 
-    <ImageView
-        android:id="@+id/btn_mypage_notifications"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/bell"
-        android:layout_marginEnd="15dp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_mypage_settings"
-        app:layout_constraintHeight_percent="0.05"
-        app:layout_constraintTop_toTopOf="@+id/btn_mypage_settings"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_mypage_settings"
-        app:layout_constraintWidth_percent="0.08" />
+<!--    <ImageView-->
+<!--        android:id="@+id/btn_mypage_notifications"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:src="@drawable/bell"-->
+<!--        android:layout_marginEnd="15dp"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/btn_mypage_settings"-->
+<!--        app:layout_constraintHeight_percent="0.05"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/btn_mypage_settings"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/btn_mypage_settings"-->
+<!--        app:layout_constraintWidth_percent="0.08" />-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view_mypage_profile"
@@ -40,7 +41,7 @@
         android:background="@drawable/round_border"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_mypage_notifications" >
+        app:layout_constraintTop_toBottomOf="@+id/btn_mypage_settings" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardview_mypage_frame"
@@ -69,7 +70,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/cat"
+                    android:src="@drawable/profile2"
                     />
 
             </androidx.cardview.widget.CardView>
@@ -140,7 +141,7 @@
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="@+id/layout_horizontal_scrollview"
                     app:layout_constraintTop_toTopOf="@+id/layout_horizontal_scrollview"
-                    app:tint="@color/warning_yellow" />
+                    app:tint="@color/main_color_orange" />
 
                 <ImageView
                     android:id="@+id/iv_my_allergy"
@@ -168,7 +169,7 @@
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame"
                     app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:tint="@color/warning_yellow"
+                    app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
 
                 <ImageView
@@ -197,7 +198,7 @@
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame2"
                     app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:tint="@color/warning_yellow"
+                    app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
 
                 <ImageView
@@ -226,7 +227,7 @@
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame3"
                     app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:tint="@color/warning_yellow"
+                    app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
 
                 <ImageView
@@ -255,7 +256,7 @@
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame4"
                     app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:tint="@color/warning_yellow"
+                    app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
 
                 <ImageView
@@ -284,7 +285,7 @@
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame5"
                     app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:tint="@color/warning_yellow"
+                    app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
 
                 <ImageView
@@ -314,7 +315,7 @@
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame6"
                     app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
-                    app:tint="@color/warning_yellow"
+                    app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
 
                 <ImageView
@@ -355,18 +356,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_mypage_menus" />
 
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_mypage_menu1"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintDimensionRatio="1:1"-->
-<!--        android:paddingVertical="20dp"-->
-<!--        android:layout_marginStart="30dp"-->
-<!--        android:src="@drawable/heart"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/view_mypage_menu1"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/view_mypage_menu1"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/view_mypage_menu1" />-->
-
     <TextView
         android:id="@+id/tv_mypage_menu1"
         android:layout_width="wrap_content"
@@ -388,18 +377,6 @@
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_mypage_menu1" />
-
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_mypage_menu2"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintDimensionRatio="1:1"-->
-<!--        android:paddingVertical="20dp"-->
-<!--        android:layout_marginStart="30dp"-->
-<!--        android:src="@drawable/group"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/view_mypage_menu2"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/view_mypage_menu2"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/view_mypage_menu2" />-->
 
     <TextView
         android:id="@+id/tv_mypage_menu2"
@@ -424,23 +401,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_mypage_menu2" />
 
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_mypage_menu3"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintDimensionRatio="1:1"-->
-<!--        android:paddingVertical="20dp"-->
-<!--        android:layout_marginStart="30dp"-->
-<!--        android:src="@drawable/crown_empty"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/view_mypage_menu3"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/view_mypage_menu3"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/view_mypage_menu3" />-->
-
     <TextView
         android:id="@+id/tv_mypage_menu3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="▶  멤버십 관리"
+        android:text="▶  멤버십 관리 (개발 중)"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_marginStart="30dp"
@@ -457,18 +422,6 @@
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_mypage_menu3" />
-
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_mypage_menu4"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintDimensionRatio="1:1"-->
-<!--        android:paddingVertical="20dp"-->
-<!--        android:layout_marginStart="30dp"-->
-<!--        android:src="@drawable/my_writings"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/view_mypage_menu4"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/view_mypage_menu4"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/view_mypage_menu4" />-->
 
     <TextView
         android:id="@+id/tv_mypage_menu4"
@@ -492,18 +445,6 @@
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_mypage_menu4" />
-
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_mypage_menu5"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        app:layout_constraintDimensionRatio="1:1"-->
-<!--        android:paddingVertical="20dp"-->
-<!--        android:layout_marginStart="30dp"-->
-<!--        android:src="@drawable/bookmark"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/view_mypage_menu5"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/view_mypage_menu5"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/view_mypage_menu5" />-->
 
     <TextView
         android:id="@+id/tv_mypage_menu5"

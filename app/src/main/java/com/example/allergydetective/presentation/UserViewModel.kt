@@ -211,6 +211,54 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun signOut() {
+        viewModelScope.launch {
+            runCatching {
+                _currentUser.value = null
+            }.onFailure {
+                Log.e(TAG, "updateCurrentUserInfo() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
+
+    fun deleteID(user: User) {
+        viewModelScope.launch {
+        runCatching {
+            _currentUser.value = null
+            db.collection("user")
+                .document(user.email)
+                .delete()
+                .addOnSuccessListener {
+                    println("User ${user.email} deleted successfully")
+                }.addOnFailureListener { exception ->
+                    println("Failed to delete User ${user.email} : $exception")
+                }
+
+            db.collection("post")
+                .whereEqualTo("posterEmail", user.email)
+                .get()
+                .addOnSuccessListener { posts ->
+                    for (post in posts) {
+                        post.reference.delete()
+                        .addOnSuccessListener {
+                            println("Deleted file with ID: ${post.id}")
+                        }
+                        .addOnFailureListener { e ->
+                            println("Error deleting file: $e")
+                        }
+                    }
+                }
+                .addOnFailureListener{ e ->
+                    println("Error getting documents: $e")
+                }
+            }.onFailure {
+                Log.e(TAG, "deleteID() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
+
     fun updateGroup(newGroup: MutableList<GroupMember>) {
         viewModelScope.launch {
             runCatching {

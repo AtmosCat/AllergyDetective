@@ -1,12 +1,15 @@
 package com.example.allergydetective.presentation.home
 
-
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -14,6 +17,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.load
 import com.example.allergydetective.R
+import com.example.allergydetective.data.model.user.Report
+import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.databinding.FragmentMyPageBinding
 import com.example.allergydetective.presentation.UserViewModel
@@ -29,6 +34,8 @@ class MyPageFragment : Fragment() {
     private var _binding: FragmentMyPageBinding? = null
 
     private val binding get() = _binding!!
+
+    private var currentUser = User()
 
     private val userViewModel: UserViewModel by activityViewModels {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
@@ -49,6 +56,73 @@ class MyPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        currentUser = userViewModel.currentUser.value!!
+
+        binding.btnMypageSettings.setOnClickListener{
+            val popupMenu = PopupMenu(requireContext(), view)
+            popupMenu.menuInflater.inflate(R.menu.popup_menu_settings, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+                when (item.itemId) {
+                    R.id.action_signout -> {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("로그아웃")
+                            .setPositiveButton("로그아웃하시겠습니까?") { dialog, _ ->
+                                userViewModel.signOut()
+                                Toast.makeText(requireContext(),"로그아웃되었습니다.",Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
+                                val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
+                                binding.btnEditProfile.setOnClickListener{
+                                    requireActivity().supportFragmentManager.beginTransaction().apply {
+                                        remove(this@MyPageFragment)
+                                        if (homeFragment == null) {
+                                            add(R.id.main_frame, HomeFragment(), "HomeFragment")
+                                        } else {
+                                            show(homeFragment)
+                                        }
+                                        addToBackStack(null)
+                                        commit()
+                                    }
+                                }
+                            }
+                            .setNegativeButton("취소") { dialog, which ->
+                                dialog.dismiss()
+                            }
+                            .show()
+                        true
+                    }
+                    R.id.action_delete_id -> {
+                        AlertDialog.Builder(requireContext())
+                            .setTitle("회원탈퇴")
+                            .setPositiveButton("회원탈퇴하시겠습니까?\n삭제된 계정 정보는 복구하실 수 없습니다.") { dialog, _ ->
+                                userViewModel.deleteID(currentUser)
+                                Toast.makeText(requireContext(),"회원탈퇴되었습니다.",Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
+                                val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
+                                binding.btnEditProfile.setOnClickListener{
+                                    requireActivity().supportFragmentManager.beginTransaction().apply {
+                                        remove(this@MyPageFragment)
+                                        if (homeFragment == null) {
+                                            add(R.id.main_frame, HomeFragment(), "HomeFragment")
+                                        } else {
+                                            show(homeFragment)
+                                        }
+                                        addToBackStack(null)
+                                        commit()
+                                    }
+                                }
+                            }
+                            .setNegativeButton("취소") { dialog, which ->
+                                dialog.dismiss()
+                            }
+                            .show()
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.show()
+        }
 
         val editProfileFragment = requireActivity().supportFragmentManager.findFragmentByTag("EditProfileFragment")
         binding.btnEditProfile.setOnClickListener{
@@ -102,14 +176,14 @@ class MyPageFragment : Fragment() {
                     onSuccess = { downloadUrl ->
                         // 이미지 로드
                         binding.ivProfileImage.load(downloadUrl) {
-//                            crossfade(true)
-//                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
-//                            error(sampleBitmap) // 로드 실패 시 표시할 이미지
+                            crossfade(true)
+                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
+                            error(R.drawable.error_image) // 로드 실패 시 표시할 이미지
                         }
                     },
                     onFailure = { exception ->
                         // 실패 처리
-                        binding.ivProfileImage.setImageBitmap(sampleBitmap)
+                        binding.ivProfileImage.setImageResource(R.drawable.error_image)
                     })
             }
             binding.tvProfileName.text = data?.nickname
@@ -340,34 +414,3 @@ class MyPageFragment : Fragment() {
     }
 
 }
-
-
-
-
-//    private fun initView() = with(binding) {
-//        homeRecyclerList.adapter = homeAdapter
-//        homeRecyclerList.layoutManager = LinearLayoutManager(requireContext())
-//    }
-
-//    private fun initViewModel() {
-//        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-//            when (uiState) {
-//                is UiState.Loading -> {
-//                    binding.progress.isVisible = true
-//                }
-//
-//                is UiState.Success -> {
-//                    binding.progress.isVisible = false
-//                    // homeFoods LiveData를 관찰하여 RecyclerView에 데이터 전달
-//                    viewModel.homeFoods.observe(viewLifecycleOwner) { homeFoods ->
-//                        homeAdapter.submitList(homeFoods)
-//                    }
-//                }
-//
-//                is UiState.Error -> {
-//                    Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
-//                }
-//            }
-//        }
-//    }
-//}
