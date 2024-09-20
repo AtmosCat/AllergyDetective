@@ -15,12 +15,25 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="120dp"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.35"
-        app:srcCompat="@drawable/allergy_icon_version_one" />
+        app:srcCompat="@drawable/allergy_guardian_version_one" />
+
+    <TextView
+        android:id="@+id/tv_app_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/tenada"
+        android:text="알러지수호대"
+        android:gravity="center"
+        android:textSize="26sp"
+        android:textColor="@color/main_color_orange"
+        app:layout_constraintEnd_toEndOf="@+id/ic_app_icon"
+        app:layout_constraintStart_toStartOf="@+id/ic_app_icon"
+        app:layout_constraintTop_toBottomOf="@+id/ic_app_icon" />
 
     <TextView
         android:id="@+id/tv_signin_email"

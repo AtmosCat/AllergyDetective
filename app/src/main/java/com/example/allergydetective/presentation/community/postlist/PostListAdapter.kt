@@ -66,7 +66,8 @@ class PostListAdapter :
             if (item.detailPhoto.isNotEmpty()) {
                 photo.load(item.detailPhoto[0])
             } else {
-                photo.load(R.drawable.gallery2)
+                photo.load(R.drawable.no_photo)
+                photo.setPadding(40,40,40,40)
             }
             category.text = item.category
             title.text = item.title

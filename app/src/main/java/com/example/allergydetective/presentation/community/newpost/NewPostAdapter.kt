@@ -55,7 +55,7 @@ class NewPostAdapter :
         fun bind(item: String) {
             photo.load(item) {
                 placeholder(R.drawable.placeholder) // 로딩 중 보여줄 이미지
-                error(R.drawable.group_member) // 로드 실패 시 보여줄 기본 이미지
+                error(R.drawable.no_photo) // 로드 실패 시 보여줄 기본 이미지
                 listener(
                     onSuccess = { _, result ->
                         Log.d("Coil", "Image load succeeded")

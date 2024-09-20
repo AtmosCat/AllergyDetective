@@ -105,15 +105,19 @@
 
         <TextView
             android:id="@+id/tv_my_allergies"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text=" ⚠️ 프로필에서 나의 알러지 정보를 설정해주세요!"
             android:layout_marginTop="15dp"
+            android:lineSpacingExtra="3dp"
             android:textColor="@color/main_color_light_gray"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/cardview_mypage_frame"
-            app:layout_constraintStart_toStartOf="@+id/cardview_mypage_frame" />
+            app:layout_constraintStart_toStartOf="@+id/cardview_mypage_frame"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="10dp"
+            />
 
         <HorizontalScrollView
             android:layout_width="0dp"

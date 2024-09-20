@@ -141,9 +141,13 @@ class EditProfileFragment : Fragment() {
         val squid = binding.checkboxIngredientSquid
         val seashell = binding.checkboxIngredientSeashell
         val pinenut = binding.checkboxIngredientPinenut
+        val oyster = binding.checkboxIngredientOyster
+        val abalone = binding.checkboxIngredientAbalone
+        val mussel = binding.checkboxIngredientMussel
 
         val allergies = listOf(egg, milk, buckwheat, peanut, soybean, wheat, mackerel,
-            crab, shrimp, pork, peach, tomato, sulfurousAcids, walnut, chicken, beef, squid, seashell, pinenut)
+            crab, shrimp, pork, peach, tomato, sulfurousAcids, walnut, chicken, beef, squid, seashell, pinenut,
+            oyster, abalone, mussel)
 
         userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
             if (data?.photo == "") {
@@ -153,14 +157,14 @@ class EditProfileFragment : Fragment() {
                     onSuccess = { downloadUrl ->
                         // 이미지 로드
                         binding.ivProfileImage.load(downloadUrl) {
-//                            crossfade(true)
-//                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
-//                            error(sampleBitmap) // 로드 실패 시 표시할 이미지
+                            crossfade(true)
+                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
+                            error(R.drawable.no_photo) // 로드 실패 시 표시할 이미지
                         }
                     },
                     onFailure = { exception ->
                         // 실패 처리
-                        binding.ivProfileImage.load(sampleBitmap)
+                        binding.ivProfileImage.load(R.drawable.no_photo)
                     })
             }
 
@@ -174,7 +178,7 @@ class EditProfileFragment : Fragment() {
 
             if (currentUserAllergies != null) {
                 for (allergy in currentUserAllergies) {
-                    if (allergy == "계란") egg.isChecked = true
+                    if (allergy == "알류(가금류)") egg.isChecked = true
                     else if (allergy == "우유") milk.isChecked = true
                     else if (allergy == "메밀") buckwheat.isChecked = true
                     else if (allergy == "대두") soybean.isChecked = true
@@ -191,8 +195,12 @@ class EditProfileFragment : Fragment() {
                     else if (allergy == "닭고기") chicken.isChecked = true
                     else if (allergy == "쇠고기") beef.isChecked = true
                     else if (allergy == "오징어") squid.isChecked = true
-                    else if (allergy == "조개") seashell.isChecked = true
+                    else if (allergy == "조개류(조개)") seashell.isChecked = true
                     else if (allergy == "잣") pinenut.isChecked = true
+                    else if (allergy == "조개류(굴)") oyster.isChecked = true
+                    else if (allergy == "조개류(전복)") abalone.isChecked = true
+                    else if (allergy == "조개류(홍합)") mussel.isChecked = true
+
                 }
             }
 
@@ -200,7 +208,7 @@ class EditProfileFragment : Fragment() {
                 selectedAllergies = currentUserAllergies
             }
 
-            setAllergyFilter(egg, "계란")
+            setAllergyFilter(egg, "알류(가금류)")
             setAllergyFilter(milk, "우유")
             setAllergyFilter(buckwheat, "메밀")
             setAllergyFilter(peanut, "땅콩")
@@ -217,8 +225,11 @@ class EditProfileFragment : Fragment() {
             setAllergyFilter(chicken, "닭고기")
             setAllergyFilter(beef, "쇠고기")
             setAllergyFilter(squid, "오징어")
-            setAllergyFilter(seashell, "조개")
+            setAllergyFilter(seashell, "조개류(조개)")
             setAllergyFilter(pinenut, "잣")
+            setAllergyFilter(oyster, "조개류(굴)")
+            setAllergyFilter(abalone, "조개류(전복)")
+            setAllergyFilter(mussel, "조개류(홍합)")
         }
 
         binding.btnBack.setOnClickListener {
@@ -277,31 +288,3 @@ class EditProfileFragment : Fragment() {
         pickImageLauncher.launch(intent)
     }
 }
-
-//    private fun initView() = with(binding) {
-//        homeRecyclerList.adapter = homeAdapter
-//        homeRecyclerList.layoutManager = LinearLayoutManager(requireContext())
-//    }
-
-//    private fun initViewModel() {
-//        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-//            when (uiState) {
-//                is UiState.Loading -> {
-//                    binding.progress.isVisible = true
-//                }
-//
-//                is UiState.Success -> {
-//                    binding.progress.isVisible = false
-//                    // homeFoods LiveData를 관찰하여 RecyclerView에 데이터 전달
-//                    viewModel.homeFoods.observe(viewLifecycleOwner) { homeFoods ->
-//                        homeAdapter.submitList(homeFoods)
-//                    }
-//                }
-//
-//                is UiState.Error -> {
-//                    Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
-//                }
-//            }
-//        }
-//    }
-//}

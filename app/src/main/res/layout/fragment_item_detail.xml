@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.itemdetail.ItemDetailFragment"
-    android:background="@color/background_color"
+    android:background="@color/white"
     >
 
     <ScrollView
@@ -32,7 +32,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginStart="25dp"
                 android:src="@drawable/back"
-                app:tint="#FFFFFF"
+                app:tint="#8E8E8E"
                 android:elevation="2dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -122,7 +122,7 @@
                 android:layout_width="0dp"
                 app:layout_constraintWidth_percent="0.85"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="- 판매원: "
                 android:textColor="@color/main_color_light_gray"
                 android:textSize="16sp"
@@ -135,7 +135,7 @@
                 android:layout_width="0dp"
                 app:layout_constraintWidth_percent="0.85"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="- 원재료: "
                 android:lineSpacingExtra="3dp"
                 android:textColor="@color/main_color_light_gray"
@@ -148,7 +148,7 @@
                 android:id="@+id/tv_nutrient"
                 android:layout_width="0dp"
                 app:layout_constraintWidth_percent="0.85"                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="- 영양성분: "
                 android:lineSpacingExtra="3dp"
                 android:textColor="@color/main_color_light_gray"
@@ -162,7 +162,7 @@
                 android:layout_width="0dp"
                 app:layout_constraintWidth_percent="0.85"                android:layout_height="wrap_content"
                 android:maxWidth="330dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="- 품목보고번호: "
                 android:textColor="@color/main_color_light_gray"
                 android:textSize="16sp"

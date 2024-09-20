@@ -31,8 +31,6 @@ class ItemDetailFragment : Fragment() {
     private var _binding: FragmentItemDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val favoriteListAdapter by lazy { FavoriteListAdapter() }
-
     private var clickedItem = Food()
 
     // 이렇게 뷰모델 호출하는 거 맞나?
@@ -84,78 +82,77 @@ class ItemDetailFragment : Fragment() {
         sharedViewModel.filteredFoods.observe(viewLifecycleOwner) { filteredFoods ->
             clickedItem = filteredFoods.find { it.prdlstReportNo == data }!!
 
+            binding.btnBack.setOnClickListener {
+                requireActivity().supportFragmentManager.popBackStack()
+            }
 
-        binding.btnBack.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
-        }
+            val viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
 
-        val viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
+            val imageResources =
+                listOf(clickedItem?.imgurl1.toString(), clickedItem?.imgurl2.toString())
 
-        val imageResources =
-            listOf(clickedItem?.imgurl1.toString(), clickedItem?.imgurl2.toString())
+            val viewPagerAdapter = ViewPagerAdapter(imageResources)
+            viewPager.adapter = viewPagerAdapter
 
-        val viewPagerAdapter = ViewPagerAdapter(imageResources)
-        viewPager.adapter = viewPagerAdapter
-
-        var isLiked = false
-        var currentUserFavorites = mutableListOf<Food>()
-        userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                currentUserFavorites = data.like
-                if (clickedItem in currentUserFavorites) {
-                    binding.btnLike.setImageResource(R.drawable.filled_heart)
-                    isLiked = true
+            var isLiked = false
+            var currentUserFavorites = mutableListOf<Food>()
+            userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
+                if (data != null) {
+                    currentUserFavorites = data.like
+                    if (clickedItem in currentUserFavorites) {
+                        binding.btnLike.setImageResource(R.drawable.filled_heart)
+                        isLiked = true
+                    }
                 }
             }
-        }
 
-        binding.btnLike.setOnClickListener {
-            if (!isLiked) {
-                isLiked = true
-                binding.btnLike.setImageResource(R.drawable.filled_heart)
-                userViewModel.currentUser.value?.like!!.add(clickedItem)
-                userViewModel.updateCurrentUserInfo()
-            } else {
-                isLiked = false
-                binding.btnLike.setImageResource(R.drawable.heart)
-                userViewModel.currentUser.value?.like!!.remove(clickedItem)
-                userViewModel.updateCurrentUserInfo()
+            binding.btnLike.setOnClickListener {
+                if (!isLiked) {
+                    isLiked = true
+                    binding.btnLike.setImageResource(R.drawable.filled_heart)
+                    userViewModel.currentUser.value?.like!!.add(clickedItem)
+                    userViewModel.updateCurrentUserInfo()
+                } else {
+                    isLiked = false
+                    binding.btnLike.setImageResource(R.drawable.heart)
+                    userViewModel.currentUser.value?.like!!.remove(clickedItem)
+                    userViewModel.updateCurrentUserInfo()
+                }
             }
+
+            binding.tvCategory.text = clickedItem?.prdkind.toString()
+            binding.tvName.text = clickedItem?.prdlstNm.toString()
+            binding.tvAllergy.text = "⛔ 알러지유발물질: ${clickedItem?.allergy.toString()}"
+            if (clickedItem?.manufacture == "null") {
+                binding.tvManufacture.text = "- 제조원: 정보없음"
+            } else {
+                binding.tvManufacture.text = "- 제조원: ${clickedItem?.manufacture.toString()}"
+            }
+            if (clickedItem?.seller == "null") {
+                binding.tvSeller.text = "- 판매원: 정보없음"
+            } else {
+                binding.tvSeller.text = "- 판매원: ${clickedItem?.seller.toString()}"
+            }
+            if (clickedItem?.rawmtrl == "null") {
+                binding.tvRawmtrl.text = "- 원재료: 정보없음"
+            } else {
+                binding.tvRawmtrl.text = "- 원재료: ${clickedItem?.rawmtrl.toString()}"
+            }
+            if (clickedItem?.nutrient == "null") {
+                binding.tvNutrient.text = "- 영양성분: 정보없음"
+            } else {
+                binding.tvNutrient.text = "- 영양성분: ${clickedItem?.nutrient.toString()}"
+            }
+            if (clickedItem?.prdlstReportNo == "null") {
+                binding.tvPrdlstReportNo.text = "- 품목보고번호: 정보없음"
+            } else {
+                binding.tvPrdlstReportNo.text =
+                    "- 품목보고번호: ${clickedItem?.prdlstReportNo.toString()}"
+            }
+
+            sharedViewModel.getMarketDetail(clickedItem?.manufacture.toString(), clickedItem?.prdlstNm.toString())
         }
 
-        binding.tvCategory.text = clickedItem?.prdkind.toString()
-        binding.tvName.text = clickedItem?.prdlstNm.toString()
-        binding.tvAllergy.text = "⛔ 알러지유발물질: ${clickedItem?.allergy.toString()}"
-        if (clickedItem?.manufacture == "null") {
-            binding.tvManufacture.text = "- 제조원: 정보없음"
-        } else {
-            binding.tvManufacture.text = "- 제조원: ${clickedItem?.manufacture.toString()}"
-        }
-        if (clickedItem?.seller == "null") {
-            binding.tvSeller.text = "- 판매원: 정보없음"
-        } else {
-            binding.tvSeller.text = "- 판매원: ${clickedItem?.seller.toString()}"
-        }
-        if (clickedItem?.rawmtrl == "null") {
-            binding.tvRawmtrl.text = "- 원재료: 정보없음"
-        } else {
-            binding.tvRawmtrl.text = "- 원재료: ${clickedItem?.rawmtrl.toString()}"
-        }
-        if (clickedItem?.nutrient == "null") {
-            binding.tvNutrient.text = "- 영양성분: 정보없음"
-        } else {
-            binding.tvNutrient.text = "- 영양성분: ${clickedItem?.nutrient.toString()}"
-        }
-        if (clickedItem?.prdlstReportNo == "null") {
-            binding.tvPrdlstReportNo.text = "- 품목보고번호: 정보없음"
-        } else {
-            binding.tvPrdlstReportNo.text =
-                "- 품목보고번호: ${clickedItem?.prdlstReportNo.toString()}"
-        }
-
-
-        sharedViewModel.getMarketDetail(clickedItem?.manufacture.toString(), clickedItem?.prdlstNm.toString())
-        }
         var marketList: List<Market>?
 
         sharedViewModel.marketData.observe(viewLifecycleOwner) { data ->

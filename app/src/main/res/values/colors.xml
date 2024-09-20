@@ -7,7 +7,7 @@
     <color name="main_color_light_gray">#6A6F7A</color>
     <color name="main_color_more_light_gray">#C1C1C1</color>
     <color name="main_color_white">#FFFFFFFF</color>
-    <color name="main_color_orange">#FF6E6E</color>
+    <color name="main_color_orange">#4169E1</color>
     <color name="warning_yellow">#F3CB00</color>
 </resources>
 

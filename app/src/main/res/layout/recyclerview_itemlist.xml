@@ -104,18 +104,18 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_itemlist_rawmtrl" />
         />
 
-        <TextView
-            android:id="@+id/tv_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="like"
-            android:letterSpacing="0.03"
-            android:lineSpacingExtra="3dp"
-            android:textColor="#000000"
-            android:textSize="15sp"
-            android:layout_marginBottom="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+<!--        <TextView-->
+<!--            android:id="@+id/tv_like"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="like"-->
+<!--            android:letterSpacing="0.03"-->
+<!--            android:lineSpacingExtra="3dp"-->
+<!--            android:textColor="#000000"-->
+<!--            android:textSize="15sp"-->
+<!--            android:layout_marginBottom="15dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent" />-->
 
         <ImageView
             android:id="@+id/iv_like"
@@ -123,9 +123,9 @@
             android:layout_height="20dp"
             android:layout_marginRight="5dp"
             android:src="@drawable/heart"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_like"
-            app:layout_constraintEnd_toStartOf="@+id/tv_like"
-            app:layout_constraintTop_toTopOf="@+id/tv_like" />
+            android:layout_marginBottom="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

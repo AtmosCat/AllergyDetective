@@ -94,10 +94,8 @@ class CommunityHomeFragment : Fragment() {
         }
 
         postViewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
-            if (data.isEmpty()) {
-                binding.btnFilter.startAnimation(blinkAnimation)
-            } else {
-                binding.btnFilter.startAnimation(blinkAnimation)
+            if (data.isNotEmpty()) {
+                binding.btnSearch.startAnimation(blinkAnimation)
             }
         }
 

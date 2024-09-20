@@ -63,7 +63,8 @@ class SavedPostAdapter :
 
         fun bind(item: Post) {
             if (item.detailPhoto.isEmpty()) {
-                photo.setImageResource(R.drawable.gallery2)
+                photo.load(R.drawable.no_photo)
+                photo.setPadding(40,40,40,40)
             } else {
                 photo.load(item.detailPhoto[0])
             }

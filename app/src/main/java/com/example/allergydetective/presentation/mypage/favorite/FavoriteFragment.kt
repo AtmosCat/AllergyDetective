@@ -31,8 +31,6 @@ class FavoriteFragment : Fragment() {
 
     private var clickedItem: Food? = null
 
-    private val favoriteListAdapter by lazy { FavoriteListAdapter() }
-
     private val sharedViewModel: SharedViewModel by activityViewModels() {
         viewModelFactory {
             initializer {
@@ -46,6 +44,8 @@ class FavoriteFragment : Fragment() {
     private val userViewModel: UserViewModel by activityViewModels {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
+
+    private val favoriteListAdapter by lazy { FavoriteListAdapter(userViewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

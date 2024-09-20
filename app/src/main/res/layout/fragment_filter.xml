@@ -663,17 +663,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/view_underline_group"
                 />
 
+            <TextView
+                android:id="@+id/tv_notice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="설정하신 알러지유발물질이 들어가지 않은 상품이\n검색됩니다."
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/view_underline_group"
+                app:layout_constraintEnd_toEndOf="@+id/view_underline_group"
+                app:layout_constraintTop_toBottomOf="@+id/tv_filter_ingredients"
+                />
+
             <CheckBox
                 android:id="@+id/checkbox_ingredient_egg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="10dp"
                 android:text="알류(가금류)"
                 android:textSize="18sp"
                 android:buttonTint="@drawable/checkbox_selector"
                 app:layout_constraintStart_toStartOf="@id/tv_filter_ingredients"
-                app:layout_constraintTop_toBottomOf="@+id/tv_filter_ingredients"
+                app:layout_constraintTop_toBottomOf="@+id/tv_notice"
                 />
 
             <CheckBox

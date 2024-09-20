@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.allergydetective.R
 import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.databinding.RecyclerviewItemlistBinding
+import com.example.allergydetective.presentation.UserViewModel
 
 
 // ListAdapter 상속받아서 Home화면용 어댑터 구현
-class HomeAdapter :
+class HomeAdapter(private val userViewModel: UserViewModel) :
     ListAdapter<Food, HomeAdapter.HomeViewHolder>(object :
         DiffUtil.ItemCallback<Food>() {
         // 구 값, 신 값 비교해서 바뀐 것들만 업데이트
@@ -42,7 +44,7 @@ class HomeAdapter :
     // 홀더에 실제 데이터 할당
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         runCatching {
-            holder.bind(getItem(position))
+            holder.bind(getItem(position), userViewModel.currentUser.value!!.like)
             holder.itemView.setOnClickListener {
                 itemClick?.onClick(it, position)
             }
@@ -57,13 +59,18 @@ class HomeAdapter :
             val name = binding.tvItemlistName
             val allergy = binding.tvItemlistAllergy
             val rawmatrl = binding.tvItemlistRawmtrl
-            val like = binding.tvLike
-        fun bind(item: Food) {
+            val like = binding.ivLike
+        fun bind(item: Food, likedFoods: MutableList<Food>) {
             photo.load(item.imgurl1)
             name.text = item.prdlstNm
             allergy.text = "⚠️주의: ${item.allergy}"
             rawmatrl.text = "- 원재료: ${item.rawmtrl}"
-            like.text = item.like.toString()
+            if (item in likedFoods) {
+                like.setImageResource(R.drawable.filled_heart)
+            } else {
+                like.setImageResource(R.drawable.heart)
+            }
+//            like.text = item.like.toString()
 //                crossfade(true)
         }
     }

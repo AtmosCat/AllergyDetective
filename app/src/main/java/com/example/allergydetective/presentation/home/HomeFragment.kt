@@ -25,6 +25,7 @@ import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryI
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentHomeBinding
 import com.example.allergydetective.presentation.SharedViewModel
+import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.base.UiState
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
 import com.example.allergydetective.presentation.filter.FilterFragment
@@ -36,6 +37,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
 
     private val binding get() = _binding!!
+
     private val viewModel: SharedViewModel by activityViewModels() {
         viewModelFactory {
             initializer {
@@ -46,8 +48,12 @@ class HomeFragment : Fragment() {
             }
         }
     }
+    private val userViewModel: UserViewModel by activityViewModels {
+        viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
+    }
 
-    private val homeAdapter by lazy { HomeAdapter() }
+
+    private val homeAdapter by lazy { HomeAdapter(userViewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,28 +112,26 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
-            if (data.isEmpty()) {
-                binding.btnHomeFilter.startAnimation(blinkAnimation)
-            } else {
+            if (data.isNotEmpty()) {
                 binding.btnHomeSearch.startAnimation(blinkAnimation)
             }
         }
 
-        val itemDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemDetailFragment")
-        homeAdapter.itemClick = object : HomeAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
-                requireActivity().supportFragmentManager.beginTransaction().apply {
-                    hide(this@HomeFragment)
-                    if (itemDetailFragment == null) {
-                        add(R.id.main_frame, ItemDetailFragment(), "ItemDetailFragment")
-                    } else {
-                        show(itemDetailFragment)
-                    }
-                    addToBackStack(null)
-                    commit()
-                }
-            }
-        }
+//        val itemDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemDetailFragment")
+//        homeAdapter.itemClick = object : HomeAdapter.ItemClick {
+//            override fun onClick(view: View, position: Int) {
+//                requireActivity().supportFragmentManager.beginTransaction().apply {
+//                    hide(this@HomeFragment)
+//                    if (itemDetailFragment == null) {
+//                        add(R.id.main_frame, ItemDetailFragment(), "ItemDetailFragment")
+//                    } else {
+//                        show(itemDetailFragment)
+//                    }
+//                    addToBackStack(null)
+//                    commit()
+//                }
+//            }
+//        }
 
         val filterFragment = requireActivity().supportFragmentManager.findFragmentByTag("FilterFragment")
         binding.btnHomeFilter.setOnClickListener {

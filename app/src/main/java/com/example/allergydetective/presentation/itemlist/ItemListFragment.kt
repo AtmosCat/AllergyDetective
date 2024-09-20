@@ -26,7 +26,9 @@ import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryI
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentItemListBinding
 import com.example.allergydetective.presentation.SharedViewModel
+import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.base.UiState
+import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
 import com.example.allergydetective.presentation.filter.FilterFragment
 import com.example.allergydetective.presentation.home.HomeFragment
 import com.example.allergydetective.presentation.home.MyPageFragment
@@ -53,7 +55,10 @@ class ItemListFragment : Fragment() {
         }
     }
 
-    private val itemListAdapter by lazy { ItemListAdapter() }
+    private val userViewModel: UserViewModel by activityViewModels {
+        viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
+    }
+    private val itemListAdapter by lazy { ItemListAdapter(userViewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,22 +123,20 @@ class ItemListFragment : Fragment() {
         }
 
         viewModel.selectedAllergies.observe(viewLifecycleOwner) { data ->
-            if (data.size == 1) {
-                binding.tvFilteredAllergy.text = "✅ 필터: ${viewModel.selectedAllergies.value!![0]}"
-            } else if (data.size == 2) {
-                binding.tvFilteredAllergy.text =
-                "✅ 필터: ${viewModel.selectedAllergies.value!![0]} / ${viewModel.selectedAllergies.value!![1]}"
-            } else if (data.size == 0) {
+            if (data.isNotEmpty()) {
+                binding.tvFilteredAllergy.text = "✅ 필터: ${viewModel.selectedAllergies.value!!}"
+            } else {
                 binding.tvFilteredAllergy.text = "✅ 필터: 없음"
             }
         }
-//
+
 //        viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
 //            sortedList = data // 기본순으로 초기화
 //            itemListAdapter.updateData(sortedList!!)
 //        }
 
-        val spinnerItems = listOf("기본순 ▼", "가나다순 ▼", "인기순 ▼", "추천순 ▼", "조회수순 ▼", "가격순 ▼")
+
+        val spinnerItems = listOf("기본순 ▼", "가나다순 ▼")
         val spinnerAdapter =
             ArrayAdapter(requireContext(), R.layout.spinner_layout_custom, spinnerItems)
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_list_layout_custom)
@@ -149,7 +152,7 @@ class ItemListFragment : Fragment() {
                 viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
                     sortedList = when (position) {
                         1 -> data.sortedBy { it.prdlstNm } // 가나다순으로 정렬
-                        2 -> data.sortedBy { it.like } // 좋아요순으로 정렬
+//                        2 -> data.sortedBy { it.like } // 좋아요순으로 정렬
                         else -> data
                     }
                     binding.recyclerviewItemlist.scrollToPosition(0)
@@ -238,6 +241,20 @@ class ItemListFragment : Fragment() {
                     add(R.id.main_frame, MyPageFragment(), "MyPageFragment")
                 } else {
                     show(myPageFragment)
+                }
+                addToBackStack(null)
+                commit()
+            }
+        }
+
+        val communityHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("CommunityHomeFragment")
+        binding.btnTabCommunity.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                hide(this@ItemListFragment)
+                if (communityHomeFragment == null) {
+                    add(R.id.main_frame, CommunityHomeFragment(), "CommunityHomeFragment")
+                } else {
+                    show(communityHomeFragment)
                 }
                 addToBackStack(null)
                 commit()

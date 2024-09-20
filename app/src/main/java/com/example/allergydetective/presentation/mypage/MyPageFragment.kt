@@ -321,14 +321,14 @@ class MyPageFragment : Fragment() {
                         onSuccess = { downloadUrl ->
                             // 이미지 로드
                             binding.ivProfileImage.load(downloadUrl) {
-//                            crossfade(true)
-//                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
-//                            error(sampleBitmap) // 로드 실패 시 표시할 이미지
+                            crossfade(true)
+                            placeholder(R.drawable.placeholder) // 로딩 중에 표시할 이미지
+                            error(R.drawable.no_photo) // 로드 실패 시 표시할 이미지
                             }
                         },
                         onFailure = { exception ->
                             // 실패 처리
-                            binding.ivProfileImage.load(sampleBitmap)
+                            binding.ivProfileImage.load(R.drawable.no_photo)
                         })
                 }
                 if (data?.nickname == "") {
@@ -390,7 +390,7 @@ class MyPageFragment : Fragment() {
 
     private fun setAllergyImage(image: ImageView, allergy: String) {
         when (allergy) {
-            "계란" -> image.setImageResource(R.drawable.egg)
+            "알류(가금류)" -> image.setImageResource(R.drawable.egg)
             "우유" -> image.setImageResource(R.drawable.milk)
             "메밀" -> image.setImageResource(R.drawable.buckwheat)
             "땅콩" -> image.setImageResource(R.drawable.peanut)
@@ -407,8 +407,11 @@ class MyPageFragment : Fragment() {
             "닭고기" -> image.setImageResource(R.drawable.chicken)
             "쇠고기" -> image.setImageResource(R.drawable.beef)
             "오징어" -> image.setImageResource(R.drawable.squid)
-            "조개" -> image.setImageResource(R.drawable.seashell)
+            "조개류(조개)" -> image.setImageResource(R.drawable.seashell)
             "잣" -> image.setImageResource(R.drawable.pinenut)
+            "조개류(굴)" -> image.setImageResource(R.drawable.oyster)
+            "조개류(전복)" -> image.setImageResource(R.drawable.abalone)
+            "조개류(홍합)" -> image.setImageResource(R.drawable.mussel)
         }
     }
 
