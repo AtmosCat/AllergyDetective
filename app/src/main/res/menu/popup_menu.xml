@@ -2,11 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_report"
-        android:title="글 신고하기" />
+        android:title="글 신고하기"
+        style="@style/textStyle_subheading"/>
     <item
         android:id="@+id/action_report_user"
-        android:title="사용자 신고하기" />
+        android:title="사용자 신고하기"
+        style="@style/textStyle_subheading" />
     <item
         android:id="@+id/action_block_user"
-        android:title="신고하기" />
+        android:title="신고하기"
+        style="@style/textStyle_subheading" />
 </menu>

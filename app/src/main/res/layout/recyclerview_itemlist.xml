@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="150dp"
     android:background="@drawable/bottom_border"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/recyclerview_itemlist_item"
@@ -51,10 +51,7 @@
             android:text="제품이름"
             android:letterSpacing="0.03"
             android:lineSpacingExtra="3dp"
-            android:fontFamily="@font/nanum_square_extrabold"
-            android:textColor="@color/main_color_dark_gray"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            style="@style/textStyle_subtitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,8 +63,7 @@
             android:text="⚠️ 대두 ⚠️밀"
             android:letterSpacing="0.03"
             android:lineSpacingExtra="3dp"
-            android:textColor="@color/main_color_light_gray"
-            android:textSize="12sp"
+            style="@style/textStyle_detail"
             app:layout_constraintStart_toStartOf="@+id/tv_itemlist_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_itemlist_name" />
 
@@ -79,43 +75,15 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingEnd="10dp"
+            android:textSize="12sp"
             android:text="- 원재료: 옥수수,사과발효액,고추발효액,야자유,정제소금,합성착향료버터향"
             android:letterSpacing="0.03"
             android:lineSpacingExtra="3dp"
-            android:textColor="@color/main_color_light_gray"
-            android:textSize="10sp"
-            android:textStyle="bold"
+            style="@style/textStyle_detail"
             app:layout_constraintStart_toStartOf="@+id/tv_itemlist_allergy"
             app:layout_constraintTop_toBottomOf="@+id/tv_itemlist_allergy" />
 
-        <TextView
-            android:id="@+id/tv_itemlist_kcal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="30dp"
-            android:text=""
-            android:letterSpacing="0.03"
-            android:lineSpacingExtra="3dp"
-            android:textColor="@color/main_color_light_gray"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/tv_itemlist_rawmtrl"
-            app:layout_constraintTop_toBottomOf="@+id/tv_itemlist_rawmtrl" />
         />
-
-<!--        <TextView-->
-<!--            android:id="@+id/tv_like"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="like"-->
-<!--            android:letterSpacing="0.03"-->
-<!--            android:lineSpacingExtra="3dp"-->
-<!--            android:textColor="#000000"-->
-<!--            android:textSize="15sp"-->
-<!--            android:layout_marginBottom="15dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent" />-->
 
         <ImageView
             android:id="@+id/iv_like"

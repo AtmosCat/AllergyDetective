@@ -2,8 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_signout"
-        android:title="로그아웃" />
+        android:title="로그아웃"
+        style="@style/textStyle_subheading" />
     <item
         android:id="@+id/action_delete_id"
-        android:title="회원탈퇴" />
+        android:title="회원탈퇴"
+        style="@style/textStyle_subheading" />
 </menu>

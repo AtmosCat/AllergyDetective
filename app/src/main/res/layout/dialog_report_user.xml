@@ -16,9 +16,8 @@
         android:id="@+id/tv_report_user_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nanum_square_extrabold"
         android:text="유저 신고하기"
-        android:textSize="22sp"
+        style="@style/textStyle_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,9 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:fontFamily="@font/nanum_square_extrabold"
         android:text="신고 사유"
-        android:textSize="18sp"
+        style="@style/textStyle_subtitle"
         app:layout_constraintStart_toStartOf="@+id/tv_report_user_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_report_user_title" />
 
@@ -37,8 +35,8 @@
         android:id="@+id/spinner_report_user_reason"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:textSize="14sp"
+        android:layout_marginTop="5dp"
+        style="@style/textStyle_subheading"
         app:layout_constraintStart_toStartOf="@+id/tv_report_user_reason"
         app:layout_constraintTop_toBottomOf="@+id/tv_report_user_reason"
         />
@@ -48,9 +46,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/nanum_square_extrabold"
         android:text="신고 내용"
-        android:textSize="18sp"
+        style="@style/textStyle_subtitle"
         app:layout_constraintStart_toStartOf="@+id/tv_report_user_title"
         app:layout_constraintTop_toBottomOf="@+id/spinner_report_user_reason" />
 
@@ -58,9 +55,9 @@
         android:id="@+id/et_report_user_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="5dp"
         android:hint="신고 내용을 적어주세요."
-        android:textSize="14sp"
+        style="@style/textStyle_subheading"
         app:layout_constraintStart_toStartOf="@+id/tv_report_user_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_report_user_detail"
         />

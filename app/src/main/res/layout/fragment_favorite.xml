@@ -24,10 +24,8 @@
         android:id="@+id/tv_favorite_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nanum_square_extrabold"
         android:text="관심목록"
-        android:textColor="@color/main_color_dark_gray"
-        android:textSize="20sp"
+        style="@style/textStyle_title"
         android:layout_marginStart="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_back"
         app:layout_constraintStart_toEndOf="@+id/btn_back"
@@ -64,9 +62,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        tools:itemCount="1"
-        tools:listitem="@layout/recyclerview_itemlist"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_favorite_list"
-        />
+        tools:itemCount="1"
+        tools:listitem="@layout/recyclerview_itemlist" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

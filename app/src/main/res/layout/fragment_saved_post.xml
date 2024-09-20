@@ -24,10 +24,8 @@
         android:id="@+id/tv_savedpost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/nanum_square_extrabold"
         android:text="내가 저장한 글"
-        android:textColor="@color/main_color_dark_gray"
-        android:textSize="20sp"
+        style="@style/textStyle_title"
         android:layout_marginStart="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_back"
         app:layout_constraintStart_toEndOf="@+id/btn_back"
@@ -38,10 +36,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        tools:itemCount="1"
-        tools:listitem="@layout/recyclerview_post_list"
-        app:layout_constraintTop_toBottomOf="@+id/tv_savedpost"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_savedpost"
+        tools:itemCount="1"
+        tools:listitem="@layout/recyclerview_post_list" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,7 +36,7 @@
         android:id="@+id/view_mypage_profile"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="3:2"
+        app:layout_constraintDimensionRatio="5:3"
         android:layout_marginTop="10dp"
         android:background="@drawable/round_border"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintWidth_percent="0.33"
+            app:layout_constraintWidth_percent="0.25"
             app:layout_constraintStart_toStartOf="@+id/view_mypage_profile"
             app:layout_constraintTop_toTopOf="@+id/view_mypage_profile"
             >
@@ -82,10 +82,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="26dp"
-            android:fontFamily="@font/nanum_square_extrabold"
-            android:text="익명의 고양이"
-            android:textColor="@color/main_color_dark_gray"
-            android:textSize="22sp"
+            android:text="익명"
+            style="@style/textStyle_subtitle"
             app:layout_constraintBottom_toBottomOf="@+id/cardview_mypage_frame"
             app:layout_constraintHeight_percent="0.05"
             app:layout_constraintStart_toEndOf="@+id/cardview_mypage_frame"
@@ -110,9 +108,7 @@
             android:text=" ⚠️ 프로필에서 나의 알러지 정보를 설정해주세요!"
             android:layout_marginTop="15dp"
             android:lineSpacingExtra="3dp"
-            android:textColor="@color/main_color_light_gray"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            style="@style/textStyle_subheading"
             app:layout_constraintTop_toBottomOf="@+id/cardview_mypage_frame"
             app:layout_constraintStart_toStartOf="@+id/cardview_mypage_frame"
             app:layout_constraintEnd_toEndOf="parent"
@@ -136,12 +132,11 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame"
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:elevation="1dp"
                     android:src="@drawable/black_circle"
                     app:layout_constraintBottom_toBottomOf="@+id/layout_horizontal_scrollview"
-                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toStartOf="@+id/layout_horizontal_scrollview"
                     app:layout_constraintTop_toTopOf="@+id/layout_horizontal_scrollview"
@@ -163,7 +158,7 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame2"
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
@@ -171,7 +166,6 @@
                     app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame"
                     app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame"
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame"
-                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
                     app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
@@ -192,7 +186,7 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame3"
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
@@ -200,7 +194,6 @@
                     app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame2"
                     app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame2"
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame2"
-                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
                     app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
@@ -221,7 +214,7 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame4"
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
@@ -229,7 +222,6 @@
                     app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame3"
                     app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame3"
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame3"
-                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
                     app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
@@ -250,7 +242,7 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame5"
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
@@ -258,7 +250,6 @@
                     app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame4"
                     app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame4"
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame4"
-                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
                     app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
@@ -279,7 +270,7 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame6"
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
@@ -287,7 +278,6 @@
                     app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame5"
                     app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame5"
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame5"
-                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
                     app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
@@ -309,7 +299,7 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame7"
-                    android:layout_width="0dp"
+                    android:layout_width="50dp"
                     android:layout_height="0dp"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
@@ -317,7 +307,6 @@
                     app:layout_constraintBottom_toBottomOf="@+id/iv_my_allergy_frame6"
                     app:layout_constraintTop_toTopOf="@+id/iv_my_allergy_frame6"
                     app:layout_constraintStart_toEndOf="@+id/iv_my_allergy_frame6"
-                    app:layout_constraintHeight_percent="0.6"
                     app:layout_constraintDimensionRatio="1:1"
                     app:tint="@color/main_color_orange"
                     tools:layout_editor_absoluteX="34dp" />
@@ -365,8 +354,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="▶  관심 목록"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        style="@style/textStyle_subtitle"
         android:layout_marginStart="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/view_mypage_menu1"
         app:layout_constraintStart_toStartOf="@+id/view_mypage_menu1"
@@ -387,8 +375,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="▶  그룹 관리"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        style="@style/textStyle_subtitle"
         android:layout_marginStart="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/view_mypage_menu2"
         app:layout_constraintStart_toStartOf="@+id/view_mypage_menu2"
@@ -410,8 +397,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="▶  멤버십 관리 (개발 중)"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        style="@style/textStyle_subtitle"
         android:layout_marginStart="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/view_mypage_menu3"
         app:layout_constraintStart_toStartOf="@+id/view_mypage_menu3"
@@ -432,8 +418,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="▶  내가 쓴 글"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        style="@style/textStyle_subtitle"
         android:layout_marginStart="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/view_mypage_menu4"
         app:layout_constraintStart_toStartOf="@+id/view_mypage_menu4"
@@ -455,8 +440,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="▶  내가 저장한 글"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        style="@style/textStyle_subtitle"
         android:layout_marginStart="30dp"
         app:layout_constraintBottom_toBottomOf="@+id/view_mypage_menu5"
         app:layout_constraintStart_toStartOf="@+id/view_mypage_menu5"
@@ -493,7 +477,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="홈"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:fontFamily="@font/nanum_square_bold"
         android:textColor="@color/main_color_light_gray"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_home"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_home"
@@ -521,7 +506,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="커뮤니티"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:fontFamily="@font/nanum_square_bold"
         android:textColor="@color/main_color_light_gray"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_community"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_community"
@@ -549,12 +535,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="마이페이지"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:fontFamily="@font/nanum_square_bold"
         android:textColor="@color/main_color_orange"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_mypage"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_mypage"
         app:layout_constraintBottom_toBottomOf="@+id/btn_tab_mypage"
         android:layout_marginBottom="8dp"
         />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,6 +29,7 @@
         android:layout_marginTop="30dp"
         android:paddingLeft="15dp"
         android:text=""
+        style="@style/textStyle_subheading"
         android:background="@drawable/round_border_search"
         app:layout_constraintHeight_percent="0.06"
         app:layout_constraintStart_toEndOf="@+id/btn_back"
@@ -73,7 +74,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:textSize="16sp"
+        style="@style/textStyle_subheading"
         android:textColor="@color/white"
         app:layout_constraintHeight_percent="0.05"
         app:layout_constraintWidth_percent="0.25"
@@ -89,6 +90,7 @@
         android:layout_marginBottom="5dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/view_underline_tab"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_spinner" />
 
@@ -131,7 +133,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginBottom="20dp"
         android:gravity="center"
-        android:textSize="14sp"
+        style="@style/textStyle_subtitle"
         android:textColor="@color/white"
         app:layout_constraintDimensionRatio="2:1"
         app:layout_constraintWidth_percent="0.2"
@@ -169,7 +171,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="홈"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:fontFamily="@font/nanum_square_bold"
         android:textColor="@color/main_color_light_gray"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_home"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_home"
@@ -197,7 +200,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="커뮤니티"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:fontFamily="@font/nanum_square_bold"
         android:textColor="@color/main_color_orange"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_community"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_community"
@@ -225,14 +229,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="마이페이지"
-        android:textSize="18sp"
+        android:textSize="16sp"
+        android:fontFamily="@font/nanum_square_bold"
         android:textColor="@color/main_color_light_gray"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_mypage"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_mypage"
         app:layout_constraintBottom_toBottomOf="@+id/btn_tab_mypage"
         android:layout_marginBottom="8dp"
         />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

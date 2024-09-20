@@ -2,5 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_delete"
-        android:title="삭제하기" />
+        android:title="삭제하기"
+        style="@style/textStyle_subheading" />
 </menu>

@@ -28,12 +28,22 @@
                 android:layout_height="wrap_content"
                 android:text="수정하기"
                 android:layout_marginTop="15dp"
-                android:layout_marginStart="20dp"
-                android:textColor="@color/main_color_dark_gray"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="10dp"
+                style="@style/textStyle_title"
+                app:layout_constraintStart_toEndOf="@+id/btn_cancel"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:src="@drawable/back"
+                android:layout_marginStart="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_edit_post"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_edit_post"
+                />
 
             <View
                 android:id="@+id/line_recyclerview_photo"
@@ -73,12 +83,13 @@
 
             <TextView
                 android:id="@+id/tv_add_photo"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="사진 추가하기"
                 android:layout_marginBottom="12dp"
+                android:gravity="center"
                 android:elevation="2dp"
-                android:textSize="12sp"
+                style="@style/textStyle_detail"
                 app:layout_constraintBottom_toBottomOf="@+id/cardview_photo"
                 app:layout_constraintEnd_toEndOf="@+id/cardview_photo"
                 app:layout_constraintStart_toStartOf="@+id/cardview_photo" />
@@ -95,17 +106,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/cardview_photo"
                 />
 
-            <TextView
-                android:id="@+id/btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="취소"
-                android:textSize="18sp"
-                android:layout_marginEnd="20dp"
-                app:layout_constraintTop_toTopOf="@+id/tv_edit_post"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_edit_post"
-                app:layout_constraintEnd_toEndOf="parent"
-                />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cardview_frame"
@@ -143,9 +143,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="작성자"
-                android:textSize="18sp"
-                android:fontFamily="@font/nanum_square_extrabold"
-                android:textColor="@color/main_color_dark_gray"
+                style="@style/textStyle_subtitle"
                 app:layout_constraintBottom_toBottomOf="@+id/cardview_frame"
                 android:layout_marginHorizontal="15dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -159,9 +157,7 @@
                 android:layout_height="wrap_content"
                 android:text="글 카테고리"
                 android:layout_marginTop="30dp"
-                android:textSize="18sp"
-                android:textColor="@color/main_color_dark_gray"
-                android:fontFamily="@font/nanum_square_bold"
+                style="@style/textStyle_subtitle"
                 app:layout_constraintTop_toBottomOf="@+id/cardview_frame"
                 app:layout_constraintStart_toStartOf="@+id/cardview_frame"
                 />
@@ -192,6 +188,7 @@
                         android:layout_marginVertical="5dp"
                         android:gravity="center"
                         android:text="식당 추천"
+                        style="@style/textStyle_detail"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -204,6 +201,7 @@
                         android:layout_marginHorizontal="5dp"
                         android:layout_marginStart="5dp"
                         android:gravity="center"
+                        style="@style/textStyle_detail"
                         android:text="제품 추천"
                         app:layout_constraintStart_toEndOf="@+id/customButton1"
                         app:layout_constraintTop_toTopOf="parent"
@@ -217,6 +215,7 @@
                         android:layout_marginHorizontal="5dp"
                         android:gravity="center"
                         android:text="레시피 공유"
+                        style="@style/textStyle_detail"
                         app:layout_constraintStart_toEndOf="@+id/customButton2"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
@@ -229,6 +228,7 @@
                         android:layout_marginVertical="5dp"
                         android:gravity="center"
                         android:text="꿀팁 공유"
+                        style="@style/textStyle_detail"
                         app:layout_constraintStart_toEndOf="@+id/customButton3"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
@@ -240,6 +240,7 @@
                         android:layout_marginHorizontal="5dp"
                         android:gravity="center"
                         android:text="Q&amp;A"
+                        style="@style/textStyle_detail"
                         app:layout_constraintStart_toEndOf="@+id/customButton4"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent" />
@@ -254,11 +255,8 @@
                 android:layout_marginTop="30dp"
                 android:ellipsize="end"
                 android:hint="제목을 입력해주세요."
-                android:fontFamily="@font/nanum_square_extrabold"
                 android:maxLines="1"
-                android:textColor="@color/main_color_dark_gray"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                style="@style/textStyle_subtitle"
                 app:layout_constraintEnd_toEndOf="@+id/tv_poster"
                 app:layout_constraintStart_toStartOf="@+id/cardview_frame"
                 app:layout_constraintTop_toBottomOf="@+id/horizontal_scollview_category_buttons" />
@@ -268,10 +266,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/nanum_square_bold"
                 android:hint="내용을 입력해주세요."
-                android:textColor="@color/main_color_light_gray"
-                android:textSize="14sp"
+                style="@style/textStyle_detail"
                 android:lineSpacingExtra="3dp"
                 app:layout_constraintEnd_toEndOf="@+id/et_title"
                 app:layout_constraintStart_toStartOf="@+id/et_title"
@@ -301,7 +297,7 @@
         android:background="@drawable/background_filter_button"
         android:text="수정하기"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        style="@style/textStyle_subtitle"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
