@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.allergydetective"
+    namespace = "com.allergyguardian.allergyguardian"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.allergydetective"
+        applicationId = "com.allergyguardian.allergyguardian"
         minSdk = 31
         targetSdk = 34
         versionCode = 1

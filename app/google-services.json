@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:61578154060:android:230fe9807e837bfcdea4e9",
+        "android_client_info": {
+          "package_name": "com.allergyguardian.allergyguardian"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61578154060-hck7ai7iofjaumt22qnkg35csgcn9hgu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.allergyguardian.allergyguardian",
+            "certificate_hash": "ed6cc70c14c994f85c2afbc8c15bf4cceb8ba670"
+          }
+        },
+        {
+          "client_id": "61578154060-ftcldvj0fkfmc6qfif810r6tl8fka9tp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVR43X3sRfRgceWE27V8NopecmnJDcP08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61578154060-ftcldvj0fkfmc6qfif810r6tl8fka9tp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:61578154060:android:f62dde9c475617ecdea4e9",
         "android_client_info": {
           "package_name": "com.example.allergydetective"
