@@ -102,7 +102,7 @@ class ReplyDetailFragment : Fragment() {
 
         clickedItemId = param1.toString()
         clickedCommentId = param2.toString()
-        postViewModel.filteredPosts.observe(viewLifecycleOwner) { filteredPosts ->
+        postViewModel.allPosts.observe(viewLifecycleOwner) { filteredPosts ->
             clickedItem = filteredPosts.find { it.id == clickedItemId }!!
             clickedComment = clickedItem.comments.find { it.id == clickedCommentId }!!
 
