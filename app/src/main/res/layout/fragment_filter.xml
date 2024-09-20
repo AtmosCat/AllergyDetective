@@ -671,7 +671,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:lineSpacingExtra="3dp"
-                android:text="설정하신 알러지유발물질이 들어가지 않은 상품이검색됩니다."
+                android:text="설정하신 알러지유발물질이 들어가지 않은 상품이 검색됩니다."
                 style="@style/textStyle_detail"
                 app:layout_constraintStart_toStartOf="@+id/view_underline_group"
                 app:layout_constraintEnd_toEndOf="@+id/view_underline_group"
