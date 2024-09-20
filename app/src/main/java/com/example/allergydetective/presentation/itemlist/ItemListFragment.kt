@@ -84,6 +84,10 @@ class ItemListFragment : Fragment() {
             itemListAdapter.submitList(filteredFoods)
         }
 
+        binding.btnItemlistBack.setOnClickListener{
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
         binding.btnItemlistSearch.setOnClickListener {
             viewModel.setSearchKeyword(binding.etItemlistSearch.text.toString())
             viewModel.getFilteredFoods2()

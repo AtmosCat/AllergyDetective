@@ -18,17 +18,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <ImageView-->
-<!--        android:id="@+id/btn_itemlist_back"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:src="@drawable/back"-->
-<!--        android:layout_marginTop="45dp"-->
-<!--        android:layout_marginStart="12dp"-->
-<!--        app:layout_constraintHeight_percent="0.02"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintWidth_percent="0.07" />-->
+    <ImageView
+        android:id="@+id/btn_itemlist_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/back"
+        android:layout_marginTop="45dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.07" />
 
     <EditText
         android:id="@+id/et_itemlist_search"
@@ -36,15 +36,15 @@
         android:layout_height="0dp"
         android:hint="검색"
         style="@style/textStyle_subheading"
-        android:layout_marginLeft="20dp"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="30dp"
         android:paddingLeft="15dp"
         android:text=""
         android:background="@drawable/round_border_search"
         app:layout_constraintHeight_percent="0.06"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.78" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_itemlist_filter"
+        app:layout_constraintStart_toEndOf="@+id/btn_itemlist_back"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/btn_itemlist_search"
@@ -58,34 +58,21 @@
         app:layout_constraintBottom_toBottomOf="@+id/et_itemlist_search"
         app:tint="@color/main_color_light_gray" />
 
-<!--    -->
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_itemlist_search"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:src="@drawable/search"-->
-<!--        android:layout_marginEnd="15dp"-->
-<!--        app:layout_constraintWidth_percent="0.05"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/et_itemlist_search"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/et_itemlist_search"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/et_itemlist_search"-->
-<!--        app:tint="@color/main_color_light_gray" />-->
-
     <ImageView
         android:id="@+id/btn_itemlist_filter"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="12dp"
-        app:tint="@color/white"
-        app:layout_constraintWidth_percent="0.12"
-        app:layout_constraintHeight_percent="0.06"
         android:layout_marginStart="10dp"
-        android:src="@drawable/filter"
-        app:layout_constraintTop_toTopOf="@+id/et_itemlist_search"
-        app:layout_constraintStart_toEndOf="@+id/et_itemlist_search"
-        app:layout_constraintBottom_toBottomOf="@+id/et_itemlist_search"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/background_filter_button"
-        />
+        android:padding="12dp"
+        android:src="@drawable/filter"
+        app:layout_constraintBottom_toBottomOf="@+id/et_itemlist_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.06"
+        app:layout_constraintTop_toTopOf="@+id/et_itemlist_search"
+        app:layout_constraintWidth_percent="0.12"
+        app:tint="@color/white" />
 
     <Spinner
         android:id="@+id/btn_spinner"

@@ -106,7 +106,7 @@ class CommentsAdapter :
             }
             name.text = item.commenterNickname
             detail.text = item.detail
-            reply.text = "↳ 답글 ${item.reply.size}"
+            reply.text = "→ 답글 ${item.reply.size}"
         }
     }
     fun updateData(newItems: List<Comments>) {
