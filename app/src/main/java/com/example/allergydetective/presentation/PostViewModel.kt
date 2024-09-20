@@ -12,8 +12,6 @@ import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.Reply
 import com.example.allergydetective.data.model.user.Report
 import com.example.allergydetective.data.model.user.User
-import com.example.allergydetective.presentation.community.community_home.PostListAdapter
-import com.example.allergydetective.presentation.community.postdetail.CommentsAdapter
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query

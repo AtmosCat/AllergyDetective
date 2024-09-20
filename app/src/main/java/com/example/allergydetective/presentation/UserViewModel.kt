@@ -23,6 +23,7 @@ import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.presentation.base.UiState
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
@@ -52,8 +53,13 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
     private val _currentUserFavorites = MutableLiveData<MutableList<Food>?>()
     val currentUserFavorites : LiveData<MutableList<Food>?> get() = _currentUserFavorites
 
+    private val _currentUserBlockedUsers = MutableLiveData<MutableList<String>?>()
+    val currentUserBlockedUsers : LiveData<MutableList<String>?> get() = _currentUserBlockedUsers
+
     private val _bitmapBeforeSave = MutableLiveData<Bitmap>()
     val bitmapBeforeSave : LiveData<Bitmap> get() = _bitmapBeforeSave
+
+
 
     fun addUser(user: User) {
         viewModelScope.launch {
@@ -192,6 +198,26 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
                 handleException(it)
             }
         }
+    }
+
+    fun getBlockedUsers(){
+        db.collection("user")
+            .document(currentUser.value!!.email)
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Log.e(TAG, "getBlockedUsers() failed! : ${exception.message}")
+                    handleException(exception)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null) {
+                    val user = snapshot.toObject(User::class.java)
+                    val blockedUsers = user?.blockedUsers
+                    _currentUserBlockedUsers.value = blockedUsers
+                } else {
+                    // 예외처리: 스냅샷이 null일 때 처리
+                }
+            }
+
     }
 
     fun updateCurrentUserInfo() {

@@ -6,10 +6,10 @@
         style="@style/textStyle_subheading"/>
     <item
         android:id="@+id/action_report_user"
-        android:title="사용자 신고하기"
+        android:title="유저 신고하기"
         style="@style/textStyle_subheading" />
     <item
         android:id="@+id/action_block_user"
-        android:title="신고하기"
+        android:title="차단하기"
         style="@style/textStyle_subheading" />
 </menu>

@@ -41,6 +41,8 @@ class CommunityHomeFragment : Fragment() {
         viewModelFactory { initializer { PostViewModel(requireActivity().application) } }
     }
 
+    private var currentUserBlockedUsers = mutableListOf<String>()
+
     private val communityHomeAdapter by lazy { CommunityHomeAdapter() }
 
     private var allPosts = listOf<Post>()
@@ -66,9 +68,15 @@ class CommunityHomeFragment : Fragment() {
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
         postViewModel.getAllPosts()
+        userViewModel.getBlockedUsers()
         postViewModel.allPosts.observe(viewLifecycleOwner) { data ->
             allPosts = data
-            allPosts.filter { it.posterEmail !in userViewModel.currentUser.value!!.blockedUsers }
+            userViewModel.currentUserBlockedUsers.observe(viewLifecycleOwner){ blockedUsers ->
+                if (blockedUsers != null) {
+                    currentUserBlockedUsers = blockedUsers
+                }
+            }
+            allPosts = allPosts.filter { it.posterEmail !in currentUserBlockedUsers }
             communityHomeAdapter.submitList(allPosts)
         }
 

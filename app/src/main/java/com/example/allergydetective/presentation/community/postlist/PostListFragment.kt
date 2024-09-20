@@ -45,6 +45,8 @@ class PostListFragment : Fragment() {
 
     private val postListAdapter by lazy { PostListAdapter() }
 
+    private var currentUserBlockedUsers = mutableListOf<String>()
+
     private var filteredItems = listOf<Post>()
 
     private var sortedList = listOf<Post>()
@@ -70,9 +72,15 @@ class PostListFragment : Fragment() {
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
 
         postViewModel.getFilteredPosts()
+        userViewModel.getBlockedUsers()
         postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
             filteredItems = data
-            filteredItems.filter { it.posterEmail !in userViewModel.currentUser.value!!.blockedUsers }
+            userViewModel.currentUserBlockedUsers.observe(viewLifecycleOwner){ blockedUsers ->
+                if (blockedUsers != null) {
+                    currentUserBlockedUsers = blockedUsers
+                }
+            }
+            filteredItems = filteredItems.filter { it.posterEmail !in currentUserBlockedUsers }
             postListAdapter.submitList(filteredItems)
         }
 
