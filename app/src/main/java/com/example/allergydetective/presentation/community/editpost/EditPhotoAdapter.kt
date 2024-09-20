@@ -4,14 +4,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.example.allergydetective.R
-import com.example.allergydetective.data.model.user.Post
-import com.example.allergydetective.databinding.RecyclerviewPostListBinding
 import com.example.allergydetective.databinding.RecyclerviewPostPhotoBinding
 
 class EditPhotoAdapter :

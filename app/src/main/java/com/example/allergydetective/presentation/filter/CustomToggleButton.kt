@@ -1,10 +1,8 @@
 package com.example.allergydetective.presentation.filter
 
-
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
-import android.widget.Button
 import androidx.core.content.ContextCompat
 import com.example.allergydetective.R
 

@@ -1,4 +1,4 @@
-package com.example.allergydetective.presentation.community.postdetail
+package com.example.allergydetective.presentation.community.postdetail.reply
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -28,9 +28,6 @@ import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.databinding.FragmentReplyDetailBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
-import com.example.allergydetective.presentation.community.postdetail.reply.RepliesAdapter
-import com.google.firebase.firestore.FieldValue
-import java.util.UUID
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"

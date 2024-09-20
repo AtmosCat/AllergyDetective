@@ -17,12 +17,12 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.load
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.user.Report
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.databinding.FragmentMyPageBinding
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
+import com.example.allergydetective.presentation.mypage.EditProfileFragment
 import com.example.allergydetective.presentation.mypage.GroupManagerFragment
 import com.example.allergydetective.presentation.mypage.favorite.FavoriteFragment
 import com.example.allergydetective.presentation.mypage.mypost.MyPostFragment

@@ -12,12 +12,10 @@ import android.view.animation.Animation
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-//import coil.load
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.allergydetective.R
@@ -27,7 +25,6 @@ import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentItemListBinding
 import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
-import com.example.allergydetective.presentation.base.UiState
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
 import com.example.allergydetective.presentation.filter.FilterFragment
 import com.example.allergydetective.presentation.home.HomeFragment

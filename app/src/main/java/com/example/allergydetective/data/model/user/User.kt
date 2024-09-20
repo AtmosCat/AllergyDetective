@@ -5,8 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
-import android.media.Image
-import com.example.allergydetective.R
 import com.example.allergydetective.data.model.food.Food
 
 fun createSampleBitmap(): Bitmap {

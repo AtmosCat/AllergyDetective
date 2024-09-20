@@ -1,15 +1,9 @@
-package com.example.allergydetective.presentation.home
+package com.example.allergydetective.presentation.mypage
 
-
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
@@ -21,33 +15,16 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.PermissionChecker
-import androidx.core.content.PermissionChecker.checkSelfPermission
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import coil.ImageLoader
 import coil.load
-import coil.request.ImageRequest
-import coil.request.SuccessResult
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.user.User
-import com.example.allergydetective.data.model.user.sampleBitmap
-import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
-import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentEditProfileBinding
-import com.example.allergydetective.databinding.FragmentMyPageBinding
-import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
+import com.example.allergydetective.presentation.home.MyPageFragment
 import kotlinx.coroutines.launch
-import okhttp3.internal.notifyAll
-import java.io.ByteArrayOutputStream
-
 
 class EditProfileFragment : Fragment() {
 
@@ -63,25 +40,7 @@ class EditProfileFragment : Fragment() {
 
     private lateinit var profileImageView: ImageView
     private lateinit var profileImage : Bitmap
-
-//    private val getResult =
-//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//            if (result.resultCode == Activity.RESULT_OK) {
-//                val intent = result.data
-//                val bitmap = intent?.data?.let { uri ->
-//                    requireActivity().contentResolver.openInputStream(uri)?.use { inputStream ->
-//                        BitmapFactory.decodeStream(inputStream)
-//                    }
-//                }
-//                bitmap?.let {
-//                    profileImageView.setImageBitmap(it)
-//                    profileImage = bitmap
-//                }
-//            }
-//        }
-
     private lateinit var pickImageLauncher : ActivityResultLauncher<Intent>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

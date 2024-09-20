@@ -22,7 +22,6 @@ import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentItemDetailBinding
 import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
-import com.example.allergydetective.presentation.mypage.favorite.FavoriteListAdapter
 
 private const val ARG_PARAM1 = "param1"
 class ItemDetailFragment : Fragment() {

@@ -3,16 +3,12 @@ package com.example.allergydetective.presentation
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.model.market.Market
-import com.example.allergydetective.data.model.market.MarketManager
-import com.example.allergydetective.data.model.user.GroupMember
 import com.example.allergydetective.data.repository.food.FoodRepository
 import com.example.allergydetective.data.repository.market.MarketRepository
 import com.example.allergydetective.network.food.RetrofitClient
@@ -20,7 +16,6 @@ import com.example.allergydetective.presentation.base.UiState
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
-import kotlin.random.Random
 
 class SharedViewModel (private val foodRepository: FoodRepository, private val marketRepository: MarketRepository) : ViewModel() {
 
@@ -150,97 +145,35 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
         musselKeywords
         )
 
-
-
-
-    fun getHomeFoods() {
-//        _uiState.value = UiState.Loading
-        viewModelScope.launch {
-            runCatching {
-                val indexes = listOf(0,1,2,3,4,5,6,7,8,9)
-                val homeFoodsData = indexes.map { index -> totalFoods.value!![index] }
-                _homeFoods.value = homeFoodsData
-//                _uiState.value = UiState.Success(_homeFoods)
-            }.onFailure {
-                Log.e(TAG, "getHomeFoods() failed! : ${it.message}")
-                handleException(it)
-//                _uiState.value = UiState.Error("Error")
-            }
-        }
-    }
-
     fun setSearchKeyword(keyword: String) {
-//        _uiState.value = UiState.Loading
         viewModelScope.launch {
             runCatching {
                 _searchKeyword.value = keyword
-//                _uiState.value = UiState.Success("Example")
             }.onFailure {
                 Log.e(TAG, "setSearchKeyword() failed! : ${it.message}")
                 handleException(it)
-//                _uiState.value = UiState.Error("Error")
             }
         }
     }
 
     fun setCategoryFilter(categories: MutableList<String>) {
-//        _uiState.value = UiState.Loading
         viewModelScope.launch {
             runCatching {
                 _selectedCategories.value = categories
-//                _uiState.value = UiState.Success("Example")
             }.onFailure {
                 Log.e(TAG, "setCategoryFilter() failed! : ${it.message}")
                 handleException(it)
-//                _uiState.value = UiState.Error("Error")
             }
         }
     }
 
     fun setAllergyFilter(allergies: MutableList<String>) {
-//        _uiState.value = UiState.Loading
         viewModelScope.launch {
             runCatching {
                 _selectedAllergies.value = allergies
-//                _uiState.value = UiState.Success("Example")
             }.onFailure {
                 Log.e(TAG, "setAllergyFilter() failed! : ${it.message}")
                 handleException(it)
-//                _uiState.value = UiState.Error("Error")
-            }
-        }
-    }
-
-    fun addAllergiesFilter(allergen : String) {
-//        _uiState.value = UiState.Loading
-        viewModelScope.launch {
-            runCatching {
-                val newSelectedAllergies: MutableList<String> = _selectedAllergies.value?: mutableListOf()
-                newSelectedAllergies.add(allergen)
-                _selectedAllergies.value = newSelectedAllergies
-//                _uiState.value = UiState.Success("Example")
-
-            }.onFailure {
-                Log.e(TAG, "setAllergiesFilter() failed! : ${it.message}")
-                handleException(it)
-//                _uiState.value = UiState.Error("Error")
-            }
-        }
-    }
-
-    fun removeAllergiesFilter(allergen : String) {
-//        _uiState.value = UiState.Loading
-        viewModelScope.launch {
-            runCatching {
-                val newSelectedAllergies: MutableList<String> = _selectedAllergies.value?: mutableListOf()
-                newSelectedAllergies.remove(allergen)
-                _selectedAllergies.value = newSelectedAllergies
-//                _uiState.value = UiState.Success("Example")
-
-            }.onFailure {
-                Log.e(TAG, "setAllergiesFilter() failed! : ${it.message}")
-                handleException(it)
-//                _uiState.value = UiState.Error("Error")
             }
         }
     }
@@ -254,7 +187,7 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
                 var dataCount = RetrofitClient.gonggongFoodAPI.getGonggongFood(pageNo = "1",
                     numOfRows = "100").body?.totalCount?.toInt()
 //                var maxPageNum = dataCount?.div(100)
-                var maxPageNum = 5
+                var maxPageNum = 100
                 for (i in 1..maxPageNum!!) {
                     data = foodRepository.getAllData(i)
                     allData += data
@@ -269,53 +202,7 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
         }
     }
 
-
-//    fun getFilteredFoods() {
-////        _uiState.value = UiState.Loading
-//        viewModelScope.launch {
-//            runCatching {
-//                var filteredFoodsByCategory = foodRepository.getFilteredData(selectedCategory.value!!)
-//                val selectedAllergiesList = selectedAllergies.value
-//                // 1차로 알수없음 거르기
-//
-//                var filteredFoodsByCategoryAndAllergy = emptyList<Food>()
-//
-//                // 알러지 필터 0개 설정 시
-//                if (selectedAllergiesList?.size == 0) {
-//                    filteredFoodsByCategoryAndAllergy = filteredFoodsByCategory.filter { food ->
-//                        !food.allergy!!.contains("알수없음")
-//                        && food.prdlstNm!!.contains(searchKeyword.value.toString())
-//                    }
-//                }
-//                // 알러지 필터 1개 설정 시
-//                else if (selectedAllergiesList?.size == 1) {
-//                    filteredFoodsByCategoryAndAllergy = filteredFoodsByCategory.filter { food ->
-//                        !food.allergy!!.contains("알수없음")
-//                        && food.prdlstNm!!.contains(searchKeyword.value.toString())
-//                        && !food.allergy.contains(selectedAllergiesList[0])
-//                    }
-//                }
-//                // 알러지 필터 2개 설정 시
-//                else if (selectedAllergiesList?.size == 2) {
-//                    filteredFoodsByCategoryAndAllergy = filteredFoodsByCategory.filter { food ->
-//                        !food.allergy!!.contains("알수없음")
-//                        && food.prdlstNm!!.contains(searchKeyword.value.toString())
-//                        && !food.allergy.contains(selectedAllergiesList[0])
-//                        && !food.allergy.contains(selectedAllergiesList[1])
-//                    }
-//                }
-//                _filteredFoods.value = filteredFoodsByCategoryAndAllergy
-////                _uiState.value = UiState.Success(filteredFoodsByCategoryAndAllergy)
-//            }.onFailure {
-//                Log.e(TAG, "getFilteredFoods() failed! : ${it.message}")
-//                handleException(it)
-////                _uiState.value = UiState.Error("Error")
-//            }
-//        }
-//    }
-
     fun getFilteredFoods2() {
-        //        _uiState.value = UiState.Loading
         viewModelScope.launch {
             runCatching {
                 var filteredData = totalFoods.value
@@ -362,20 +249,16 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
                 }
 
                 _filteredFoods.value = filteredFoodsByCategoryAndAllergy
-//                _uiState.value = UiState.Success(filteredFoodsByCategoryAndAllergy)
             }.onFailure {
                 Log.e(TAG, "getFilteredFoods2() failed! : ${it.message}")
                 handleException(it)
-//                _uiState.value = UiState.Error("Error")
             }
         }
     }
 
     fun getMarketDetail(manufacture: String, name: String) {
-//        _uiState.value = UiState.Loading
         viewModelScope.launch {
             runCatching {
-
                 var marketResults = marketRepository.getMarketData(manufacture+" "+name)
                 if (marketResults.isEmpty()) {
                     marketResults = marketRepository.getMarketData(name)
@@ -383,12 +266,9 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
                 } else {
                     _marketData.value = marketResults
                 }
-//                _uiState.value = UiState.Success(marketResults)
-
             }.onFailure {
                 Log.e(ContentValues.TAG, "getMarketDetail() failed! : ${it.message}")
                 handleException(it)
-//                _uiState.value = UiState.Error("Error")
             }
         }
     }
@@ -400,7 +280,6 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
                 val errorJsonString = e.response()?.errorBody()?.string()
                 Log.e(TAG, "HTTP error: $errorJsonString")
             }
-
             is IOException -> Log.e(TAG, "Network error: $e")
             else -> Log.e(TAG, "Unexpected error: $e")
         }

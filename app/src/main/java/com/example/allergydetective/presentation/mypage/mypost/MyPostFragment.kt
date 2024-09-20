@@ -12,13 +12,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.Post
-import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
-import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentMyPostBinding
-import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
-
 
 class MyPostFragment : Fragment() {
 

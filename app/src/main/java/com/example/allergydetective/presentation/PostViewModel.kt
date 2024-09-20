@@ -155,7 +155,6 @@ class PostViewModel (application: Application) : AndroidViewModel(application) {
                 } else {
                     filteredPosts += allPosts.value!!
                 }
-//                filteredPosts.filter { it.posterEmail !in currentUser.value!!.blockedUsers }
                 _filteredPosts.value = filteredPosts
             }.onFailure {
                 Log.e(TAG, "getFilteredPosts() failed! : ${it.message}")

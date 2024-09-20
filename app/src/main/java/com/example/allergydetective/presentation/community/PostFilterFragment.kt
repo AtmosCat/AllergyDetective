@@ -1,4 +1,5 @@
-package com.example.allergydetective.presentation.filter
+package com.example.allergydetective.presentation.community
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -6,28 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.Switch
-import android.widget.TextView
-import android.widget.Toast
-import androidx.compose.runtime.currentCompositionErrors
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.user.GroupMember
-import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
-import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
-import com.example.allergydetective.databinding.FragmentFilterBinding
 import com.example.allergydetective.databinding.FragmentPostFilterBinding
 import com.example.allergydetective.presentation.PostViewModel
-import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
-import kotlinx.coroutines.selects.select
-
 
 class PostFilterFragment : Fragment() {
 

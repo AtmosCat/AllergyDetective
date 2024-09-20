@@ -23,7 +23,7 @@ import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.community.newpost.NewPostFragment
 import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
 import com.example.allergydetective.presentation.community.postlist.PostListFragment
-import com.example.allergydetective.presentation.filter.PostFilterFragment
+import com.example.allergydetective.presentation.community.PostFilterFragment
 import com.example.allergydetective.presentation.home.HomeFragment
 import com.example.allergydetective.presentation.home.MyPageFragment
 

@@ -9,7 +9,6 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.ImageLoader
 import coil.request.ImageRequest
@@ -17,14 +16,11 @@ import coil.request.SuccessResult
 import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.model.user.GroupMember
 import com.example.allergydetective.data.model.user.Post
-import com.example.allergydetective.data.model.user.Reply
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.presentation.base.UiState
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -47,19 +43,11 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
     private val _currentUser = MutableLiveData<User?>()
     val currentUser : LiveData<User?> get() = _currentUser
 
-    private val _currentUserAllergies = MutableLiveData<MutableList<String>?>()
-    val currentUserAllergies : LiveData<MutableList<String>?> get() = _currentUserAllergies
-
-    private val _currentUserFavorites = MutableLiveData<MutableList<Food>?>()
-    val currentUserFavorites : LiveData<MutableList<Food>?> get() = _currentUserFavorites
-
     private val _currentUserBlockedUsers = MutableLiveData<MutableList<String>?>()
     val currentUserBlockedUsers : LiveData<MutableList<String>?> get() = _currentUserBlockedUsers
 
     private val _bitmapBeforeSave = MutableLiveData<Bitmap>()
     val bitmapBeforeSave : LiveData<Bitmap> get() = _bitmapBeforeSave
-
-
 
     fun addUser(user: User) {
         viewModelScope.launch {

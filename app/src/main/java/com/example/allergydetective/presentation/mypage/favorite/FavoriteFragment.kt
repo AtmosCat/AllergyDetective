@@ -1,6 +1,5 @@
 package com.example.allergydetective.presentation.mypage.favorite
 
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
@@ -20,9 +18,6 @@ import com.example.allergydetective.databinding.FragmentFavoriteBinding
 import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.itemdetail.ItemDetailFragment
-import com.example.allergydetective.presentation.itemlist.ItemListAdapter
-import com.example.allergydetective.presentation.itemlist.ItemListFragment
-
 
 class FavoriteFragment : Fragment() {
 

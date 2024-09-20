@@ -1,7 +1,6 @@
 package com.example.allergydetective.presentation.community.editpost
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -22,33 +21,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.user.Comments
 import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.databinding.FragmentEditPostBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
-import com.example.allergydetective.presentation.community.community_home.CommunityHomeAdapter
-import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
-import com.example.allergydetective.presentation.community.community_home.PostListAdapter
-import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
-import com.example.allergydetective.presentation.home.HomeFragment
-import com.example.allergydetective.presentation.itemdetail.ItemDetailFragment
-import com.example.allergydetective.presentation.itemdetail.ViewPagerAdapter
-import com.example.allergydetective.presentation.itemlist.ItemListAdapter
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.wire.internal.copyOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.UUID
 
 private const val ARG_PARAM1 = "param1"
 class EditPostFragment : Fragment() {

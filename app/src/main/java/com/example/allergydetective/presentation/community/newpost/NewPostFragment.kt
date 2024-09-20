@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,32 +25,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.user.Comments
 import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.databinding.FragmentNewPostBinding
-import com.example.allergydetective.databinding.FragmentPostDetailBinding
 import com.example.allergydetective.presentation.PostCallback
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
-import com.example.allergydetective.presentation.community.community_home.CommunityHomeAdapter
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
-import com.example.allergydetective.presentation.community.community_home.PostListAdapter
-import com.example.allergydetective.presentation.community.editpost.EditPhotoAdapter
-import com.example.allergydetective.presentation.community.postdetail.CommentsAdapter
-import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
-import com.example.allergydetective.presentation.community.postdetail.ReplyDetailFragment
-import com.example.allergydetective.presentation.community.postdetail.reply.RepliesAdapter
 import com.example.allergydetective.presentation.itemdetail.ViewPagerAdapter
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 private const val ARG_PARAM1 = "param1"

@@ -1,7 +1,5 @@
 package com.example.allergydetective.presentation.signin
 
-import android.app.Activity
-import android.content.Intent
 import com.example.allergydetective.presentation.UserViewModel
 import android.os.Bundle
 import android.util.Log
@@ -11,30 +9,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.User
 import com.example.allergydetective.databinding.FragmentSignInBinding
 import com.example.allergydetective.presentation.home.HomeFragment
-import com.example.allergydetective.presentation.home.MyPageFragment
-import com.example.allergydetective.presentation.signin.findId.FindIdFragment
-import com.example.allergydetective.presentation.signin.findPw.FindPwFragment
 import com.example.allergydetective.presentation.signup.SignUpFragment
-import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class SignInFragment : Fragment() {

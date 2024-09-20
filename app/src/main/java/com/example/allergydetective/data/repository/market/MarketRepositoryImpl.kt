@@ -1,8 +1,5 @@
 package com.example.allergydetective.data.repository.market
 
-import android.util.Log
-import com.example.allergydetective.data.model.food.Food
-import com.example.allergydetective.data.model.food.Item
 import com.example.allergydetective.data.model.market.Market
 import com.example.allergydetective.network.market.RetrofitClientMarket
 

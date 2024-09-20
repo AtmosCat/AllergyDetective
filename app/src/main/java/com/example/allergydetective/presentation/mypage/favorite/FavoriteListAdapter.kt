@@ -13,7 +13,6 @@ import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.databinding.RecyclerviewItemlistBinding
 import com.example.allergydetective.presentation.UserViewModel
 
-
 class FavoriteListAdapter(private val userViewModel: UserViewModel) :
     ListAdapter<Food, FavoriteListAdapter.Holder>(object :
         DiffUtil.ItemCallback<Food>() {

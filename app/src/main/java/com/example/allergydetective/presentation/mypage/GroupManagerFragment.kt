@@ -1,6 +1,5 @@
 package com.example.allergydetective.presentation.mypage
 
-
 import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -18,12 +17,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.allergydetective.R
 import com.example.allergydetective.data.model.user.GroupMember
-import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
-import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentGroupManagerBinding
-import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
-
 
 class GroupManagerFragment : Fragment() {
 

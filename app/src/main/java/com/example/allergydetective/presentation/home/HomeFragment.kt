@@ -1,26 +1,19 @@
 package com.example.allergydetective.presentation.home
 
-import android.app.ProgressDialog.show
 import android.os.Bundle
-import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.widget.Filter
 import android.widget.Toast
-import androidx.compose.ui.graphics.vector.addPathNodes
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-//import coil.load
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
 import com.example.allergydetective.databinding.FragmentHomeBinding
@@ -29,7 +22,6 @@ import com.example.allergydetective.presentation.UserViewModel
 import com.example.allergydetective.presentation.base.UiState
 import com.example.allergydetective.presentation.community.community_home.CommunityHomeFragment
 import com.example.allergydetective.presentation.filter.FilterFragment
-import com.example.allergydetective.presentation.itemdetail.ItemDetailFragment
 import com.example.allergydetective.presentation.itemlist.ItemListFragment
 
 class HomeFragment : Fragment() {

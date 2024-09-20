@@ -9,11 +9,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.model.user.Post
-import com.example.allergydetective.databinding.RecyclerviewItemlistBinding
 import com.example.allergydetective.databinding.RecyclerviewPostListBinding
-
 
 class MyPostAdapter :
     ListAdapter<Post, MyPostAdapter.Holder>(object :

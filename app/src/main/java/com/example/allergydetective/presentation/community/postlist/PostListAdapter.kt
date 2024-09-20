@@ -1,4 +1,4 @@
-package com.example.allergydetective.presentation.community.community_home
+package com.example.allergydetective.presentation.community.postlist
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,9 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.data.model.user.Post
-import com.example.allergydetective.data.model.user.sampleBitmap
 import com.example.allergydetective.databinding.RecyclerviewPostListBinding
 
 class PostListAdapter :

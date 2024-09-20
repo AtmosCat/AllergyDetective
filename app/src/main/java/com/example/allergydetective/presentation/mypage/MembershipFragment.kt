@@ -1,5 +1,4 @@
-package com.example.allergydetective.presentation.home
-
+package com.example.allergydetective.presentation.mypage
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,15 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import coil.load
 import com.example.allergydetective.data.repository.food.GonggongFoodRepositoryImpl
 import com.example.allergydetective.data.repository.market.MarketRepositoryImpl
-import com.example.allergydetective.databinding.FragmentFavoriteBinding
-import com.example.allergydetective.databinding.FragmentGroupManagerBinding
 import com.example.allergydetective.databinding.FragmentMembershipBinding
 import com.example.allergydetective.presentation.SharedViewModel
 import com.example.allergydetective.presentation.UserViewModel
-
 
 class MembershipFragment : Fragment() {
 

@@ -13,7 +13,6 @@ import com.example.allergydetective.data.model.food.Food
 import com.example.allergydetective.databinding.RecyclerviewItemlistBinding
 import com.example.allergydetective.presentation.UserViewModel
 
-
 // ListAdapter 상속받아서 Home화면용 어댑터 구현
 class HomeAdapter(private val userViewModel: UserViewModel) :
     ListAdapter<Food, HomeAdapter.HomeViewHolder>(object :

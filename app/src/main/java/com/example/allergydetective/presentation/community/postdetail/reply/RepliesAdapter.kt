@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.allergydetective.R
-import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.data.model.user.Reply
 import com.example.allergydetective.databinding.RecyclerviewCommentRepliesBinding
 

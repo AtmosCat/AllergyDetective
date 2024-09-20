@@ -1,8 +1,5 @@
 package com.example.allergydetective.data.model.user
 
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FieldValue
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.UUID

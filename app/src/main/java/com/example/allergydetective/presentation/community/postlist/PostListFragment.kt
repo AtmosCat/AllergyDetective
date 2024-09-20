@@ -22,10 +22,9 @@ import com.example.allergydetective.data.model.user.Post
 import com.example.allergydetective.databinding.FragmentPostListBinding
 import com.example.allergydetective.presentation.PostViewModel
 import com.example.allergydetective.presentation.UserViewModel
-import com.example.allergydetective.presentation.community.community_home.PostListAdapter
 import com.example.allergydetective.presentation.community.newpost.NewPostFragment
 import com.example.allergydetective.presentation.community.postdetail.PostDetailFragment
-import com.example.allergydetective.presentation.filter.PostFilterFragment
+import com.example.allergydetective.presentation.community.PostFilterFragment
 import com.example.allergydetective.presentation.home.HomeFragment
 import com.example.allergydetective.presentation.home.MyPageFragment
 
