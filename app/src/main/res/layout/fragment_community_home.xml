@@ -13,6 +13,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:hint="게시글을 검색해보세요!"
+        android:maxLines="1"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:paddingLeft="15dp"
@@ -27,14 +30,13 @@
         android:id="@+id/btn_search"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/arrowbox"
+        android:src="@drawable/search"
         android:layout_marginEnd="10dp"
         app:layout_constraintWidth_percent="0.08"
         app:layout_constraintTop_toTopOf="@+id/et_search"
         app:layout_constraintEnd_toEndOf="@+id/et_search"
         app:layout_constraintBottom_toBottomOf="@+id/et_search"
         app:tint="@color/main_color_light_gray" />
-
 
     <ImageView
         android:id="@+id/btn_filter"

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -95,17 +96,36 @@ class CommunityHomeFragment : Fragment() {
             }
         }
 
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                postViewModel.setSearchKeyword(binding.etSearch.text.toString())
+                requireActivity().supportFragmentManager.beginTransaction().apply {
+                    hide(this@CommunityHomeFragment)
+                    if (postListFragment == null) {
+                        add(R.id.main_frame, PostListFragment(), "PostListFragment")
+                    } else {
+                        show(postListFragment)
+                    }
+                    addToBackStack(null)
+                    commit()
+                }
+                true // 이벤트 처리가 완료되었음을 나타냄
+            } else {
+                false
+            }
+        }
+
         val blinkAnimation = AlphaAnimation(1.0f, 0.0f).apply {
             duration = 1000 // 애니메이션 실행 시간 (0.5초)
             repeatMode = Animation.REVERSE // 애니메이션을 반대로 반복
             repeatCount = Animation.INFINITE // 무한 반복
         }
 
-        postViewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
-            if (data.isNotEmpty()) {
-                binding.btnSearch.startAnimation(blinkAnimation)
-            }
-        }
+//        postViewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
+//            if (data.isNotEmpty()) {
+//                binding.btnSearch.startAnimation(blinkAnimation)
+//            }
+//        }
 
         val postFilterFragment = requireActivity().supportFragmentManager.findFragmentByTag("PostFilterFragment")
         binding.btnFilter.setOnClickListener {

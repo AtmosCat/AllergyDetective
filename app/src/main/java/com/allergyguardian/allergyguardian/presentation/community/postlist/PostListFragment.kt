@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
@@ -89,24 +90,41 @@ class PostListFragment : Fragment() {
             }
         }
 
-        if (postViewModel.selectedCategories.value.isNullOrEmpty()) {
-            binding.tvCategory.text = "카테고리: 전체"
-        } else {
-            binding.tvCategory.text = "카테고리: ${postViewModel.selectedCategories.value}"
+        postViewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
+            if (data.isNullOrEmpty()) {
+                binding.tvCategory.text = "카테고리: 전체"
+            } else {
+                binding.tvCategory.text = "카테고리: ${data}"
+            }
         }
 
         binding.btnBack.setOnClickListener{
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-        binding.btnSearch.setOnClickListener() {
+        binding.btnSearch.setOnClickListener {
             postViewModel.setSearchKeyword(binding.etSearch.text.toString())
             postViewModel.getFilteredPosts()
             binding.btnSpinner.setSelection(0)
             postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
-                filteredItems = data
-                filteredItems.filter { it.posterEmail !in userViewModel.currentUser.value!!.blockedUsers }
+                filteredItems = data.filter { it.posterEmail !in userViewModel.currentUser.value!!.blockedUsers }
                 postListAdapter.updateData(filteredItems)
+            }
+        }
+
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                postViewModel.setSearchKeyword(binding.etSearch.text.toString())
+                postViewModel.getFilteredPosts()
+                binding.btnSpinner.setSelection(0)
+
+                postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
+                    filteredItems = data.filter { it.posterEmail !in userViewModel.currentUser.value!!.blockedUsers }
+                    postListAdapter.updateData(filteredItems)
+                }
+                true // 이벤트 처리가 완료되었음을 나타냄
+            } else {
+                false
             }
         }
 

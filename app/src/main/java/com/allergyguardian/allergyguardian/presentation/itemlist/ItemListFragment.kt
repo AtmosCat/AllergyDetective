@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
@@ -103,19 +104,34 @@ class ItemListFragment : Fragment() {
             }
         }
 
+        binding.etItemlistSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                viewModel.setSearchKeyword(binding.etItemlistSearch.text.toString())
+                viewModel.getFilteredFoods2()
+                binding.btnSpinner.setSelection(0)
+
+                viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
+                    itemListAdapter.updateData(data)
+                }
+                true // 이벤트 처리가 완료되었음을 나타냄
+            } else {
+                false
+            }
+        }
+
         val blinkAnimation = AlphaAnimation(1.0f, 0.0f).apply {
             duration = 1000 // 애니메이션 실행 시간 (0.5초)
             repeatMode = Animation.REVERSE // 애니메이션을 반대로 반복
             repeatCount = Animation.INFINITE // 무한 반복
         }
 
-        viewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
-            if (data == null) {
-                binding.btnItemlistFilter.startAnimation(blinkAnimation)
-            } else {
-                binding.btnItemlistSearch.startAnimation(blinkAnimation)
-            }
-        }
+//        viewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
+//            if (data == null) {
+//                binding.btnItemlistFilter.startAnimation(blinkAnimation)
+//            } else {
+//                binding.btnItemlistSearch.startAnimation(blinkAnimation)
+//            }
+//        }
 
 
         val filterFragment = requireActivity().supportFragmentManager.findFragmentByTag("FilterFragment")

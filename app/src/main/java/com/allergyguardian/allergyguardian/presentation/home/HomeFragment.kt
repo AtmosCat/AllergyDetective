@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -97,11 +98,11 @@ class HomeFragment : Fragment() {
             repeatCount = Animation.INFINITE // 무한 반복
         }
 
-        viewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
-            if (data.isNotEmpty()) {
-                binding.btnHomeSearch.startAnimation(blinkAnimation)
-            }
-        }
+//        viewModel.selectedCategories.observe(viewLifecycleOwner) { data ->
+//            if (data.isNotEmpty()) {
+//                binding.btnHomeSearch.startAnimation(blinkAnimation)
+//            }
+//        }
 
 //        val itemDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemDetailFragment")
 //        homeAdapter.itemClick = object : HomeAdapter.ItemClick {
@@ -145,6 +146,25 @@ class HomeFragment : Fragment() {
                 }
                 addToBackStack(null)
                 commit()
+            }
+        }
+
+        binding.etHomeSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                viewModel.setSearchKeyword(binding.etHomeSearch.text.toString())
+                requireActivity().supportFragmentManager.beginTransaction().apply {
+                    hide(this@HomeFragment)
+                    if (itemListFragment == null) {
+                        add(R.id.main_frame, ItemListFragment(), "ItemListFragment")
+                    } else {
+                        show(itemListFragment)
+                    }
+                    addToBackStack(null)
+                    commit()
+                }
+                true // 이벤트 처리가 완료되었음을 나타냄
+            } else {
+                false
             }
         }
 
