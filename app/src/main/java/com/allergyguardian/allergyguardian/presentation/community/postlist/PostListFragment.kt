@@ -81,6 +81,18 @@ class PostListFragment : Fragment() {
             }
             filteredItems = filteredItems.filter { it.posterEmail !in currentUserBlockedUsers }
             postListAdapter.submitList(filteredItems)
+
+            if (filteredItems.isEmpty()) {
+                binding.tvNoticeNoData.visibility = View.VISIBLE
+            } else {
+                binding.tvNoticeNoData.visibility = View.GONE
+            }
+        }
+
+        if (postViewModel.selectedCategories.value.isNullOrEmpty()) {
+            binding.tvCategory.text = "카테고리: 전체"
+        } else {
+            binding.tvCategory.text = "카테고리: ${postViewModel.selectedCategories.value}"
         }
 
         binding.btnBack.setOnClickListener{

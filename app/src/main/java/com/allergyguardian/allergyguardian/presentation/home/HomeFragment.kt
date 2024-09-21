@@ -71,8 +71,8 @@ class HomeFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             when (uiState) {
                 is UiState.Loading -> {
-                    Toast.makeText(requireContext(), "데이터를 로딩중입니다.", Toast.LENGTH_LONG).show()
-                    Toast.makeText(requireContext(), "데이터가 많습니다. 조금만 더 기다려주세요!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "1만여 개의 푸드 데이터를 로딩중입니다.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "데이터가 많아요. 조금만 더 기다려주세요!", Toast.LENGTH_LONG).show()
                     binding.progress.isVisible = true
                 }
                 is UiState.Success -> {
@@ -90,13 +90,6 @@ class HomeFragment : Fragment() {
 //                else -> {}
             }
         }
-
-//        var homeFoodsData = listOf<Food>()
-//        viewModel.totalFoods.observe(viewLifecycleOwner) { totalFoods ->
-//            val indexes = listOf(0,1,2,3,4,5,6,7,8,9)
-//            homeFoodsData = indexes.map { index -> totalFoods[index] }
-//            homeAdapter.submitList(homeFoodsData)
-//        }
 
         val blinkAnimation = AlphaAnimation(1.0f, 0.0f).apply {
             duration = 1000 // 애니메이션 실행 시간 (0.5초)
@@ -182,50 +175,5 @@ class HomeFragment : Fragment() {
                 commit()
             }
         }
-
-
-
-//        viewModel.prdkinds.observe(viewLifecycleOwner) { data ->
-//            for (i in data) {
-//                if (i !in prdkinds) {
-//                    prdkinds.add(i+"\n")
-//                }
-//            }
-//        }
-
-
-
-
-
     }
 }
-
-
-
-//    private fun initView() = with(binding) {
-//        homeRecyclerList.adapter = homeAdapter
-//        homeRecyclerList.layoutManager = LinearLayoutManager(requireContext())
-//    }
-
-//    private fun initViewModel() {
-//        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-//            when (uiState) {
-//                is UiState.Loading -> {
-//                    binding.progress.isVisible = true
-//                }
-//
-//                is UiState.Success -> {
-//                    binding.progress.isVisible = false
-//                    // homeFoods LiveData를 관찰하여 RecyclerView에 데이터 전달
-//                    viewModel.homeFoods.observe(viewLifecycleOwner) { homeFoods ->
-//                        homeAdapter.submitList(homeFoods)
-//                    }
-//                }
-//
-//                is UiState.Error -> {
-//                    Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
-//                }
-//            }
-//        }
-//    }
-//}

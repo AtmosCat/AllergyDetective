@@ -72,7 +72,7 @@
         android:layout_height="0dp"
         android:background="@drawable/background_spinner"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         style="@style/textStyle_subheading"
         android:textColor="@color/white"
@@ -80,6 +80,33 @@
         app:layout_constraintWidth_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_search"
+        />
+
+    <TextView
+        android:id="@+id/tv_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="✅ 카테고리: 전체"
+        android:ellipsize="end"
+        android:maxLines="1"
+        style="@style/textStyle_subtitle"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_spinner"
+        app:layout_constraintTop_toTopOf="@+id/btn_spinner" />
+
+    <TextView
+        android:id="@+id/tv_notice_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="검색 결과가 없습니다.😭 "
+        android:padding="20dp"
+        style="@style/textStyle_subtitle"
+        android:gravity="center"
+        android:elevation="2dp"
+        app:layout_constraintTop_toTopOf="@+id/recyclerview"
         />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -172,7 +199,7 @@
         android:layout_height="wrap_content"
         android:text="홈"
         android:textSize="16sp"
-        android:fontFamily="@font/nanum_square_bold"
+        android:fontFamily="@font/nanum_square_ac_bold"
         android:textColor="@color/main_color_light_gray"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_home"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_home"
@@ -201,7 +228,7 @@
         android:layout_height="wrap_content"
         android:text="커뮤니티"
         android:textSize="16sp"
-        android:fontFamily="@font/nanum_square_bold"
+        android:fontFamily="@font/nanum_square_ac_bold"
         android:textColor="@color/main_color_orange"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_community"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_community"
@@ -230,7 +257,7 @@
         android:layout_height="wrap_content"
         android:text="마이페이지"
         android:textSize="16sp"
-        android:fontFamily="@font/nanum_square_bold"
+        android:fontFamily="@font/nanum_square_ac_bold"
         android:textColor="@color/main_color_light_gray"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_mypage"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_mypage"

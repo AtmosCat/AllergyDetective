@@ -40,6 +40,8 @@ class ItemListFragment : Fragment() {
 
     private var clickedItem: Food? = null
 
+    private var _filteredFoods = listOf<Food>()
+
     private val binding get() = _binding!!
     private val viewModel: SharedViewModel by activityViewModels() {
         viewModelFactory {
@@ -79,6 +81,13 @@ class ItemListFragment : Fragment() {
         viewModel.getFilteredFoods2()
         viewModel.filteredFoods.observe(viewLifecycleOwner) { filteredFoods ->
             itemListAdapter.submitList(filteredFoods)
+            _filteredFoods = filteredFoods
+
+            if (_filteredFoods.isEmpty()) {
+                binding.tvNoticeNoData.visibility = View.VISIBLE
+            } else {
+                binding.tvNoticeNoData.visibility = View.GONE
+            }
         }
 
         binding.btnItemlistBack.setOnClickListener{
@@ -124,12 +133,13 @@ class ItemListFragment : Fragment() {
         }
 
         viewModel.selectedAllergies.observe(viewLifecycleOwner) { data ->
-            if (data.isNotEmpty()) {
+            if (!data.isNullOrEmpty()) {
                 binding.tvFilteredAllergy.text = "✅ 필터: ${viewModel.selectedAllergies.value!!}"
             } else {
                 binding.tvFilteredAllergy.text = "✅ 필터: 없음"
             }
         }
+
 
 //        viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
 //            sortedList = data // 기본순으로 초기화

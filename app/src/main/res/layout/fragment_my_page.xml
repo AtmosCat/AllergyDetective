@@ -118,23 +118,22 @@
         <HorizontalScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="20dp"
+            app:layout_constraintHeight_percent="0.18"
             android:layout_marginVertical="20dp"
             app:layout_constraintStart_toStartOf="@+id/tv_my_allergies"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tv_my_allergies"
             app:layout_constraintTop_toBottomOf="@+id/tv_my_allergies"
-            app:layout_constraintBottom_toBottomOf="@+id/view_mypage_profile"
             >
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_horizontal_scrollview"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame"
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:elevation="1dp"
                     android:src="@drawable/black_circle"
                     app:layout_constraintBottom_toBottomOf="@+id/layout_horizontal_scrollview"
@@ -159,8 +158,8 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame2"
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
                     android:layout_marginStart="10dp"
@@ -187,8 +186,8 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame3"
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
                     android:layout_marginStart="10dp"
@@ -215,8 +214,8 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame4"
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
                     android:layout_marginStart="10dp"
@@ -243,8 +242,8 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame5"
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
                     android:layout_marginStart="10dp"
@@ -271,8 +270,8 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame6"
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
                     android:layout_marginStart="10dp"
@@ -300,8 +299,8 @@
 
                 <ImageView
                     android:id="@+id/iv_my_allergy_frame7"
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/black_circle"
                     android:elevation="1dp"
                     android:layout_marginStart="10dp"
@@ -479,7 +478,7 @@
         android:layout_height="wrap_content"
         android:text="홈"
         android:textSize="16sp"
-        android:fontFamily="@font/nanum_square_bold"
+        android:fontFamily="@font/nanum_square_ac_bold"
         android:textColor="@color/main_color_light_gray"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_home"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_home"
@@ -508,7 +507,7 @@
         android:layout_height="wrap_content"
         android:text="커뮤니티"
         android:textSize="16sp"
-        android:fontFamily="@font/nanum_square_bold"
+        android:fontFamily="@font/nanum_square_ac_bold"
         android:textColor="@color/main_color_light_gray"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_community"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_community"
@@ -537,7 +536,7 @@
         android:layout_height="wrap_content"
         android:text="마이페이지"
         android:textSize="16sp"
-        android:fontFamily="@font/nanum_square_bold"
+        android:fontFamily="@font/nanum_square_ac_bold"
         android:textColor="@color/main_color_orange"
         app:layout_constraintStart_toStartOf="@+id/btn_tab_mypage"
         app:layout_constraintEnd_toEndOf="@+id/btn_tab_mypage"
