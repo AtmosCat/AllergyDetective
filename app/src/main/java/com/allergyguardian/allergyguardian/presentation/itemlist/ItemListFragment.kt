@@ -156,12 +156,10 @@ class ItemListFragment : Fragment() {
             }
         }
 
-
 //        viewModel.filteredFoods.observe(viewLifecycleOwner) { data ->
 //            sortedList = data // 기본순으로 초기화
 //            itemListAdapter.updateData(sortedList!!)
 //        }
-
 
         val spinnerItems = listOf("기본순 ▼", "가나다순 ▼")
         val spinnerAdapter =

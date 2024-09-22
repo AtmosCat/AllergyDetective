@@ -54,6 +54,8 @@ class FilterFragment : Fragment() {
         isCategoryButton12Checked,
     )
 
+    private var isSelectAllCategoryButtonChecked = false
+
     private lateinit var categoryButton1: Button
     private lateinit var categoryButton2: Button
     private lateinit var categoryButton3: Button
@@ -406,6 +408,16 @@ class FilterFragment : Fragment() {
             setCategories(button, position)
         }
     }
+
+//    private fun allCategoryButtonClicker(allCategoryButton: CheckBox, buttons: List<Button>, positions: List<Int>){
+//        allCategoryButton.setOnClickListener{
+//            for (position in positions) {
+//                isCategoryButtonCheckedList[position] = !isCategoryButtonCheckedList[position]
+//                updateButtonState(categoryButtonList[position], position)
+//                setCategories(categoryButtonList[position], position)
+//            }
+//        }
+//    }
 
     private fun updateButtonState(button: Button, position: Int) {
         if (isCategoryButtonCheckedList[position]) {

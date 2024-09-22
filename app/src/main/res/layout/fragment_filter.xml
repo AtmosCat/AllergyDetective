@@ -64,6 +64,18 @@
                 app:layout_constraintTop_toBottomOf="@id/btn_back"
                 />
 
+<!--            <CheckBox-->
+<!--                android:id="@+id/checkbox_select_all_category"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="전체선택"-->
+<!--                android:buttonTint="@drawable/checkbox_selector"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                app:layout_constraintBottom_toTopOf="@+id/layout_custom_buttons"-->
+<!--                app:layout_constraintEnd_toEndOf="@+id/layout_custom_buttons"-->
+<!--                style="@style/textStyle_detail"-->
+<!--                />-->
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_custom_buttons"
                 android:layout_width="0dp"
