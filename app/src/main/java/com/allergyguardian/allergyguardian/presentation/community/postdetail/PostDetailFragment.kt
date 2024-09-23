@@ -32,6 +32,7 @@ import com.allergyguardian.allergyguardian.presentation.UserViewModel
 import com.allergyguardian.allergyguardian.presentation.community.community_home.CommunityHomeAdapter
 import com.allergyguardian.allergyguardian.presentation.community.editpost.EditPostFragment
 import com.allergyguardian.allergyguardian.presentation.community.postdetail.reply.ReplyDetailFragment
+import com.allergyguardian.allergyguardian.presentation.community.postlist.PostListAdapter
 import com.allergyguardian.allergyguardian.presentation.itemdetail.ViewPagerAdapter
 
 private const val ARG_PARAM1 = "param1"
@@ -275,8 +276,16 @@ class PostDetailFragment : Fragment() {
                                     .setMessage("게시글을 삭제하시겠습니까?")
                                     .setPositiveButton("삭제") { dialog, _ ->
                                         postViewModel.deletePost(clickedItem.id)
-                                        var newItems = postViewModel.filteredPosts.value!!.sortedBy { it.timestamp }
-                                        CommunityHomeAdapter().updateData(newItems)
+                                        if (postViewModel.filteredPosts.value.isNullOrEmpty()) {
+                                            val newItems = postViewModel.allPosts.value!!.sortedBy { it.timestamp }
+                                            CommunityHomeAdapter().updateData(newItems)
+                                        } else {
+                                            val newAllItems = postViewModel.allPosts.value!!.sortedBy { it.timestamp }
+                                            CommunityHomeAdapter().updateData(newAllItems)
+                                            val newFilteredItems = postViewModel.filteredPosts.value!!.sortedBy { it.timestamp }
+                                            PostListAdapter().updateData(newFilteredItems)
+                                        }
+
                                         userViewModel.deleteMyPost(currentUser.email, clickedItem)
                                         Toast.makeText(this.requireContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                                         dialog.dismiss()

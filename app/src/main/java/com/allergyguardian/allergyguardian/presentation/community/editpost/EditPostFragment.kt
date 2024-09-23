@@ -29,6 +29,8 @@ import com.allergyguardian.allergyguardian.data.model.user.sampleBitmap
 import com.allergyguardian.allergyguardian.databinding.FragmentEditPostBinding
 import com.allergyguardian.allergyguardian.presentation.PostViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
+import com.allergyguardian.allergyguardian.presentation.community.community_home.CommunityHomeAdapter
+import com.allergyguardian.allergyguardian.presentation.community.postlist.PostListAdapter
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -131,8 +133,8 @@ class EditPostFragment : Fragment() {
 
         val clickedItemId = param1
 
-        postViewModel.filteredPosts.observe(viewLifecycleOwner) { filteredPosts ->
-            clickedItem = filteredPosts.find { it.id == clickedItemId }!!
+        postViewModel.allPosts.observe(viewLifecycleOwner) { allPosts ->
+            clickedItem = allPosts.find { it.id == clickedItemId }!!
 
             imageResources = clickedItem.detailPhoto
 
@@ -225,7 +227,17 @@ class EditPostFragment : Fragment() {
                     )
                     postViewModel.editPost(edittedPost)
                     userViewModel.editMyPost(currentUser.email, edittedPost)
-
+                    if (postViewModel.filteredPosts.value == null) {
+                        val newItems = postViewModel.allPosts.value!!.sortedBy { it.timestamp }
+                        CommunityHomeAdapter().updateData(newItems)
+                    } else {
+                        val newAllItems = postViewModel.allPosts.value!!.sortedBy { it.timestamp }
+                        CommunityHomeAdapter().updateData(newAllItems)
+                        postViewModel.getAllPosts()
+                        postViewModel.getFilteredPosts()
+                        val newFilteredItems = postViewModel.filteredPosts.value!!.sortedBy { it.timestamp }
+                        PostListAdapter().updateData(newFilteredItems)
+                    }
                     Toast.makeText(this.requireContext(), "게시글이 수정되었습니다.", Toast.LENGTH_SHORT).show()
                     requireActivity().supportFragmentManager.popBackStack()
                 }
