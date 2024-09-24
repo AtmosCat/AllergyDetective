@@ -151,39 +151,6 @@ class MyPageFragment : Fragment() {
             }
         }
 
-        if (currentUser.email == "dnflro22@gmail.com") {
-            binding.btnGetNewData.visibility = View.VISIBLE
-            binding.btnUpdateDb.visibility = View.VISIBLE
-        } else {
-            binding.btnGetNewData.visibility = View.GONE
-            binding.btnUpdateDb.visibility = View.GONE
-        }
-
-        binding.btnGetNewData.setOnClickListener {
-            AlertDialog.Builder(requireContext())
-                .setTitle("새 데이터 받아오기")
-                .setMessage("받아올까요?")
-                .setPositiveButton("확인") { dialog, _ ->
-                    sharedViewModel.getAllFoods()
-                }
-                .setNegativeButton("취소") { dialog, which ->
-                    dialog.dismiss()
-                }
-                .show()
-        }
-        binding.btnUpdateDb.setOnClickListener {
-            AlertDialog.Builder(requireContext())
-                .setTitle("DB 업데이트")
-                .setMessage("DB 업데이트할까요?")
-                .setPositiveButton("확인") { dialog, _ ->
-                    sharedViewModel.updateFoodDatabase()
-                }
-                .setNegativeButton("취소") { dialog, which ->
-                    dialog.dismiss()
-                }
-                .show()
-        }
-
         val myAllergyFrame1 = binding.ivMyAllergyFrame
         val myAllergyFrame2 = binding.ivMyAllergyFrame2
         val myAllergyFrame3 = binding.ivMyAllergyFrame3

@@ -205,39 +205,7 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
         }
     }
 
-    fun getAllFoodsFromDB(){
-        _uiState.value = UiState.Loading
-        viewModelScope.launch {
-            runCatching {
-                db.collection("food")
-//                    .orderBy("timestamp", Query.Direction.DESCENDING)
-                    .addSnapshotListener { snapshot, exception ->
-                        if (exception != null) {
-                            Log.e(TAG, "getAllFoodsFromDB() failed! : ${exception.message}")
-                            handleException(exception)
-                            return@addSnapshotListener
-                        }
-                        if (snapshot != null) {
-                            val foods = mutableListOf<Food>()
-                            for (document in snapshot.documents) {
-                                val food = document.toObject(Food::class.java)
-                                food?.let { foods.add(it) }
-                            }
-                            _totalFoodsFromDB.value = foods
-                            _uiState.value = UiState.Success("Example")
-                        } else {
-                            // 예외처리: 스냅샷이 null일 때 처리
-                        }
-                    }
-            }.onFailure {
-                Log.e(TAG, "getAllFoodsFromDB() failed! : ${it.message}")
-                handleException(it)
-                _uiState.value = UiState.Error("getAllFoodsFromDB() failed!")
-            }
-        }
-    }
-
-    fun getFilteredFoods2() {
+     fun getFilteredFoods2() {
         viewModelScope.launch {
             runCatching {
                 var filteredData = _totalFoodsFromDB.value
@@ -303,23 +271,6 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
                 }
             }.onFailure {
                 Log.e(TAG, "getMarketDetail() failed! : ${it.message}")
-                handleException(it)
-            }
-        }
-    }
-
-    fun updateFoodDatabase() {
-        viewModelScope.launch {
-            runCatching {
-                val updatedFoodData = totalFoods.value
-                if (updatedFoodData != null) {
-                    for (food in updatedFoodData) {
-                        db.collection("food").document(food.prdlstReportNo)
-                            .set(food)
-                    }
-                }
-            }.onFailure {
-                Log.e(TAG, "updateFoodDatabase() failed! : ${it.message}")
                 handleException(it)
             }
         }
