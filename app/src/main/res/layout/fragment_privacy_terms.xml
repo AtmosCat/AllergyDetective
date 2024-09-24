@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#535353"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.signup.PrivacyTermsFragment">
+
+    <ImageView
+        android:id="@+id/btn_cancel"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:src="@drawable/x_two"
+        android:elevation="2dp"
+        android:layout_margin="15dp"
+        app:layout_constraintTop_toTopOf="@+id/scrollView_privacy_terms"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView_privacy_terms"
+        app:tint="@color/main_color_light_gray" />
+
+    <ScrollView
+        android:id="@+id/scrollView_privacy_terms"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.9">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="20dp"
+        android:textSize="24sp"
+        android:fontFamily="@font/nanum_square_ac_extrabold"
+        android:text="개인정보처리방침 "
+        style="@style/textStyle_title"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="1. 개인정보의 처리 목적 "
+        style="@style/textStyle_title"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:lineSpacingExtra="3dp"
+        android:text="알러지수호대 은(는) 다음의 목적을 위하여 개인정보를 처리하고 있으며, 다음의 목적 이외의 용도로는 이용하지 않습니다.
+\n- 고객 가입의사 확인, 고객에 대한 서비스 제공에 따른 본신 식별 및 인증, 회원자격 유지 및 관리, 물품이나 서비스 공급에 따른 금액 결제 등
+"
+        style="@style/textStyle_subheading"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
+        android:text="2. 개인정보의 처리 및 보유 기간"
+        style="@style/textStyle_title"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:lineSpacingExtra="3dp"
+        android:text="1) 알러지수호대는 정보 주체로부터 개인정보를 수집할 때 동의 받은 개인정보 보유 이용기간 또는 법령에 따른 개인정보 보유, 이용기간 내에서 개인정보를 처리 및 보유 합니다.
+\n2) 구체적인 개인정보 보유 기간은 다음과 같습니다.
+\n- 고객가입 및 관리 : 서비스 이용 계약 또는 회원가입 해지시 까지
+"
+        style="@style/textStyle_subheading"
+        />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:text="3. 개인정보의 제3자 제공에 관한 사항"
+            style="@style/textStyle_title"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:lineSpacingExtra="3dp"
+            android:text="1) 알러지수호대는 정보주체의 동의, 법률의 특별한 규정 등 개인정보 보호법 제 17조 및 18조에 해당하는 경우에만 개인정보를 제3자에게 제공합니다.
+\n2) 알러지수호대는 다음과 같이 개인정보를 제 3자에게 제공하고 있습니다.
+\n- 개인정보를 제공받는 자 : 구글 (Google)
+\n- 제공받는 자의 개인정보 이용목적 : 다운받은 앱 사용시 수명주기와 발생 이벤트 등의 분석 및 통계용 (구글 애널리틱스), 정보주체별 맞춤광고 제공용(구글 애드몹)
+\n- 제공받는 자의 보유, 이용기간 : 앱 설치시 부터 제품별 구글이 정한 기간에 따름
+\n- 제공받는 자의 제품별 개인정보처리방침 : 구글 개인정보 처리방침에 따름 (https://policies.google.com/privacy?hl=ko)
+"
+            style="@style/textStyle_subheading"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:text="4. 개인정보처리 위탁"
+            style="@style/textStyle_title"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:lineSpacingExtra="3dp"
+            android:text="알러지수호대는 원활한 개인정보 업무처리를 위하여 다음과 같이 개인정보 처리업무를 위탁하고 있습니다.
+
+\n- 위탁받는 자 (수탁자) : 없음.
+\n- 위탁하는 업무의 내용 : 없음.
+\n- 위탁기간 : 없음.
+\n2)  알러지수호대 은(는) 위탁계약 체결시 개인정보 보호법 제25조에 따라 위탁업무 수행목적 외 개인정보 처리금지, 기술적․관리적 보호조치, 재위탁 제한, 수탁자에 대한 관리․감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고, 수탁자가 개인정보를 안전하게 처리하는지를 감독하고 있습니다.
+\n3) 위탁업무의 내용이나 수탁자가 변경될 경우에는 지체없이 본 개인정보 처리방침을 통하여 공개하도록 하겠습니다.
+
+"
+            style="@style/textStyle_subheading"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:lineSpacingExtra="3dp"
+            android:text="5. 정보주체와 법정대리인의 권리·의무 및 그 행사방법"
+            style="@style/textStyle_title"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:lineSpacingExtra="3dp"
+            android:text="이용자는 개인정보주체로써 다음과 같은 권리를 행사할 수 있습니다.
+\n1)	 정보주체는 알러지수호대에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.
+\n- 개인정보 열람 요구
+\n- 오류 등이 있을 경우 정정 요구
+\n- 삭제요구
+\n- 처리 정지 요구
+"
+            style="@style/textStyle_subheading"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:text="6. 처리하는 개인정보의 항목 작성 "
+            style="@style/textStyle_title"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:lineSpacingExtra="3dp"
+            android:text="알러지수호대 은(는) 다음의 개인정보 항목을 처리하고 있습니다.
+\n- 필수항목 : 이메일
+\n- 선택항목 : 이름, 전화번호
+
+"
+            style="@style/textStyle_subheading"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:text="7. 개인정보의 파기"
+            style="@style/textStyle_title"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:lineSpacingExtra="3dp"
+            android:text="알러지수호대는 원칙적으로 개인정보 처리목적이 달성된 경우에는 지체없이 해당 개인정보를 파기합니다. 파기의 절차, 기한 및 방법은 다음과 같습니다.
+\n-파기절차
+\n이용자가 입력한 정보는 목적 달성 후 별도의 DB에 옮겨져(종이의 경우 별도의 서류) 내부 방침 및 기타 관련 법령에 따라 일정 기간(90일) 저장된 후 혹은 즉시 파기됩니다. 이 때, DB로 옮겨진 개인정보는 법률에 의한 경우가 아니고서는 다른 목적으로 이용되지 않습니다.
+\n-파기기한
+\n이용자의 개인정보는 개인정보의 보유기간이 경과된 경우에는 보유기간의 종료일로부터 5일 이내에, 개인정보의 처리 목적 달성, 해당 서비스의 폐지, 사업의 종료 등 그 개인정보가 불필요하게 되었을 때에는 개인정보의 처리가 불필요한 것으로 인정되는 날로부터 5일 이내에 그 개인정보를 파기합니다.
+"
+            style="@style/textStyle_subheading"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:lineSpacingExtra="3dp"
+            android:text="8. 개인정보 자동 수집 장치의 설치•운영 및 거부에 관한 사항"
+            style="@style/textStyle_title"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:lineSpacingExtra="3dp"
+            android:text="알러지수호대는 정보주체의 이용정보를 저장하고 수시로 불러오는 '쿠키'를 사용하지 않습니다.
+정보 주체가 제3자인 구글에게 제공하는 정보는 알러지수호대와 상관없이 정보 주체 기기상의 구글 설정에 따릅니다.
+"
+            style="@style/textStyle_subheading"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:text="9. 개인정보 보호책임자 작성"
+            style="@style/textStyle_title"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:lineSpacingExtra="3dp"
+            android:text="알러지수호대는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.
+\n- 개인정보 보호책임자
+\n알러지수호대 (이메일 : dnflro22@gmail.com)
+"
+            style="@style/textStyle_subheading"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:text="10. 개인정보 처리방침 변경"
+            style="@style/textStyle_title"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="20dp"
+            android:lineSpacingExtra="3dp"
+            android:layout_marginBottom="20dp"
+            android:text="이 개인정보처리방침은 시행일로부터 적용되며, 법령 및 방침에 따른 변경내용의 추가, 삭제 및 정정이 있는 경우에는 변경사항의 시행 7일 전부터 공지사항을 통하여 고지할 것입니다."
+            style="@style/textStyle_subheading"
+            />
+
+    </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

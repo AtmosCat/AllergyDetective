@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.user.User
 import com.allergyguardian.allergyguardian.databinding.FragmentSignUpBinding
+import com.allergyguardian.allergyguardian.presentation.filter.FilterFragment
 import com.allergyguardian.allergyguardian.presentation.signin.SignInFragment
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -90,12 +91,18 @@ class SignUpFragment : Fragment() {
             }
         }
 
-        // 개인정보 수집 동의 체크
         binding.checkBoxSignupPrivacy.setOnCheckedChangeListener{ _, isChecked ->
             privacyConfirm = if (isChecked) {
                 true
             } else {
                 false
+            }
+        }
+        binding.btnPrivacyTerms.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                add(R.id.main_frame, PrivacyTermsFragment(), "PrivacyTermsFragment")
+                addToBackStack(null)
+                commit()
             }
         }
 
@@ -104,6 +111,13 @@ class SignUpFragment : Fragment() {
                 true
             } else {
                 false
+            }
+        }
+        binding.btnServiceTerms.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                add(R.id.main_frame, ServiceTermsFragment(), "ServiceTermsFragment")
+                addToBackStack(null)
+                commit()
             }
         }
 
