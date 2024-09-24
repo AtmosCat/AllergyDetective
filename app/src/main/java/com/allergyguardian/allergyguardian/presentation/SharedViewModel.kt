@@ -189,7 +189,7 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
                 val dataCount = RetrofitClient.gonggongFoodAPI.getGonggongFood(pageNo = "1",
                     numOfRows = "100").body?.totalCount?.toInt()
 //                val maxPageNum = dataCount!!.div(100)
-                var maxPageNum = 5
+                val maxPageNum = 5
                 for (i in 1..maxPageNum) {
                     data = foodRepository.getAllData(i)
                     allData += data
@@ -208,7 +208,7 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
      fun getFilteredFoods2() {
         viewModelScope.launch {
             runCatching {
-                var filteredData = _totalFoodsFromDB.value
+                var filteredData = _totalFoods.value
                 val categories = selectedCategories.value
                 val allergies = selectedAllergies.value
 

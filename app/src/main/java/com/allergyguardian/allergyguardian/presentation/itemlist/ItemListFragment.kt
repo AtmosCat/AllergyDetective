@@ -285,6 +285,19 @@ class ItemListFragment : Fragment() {
                 commit()
             }
         }
+    }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        viewModel.getFilteredFoods2()
+        viewModel.filteredFoods.observe(viewLifecycleOwner) { filteredFoods ->
+            itemListAdapter.submitList(filteredFoods)
+            _filteredFoods = filteredFoods
 
+            if (_filteredFoods.isEmpty()) {
+                binding.tvNoticeNoData.visibility = View.VISIBLE
+            } else {
+                binding.tvNoticeNoData.visibility = View.GONE
+            }
+        }
     }
 }

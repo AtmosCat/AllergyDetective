@@ -299,6 +299,5 @@ class PostListFragment : Fragment() {
                 binding.tvNoticeNoData.visibility = View.GONE
             }
         }
-
     }
 }

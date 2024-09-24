@@ -163,29 +163,52 @@ class UserViewModel (application: Application) : AndroidViewModel(application) {
         }
     }
 
+//    fun setCurrentUser(_email: String) {
+//        viewModelScope.launch {
+//            runCatching {
+//                db.collection("user")
+//                    .document(_email)
+//                    .get()
+//                    .addOnSuccessListener { result ->
+//                        if (result != null) {
+//                            val user = result.toObject(User::class.java)
+//                            _currentUser.value = user
+//                        } else {
+//                            _currentUser.value = null
+//                        }
+//                    }
+//                    .addOnFailureListener {
+//                        _currentUser.value = null
+//                    }
+//            }.onFailure {
+//                Log.e(TAG, "setCurrentUser() failed! : ${it.message}")
+//                handleException(it)
+//            }
+//        }
+//    }
+
     fun setCurrentUser(_email: String) {
         viewModelScope.launch {
-            runCatching {
-                db.collection("user")
-                    .document(_email)
-                    .get()
-                    .addOnSuccessListener { result ->
-                        if (result != null) {
-                            val user = result.toObject(User::class.java)
-                            _currentUser.value = user
-                        } else {
-                            _currentUser.value = null
-                        }
+            db.collection("user")
+                .document(_email)
+                .addSnapshotListener { snapshot, exception ->
+                    if (exception != null) {
+                        Log.e(TAG, "setCurrentUser() failed! : ${exception.message}")
+                        _currentUser.value = null
+                        handleException(exception)
+                        return@addSnapshotListener
                     }
-                    .addOnFailureListener {
+
+                    if (snapshot != null && snapshot.exists()) {
+                        val user = snapshot.toObject(User::class.java)
+                        _currentUser.value = user
+                    } else {
                         _currentUser.value = null
                     }
-            }.onFailure {
-                Log.e(TAG, "setCurrentUser() failed! : ${it.message}")
-                handleException(it)
-            }
+                }
         }
     }
+
 
     fun getBlockedUsers(){
         db.collection("user")
