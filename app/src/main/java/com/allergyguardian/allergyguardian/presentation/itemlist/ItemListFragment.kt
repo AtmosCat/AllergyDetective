@@ -288,30 +288,3 @@ class ItemListFragment : Fragment() {
 
     }
 }
-
-//    private fun initView() = with(binding) {
-//        recyclerviewItemlist.adapter = itemListAdapter
-//        recyclerviewItemlist.layoutManager = LinearLayoutManager(requireContext())
-//    }
-//
-//    private fun initViewModel() {
-//        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-//            when (uiState) {
-//                is UiState.Loading -> {
-//                    binding.progress.isVisible = true
-//                }
-//
-//                is UiState.Success -> {
-//                    binding.progress.isVisible = false
-//                    viewModel.filteredFoods.observe(viewLifecycleOwner) { filteredFoods ->
-//                        itemListAdapter.submitList(filteredFoods)
-//                    }
-//                }
-//
-//                is UiState.Error -> {
-//                    Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
-//                }
-//            }
-//        }
-//        viewModel.getFilteredFoods()
-//    }

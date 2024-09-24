@@ -188,8 +188,8 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
                 var allData = mutableListOf<Food>()
                 val dataCount = RetrofitClient.gonggongFoodAPI.getGonggongFood(pageNo = "1",
                     numOfRows = "100").body?.totalCount?.toInt()
-                val maxPageNum = dataCount!!.div(100)
-//                var maxPageNum = 1
+//                val maxPageNum = dataCount!!.div(100)
+                var maxPageNum = 5
                 for (i in 1..maxPageNum) {
                     data = foodRepository.getAllData(i)
                     allData += data

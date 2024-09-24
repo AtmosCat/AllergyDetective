@@ -12,14 +12,18 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.user.Post
+import com.allergyguardian.allergyguardian.data.model.user.sampleBitmap
 import com.allergyguardian.allergyguardian.databinding.FragmentPostListBinding
 import com.allergyguardian.allergyguardian.presentation.PostViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
@@ -271,6 +275,28 @@ class PostListFragment : Fragment() {
                 }
                 addToBackStack(null)
                 commit()
+            }
+        }
+
+    }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        postViewModel.getFilteredPosts()
+        userViewModel.getBlockedUsers()
+        postViewModel.filteredPosts.observe(viewLifecycleOwner) { data ->
+            filteredItems = data
+            userViewModel.currentUserBlockedUsers.observe(viewLifecycleOwner){ blockedUsers ->
+                if (blockedUsers != null) {
+                    currentUserBlockedUsers = blockedUsers
+                }
+            }
+            filteredItems = filteredItems.filter { it.posterEmail !in currentUserBlockedUsers }
+            postListAdapter.submitList(filteredItems)
+
+            if (filteredItems.isEmpty()) {
+                binding.tvNoticeNoData.visibility = View.VISIBLE
+            } else {
+                binding.tvNoticeNoData.visibility = View.GONE
             }
         }
 
