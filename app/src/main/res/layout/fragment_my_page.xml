@@ -33,15 +33,23 @@
 <!--        app:layout_constraintWidth_percent="0.08" />-->
 
     <Button
-        android:id="@+id/btn_update_data"
+        android:id="@+id/btn_get_new_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="데이터 업데이트"
+        android:text="데이터 불러오기"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="10dp"
         />
-
+    <Button
+        android:id="@+id/btn_update_db"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DB 업데이트"
+        app:layout_constraintStart_toEndOf="@+id/btn_get_new_data"
+        app:layout_constraintTop_toTopOf="@+id/btn_get_new_data"
+        android:layout_margin="10dp"
+        />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/view_mypage_profile"
         android:layout_width="match_parent"

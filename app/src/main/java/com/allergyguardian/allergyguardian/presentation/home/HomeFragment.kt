@@ -64,7 +64,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getAllFoods()
+        viewModel.getAllFoodsFromDB()
 
         binding.homeRecyclerList.adapter = homeAdapter
         binding.homeRecyclerList.layoutManager = LinearLayoutManager(requireContext())
@@ -72,14 +72,14 @@ class HomeFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             when (uiState) {
                 is UiState.Loading -> {
-                    Toast.makeText(requireContext(), "1만여 개의 푸드 데이터를 로딩중입니다.", Toast.LENGTH_LONG).show()
-                    Toast.makeText(requireContext(), "데이터가 많아요. 조금만 더 기다려주세요!", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(requireContext(), "1만여 개의 푸드 데이터를 로딩중입니다.", Toast.LENGTH_LONG).show()
+//                    Toast.makeText(requireContext(), "데이터가 많아요. 조금만 더 기다려주세요!", Toast.LENGTH_LONG).show()
                     binding.progress.isVisible = true
                 }
                 is UiState.Success -> {
-                    Toast.makeText(requireContext(), "데이터 로딩 완료!", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(requireContext(), "데이터 로딩 완료!", Toast.LENGTH_SHORT).show()
                     binding.progress.isVisible = false
-                    viewModel.totalFoods.observe(viewLifecycleOwner) { data ->
+                    viewModel.totalFoodsFromDB.observe(viewLifecycleOwner) { data ->
                         val indexes = listOf(0,1,2,3,4,5,6,7,8,9)
                         val homeFoodsData = indexes.map { index -> data[index] }
                         homeAdapter.submitList(homeFoodsData)

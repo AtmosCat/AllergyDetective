@@ -19,7 +19,10 @@ import coil.load
 import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.user.User
 import com.allergyguardian.allergyguardian.data.model.user.sampleBitmap
+import com.allergyguardian.allergyguardian.data.repository.food.GonggongFoodRepositoryImpl
+import com.allergyguardian.allergyguardian.data.repository.market.MarketRepositoryImpl
 import com.allergyguardian.allergyguardian.databinding.FragmentMyPageBinding
+import com.allergyguardian.allergyguardian.presentation.SharedViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
 import com.allergyguardian.allergyguardian.presentation.community.community_home.CommunityHomeFragment
 import com.allergyguardian.allergyguardian.presentation.mypage.EditProfileFragment
@@ -37,6 +40,17 @@ class MyPageFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var currentUser = User()
+
+    private val sharedViewModel: SharedViewModel by activityViewModels() {
+        viewModelFactory {
+            initializer {
+                SharedViewModel(
+                    GonggongFoodRepositoryImpl(),
+                    MarketRepositoryImpl()
+                )
+            }
+        }
+    }
 
     private val userViewModel: UserViewModel by activityViewModels {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
@@ -135,6 +149,39 @@ class MyPageFragment : Fragment() {
                 addToBackStack(null)
                 commit()
             }
+        }
+
+        if (currentUser.email == "dnflro22@gmail.com") {
+            binding.btnGetNewData.visibility = View.VISIBLE
+            binding.btnUpdateDb.visibility = View.VISIBLE
+        } else {
+            binding.btnGetNewData.visibility = View.GONE
+            binding.btnUpdateDb.visibility = View.GONE
+        }
+
+        binding.btnGetNewData.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("새 데이터 받아오기")
+                .setMessage("받아올까요?")
+                .setPositiveButton("확인") { dialog, _ ->
+                    sharedViewModel.getAllFoods()
+                }
+                .setNegativeButton("취소") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .show()
+        }
+        binding.btnUpdateDb.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("DB 업데이트")
+                .setMessage("DB 업데이트할까요?")
+                .setPositiveButton("확인") { dialog, _ ->
+                    sharedViewModel.updateFoodDatabase()
+                }
+                .setNegativeButton("취소") { dialog, which ->
+                    dialog.dismiss()
+                }
+                .show()
         }
 
         val myAllergyFrame1 = binding.ivMyAllergyFrame

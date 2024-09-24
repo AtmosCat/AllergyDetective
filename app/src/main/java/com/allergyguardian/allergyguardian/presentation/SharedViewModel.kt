@@ -9,24 +9,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.allergyguardian.allergyguardian.data.model.food.Food
 import com.allergyguardian.allergyguardian.data.model.market.Market
+import com.allergyguardian.allergyguardian.data.model.user.Post
 import com.allergyguardian.allergyguardian.data.repository.food.FoodRepository
 import com.allergyguardian.allergyguardian.data.repository.market.MarketRepository
 import com.allergyguardian.allergyguardian.network.food.RetrofitClient
 import com.allergyguardian.allergyguardian.presentation.base.UiState
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
 class SharedViewModel (private val foodRepository: FoodRepository, private val marketRepository: MarketRepository) : ViewModel() {
 
+    private val db = FirebaseFirestore.getInstance()
+
     private val _uiState: MutableLiveData<UiState<Any>> = MutableLiveData()
     val uiState: LiveData<UiState<Any>> = _uiState
-
-    private val _foods = MutableLiveData<List<Food>>()
-    val foods : LiveData<List<Food>> get() = _foods
-
-    private val _homeFoods = MutableLiveData<List<Food>>()
-    val homeFoods : LiveData<List<Food>> get() = _homeFoods
 
     private val allergyList: List<String> = listOf("알류","계란","우유","메밀","땅콩","대두","밀","고등어","게","새우",
         "돼지고기","복숭아","토마토","아황산류","이산화황","호두","닭고기","쇠고기","소고기","오징어","잣",
@@ -46,6 +45,9 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
 
     private val _totalFoods = MutableLiveData<List<Food>>()
     val totalFoods : LiveData<List<Food>> get() = _totalFoods
+
+    private val _totalFoodsFromDB = MutableLiveData<List<Food>>()
+    val totalFoodsFromDB : LiveData<List<Food>> get() = _totalFoodsFromDB
 
     private val _marketData = MutableLiveData<List<Market>>()
     val marketData : LiveData<List<Market>> get() = _marketData
@@ -184,14 +186,15 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
             runCatching {
                 var data: List<Food>
                 var allData = mutableListOf<Food>()
-                var dataCount = RetrofitClient.gonggongFoodAPI.getGonggongFood(pageNo = "1",
+                val dataCount = RetrofitClient.gonggongFoodAPI.getGonggongFood(pageNo = "1",
                     numOfRows = "100").body?.totalCount?.toInt()
-//                var maxPageNum = dataCount?.div(100)
-                var maxPageNum = 100
-                for (i in 1..maxPageNum!!) {
+                val maxPageNum = dataCount!!.div(100)
+//                var maxPageNum = 1
+                for (i in 1..maxPageNum) {
                     data = foodRepository.getAllData(i)
                     allData += data
                 }
+                allData = allData.filter { it.allergy != "알수없음" }.toMutableList()
                 _totalFoods.value = allData
                 _uiState.value = UiState.Success("Example")
             }.onFailure {
@@ -202,10 +205,42 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
         }
     }
 
+    fun getAllFoodsFromDB(){
+        _uiState.value = UiState.Loading
+        viewModelScope.launch {
+            runCatching {
+                db.collection("food")
+//                    .orderBy("timestamp", Query.Direction.DESCENDING)
+                    .addSnapshotListener { snapshot, exception ->
+                        if (exception != null) {
+                            Log.e(TAG, "getAllFoodsFromDB() failed! : ${exception.message}")
+                            handleException(exception)
+                            return@addSnapshotListener
+                        }
+                        if (snapshot != null) {
+                            val foods = mutableListOf<Food>()
+                            for (document in snapshot.documents) {
+                                val food = document.toObject(Food::class.java)
+                                food?.let { foods.add(it) }
+                            }
+                            _totalFoodsFromDB.value = foods
+                            _uiState.value = UiState.Success("Example")
+                        } else {
+                            // 예외처리: 스냅샷이 null일 때 처리
+                        }
+                    }
+            }.onFailure {
+                Log.e(TAG, "getAllFoodsFromDB() failed! : ${it.message}")
+                handleException(it)
+                _uiState.value = UiState.Error("getAllFoodsFromDB() failed!")
+            }
+        }
+    }
+
     fun getFilteredFoods2() {
         viewModelScope.launch {
             runCatching {
-                var filteredData = totalFoods.value
+                var filteredData = _totalFoodsFromDB.value
                 val categories = selectedCategories.value
                 val allergies = selectedAllergies.value
 
@@ -267,12 +302,28 @@ class SharedViewModel (private val foodRepository: FoodRepository, private val m
                     _marketData.value = marketResults
                 }
             }.onFailure {
-                Log.e(ContentValues.TAG, "getMarketDetail() failed! : ${it.message}")
+                Log.e(TAG, "getMarketDetail() failed! : ${it.message}")
                 handleException(it)
             }
         }
     }
 
+    fun updateFoodDatabase() {
+        viewModelScope.launch {
+            runCatching {
+                val updatedFoodData = totalFoods.value
+                if (updatedFoodData != null) {
+                    for (food in updatedFoodData) {
+                        db.collection("food").document(food.prdlstReportNo)
+                            .set(food)
+                    }
+                }
+            }.onFailure {
+                Log.e(TAG, "updateFoodDatabase() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
 
     private fun handleException(e: Throwable) {
         when (e) {
