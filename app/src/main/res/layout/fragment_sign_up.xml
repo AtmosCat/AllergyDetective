@@ -205,15 +205,53 @@
         app:layout_constraintStart_toStartOf="@+id/et_signup_nickname"
         app:layout_constraintTop_toTopOf="@+id/et_signup_nickname" />
 
+    <ImageView
+        android:id="@+id/btn_privacy_terms"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/plus"
+        android:scaleType="fitCenter"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_signup_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/et_signup_nickname"
+        app:tint="@color/main_color_light_gray" />
+
     <CheckBox
         android:id="@+id/checkBox_signup_privacy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="개인정보 제공 동의"
+        android:text="개인정보 수집 및 이용 동의"
         style="@style/textStyle_detail"
-        android:layout_marginTop="3dp"
-        app:layout_constraintEnd_toEndOf="@+id/et_signup_nickname"
-        app:layout_constraintTop_toBottomOf="@+id/et_signup_nickname" />
+        android:fontFamily="@font/nanum_square_ac_regular"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_privacy_terms"
+        app:layout_constraintTop_toTopOf="@+id/btn_privacy_terms"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_privacy_terms"
+        />
+
+    <ImageView
+        android:id="@+id/btn_service_terms"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:src="@drawable/plus"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="18dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_privacy_terms"
+        app:layout_constraintTop_toBottomOf="@+id/btn_privacy_terms"
+        app:tint="@color/main_color_light_gray" />
+
+    <CheckBox
+        android:id="@+id/checkBox_signup_service_terms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="서비스 이용 동의"
+        style="@style/textStyle_detail"
+        android:fontFamily="@font/nanum_square_ac_regular"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_service_terms"
+        app:layout_constraintTop_toTopOf="@+id/btn_service_terms"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_service_terms"
+        />
 
     <Button
         android:id="@+id/btn_signup_signup"
@@ -224,12 +262,13 @@
         android:text="회원가입"
         android:textColor="@color/white"
         style="@style/textStyle_subtitle"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="@+id/et_signup_nickname"
         app:layout_constraintHeight_percent="0.06"
         app:layout_constraintStart_toStartOf="@+id/et_signup_nickname"
-        app:layout_constraintTop_toBottomOf="@+id/et_signup_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox_signup_service_terms"
         app:layout_constraintWidth_percent="0.75" />
+
 
     <Button
         android:id="@+id/btn_signup_cancel"

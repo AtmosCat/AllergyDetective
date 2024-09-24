@@ -27,6 +27,7 @@ class SignUpFragment : Fragment() {
     private var emailConfirm = false
     private var pwConfirm = false
     private var privacyConfirm = false
+    private var serviceTermsConfirm = false
 
     private var auth: FirebaseAuth? = null
 
@@ -97,19 +98,14 @@ class SignUpFragment : Fragment() {
                 false
             }
         }
-        val email = binding.etSignupEmail.text.toString()
-        val pw = binding.etSignupPw.text.toString()
-        val name = binding.etSignupName.text.toString()
-        val contact = binding.etSignupContact.text.toString()
-        val nickname = binding.etSignupNickname.text.toString()
 
-        val isEmailFilled = binding.etSignupEmail.text.isNotEmpty()
-        val isPwFilled = binding.etSignupPw.text.isNotEmpty()
-        val isPwCheckFilled = binding.etSignupPwCheck.text.isNotEmpty()
-//        val isNameFilled = binding.etSignupName.text.isNotEmpty()
-//        val isContactFilled = binding.etSignupContact.text.isNotEmpty()
-//        val isNicknameFilled = binding.etSignupNickname.text.isNotEmpty()
-
+        binding.checkBoxSignupServiceTerms.setOnCheckedChangeListener{ _, isChecked ->
+            serviceTermsConfirm = if (isChecked) {
+                true
+            } else {
+                false
+            }
+        }
 
         binding.btnSignupSignup.setOnClickListener {
             createAccount(
@@ -118,7 +114,7 @@ class SignUpFragment : Fragment() {
                 ,binding.etSignupName.text.toString()
                 ,binding.etSignupContact.text.toString()
                 ,binding.etSignupNickname.text.toString()
-                ,emailConfirm,pwConfirm,privacyConfirm,
+                ,emailConfirm,pwConfirm,privacyConfirm,serviceTermsConfirm,
                 binding.etSignupEmail.text.isNotEmpty()
                 ,binding.etSignupPw.text.isNotEmpty()
                 ,binding.etSignupPwCheck.text.isNotEmpty())
@@ -139,6 +135,7 @@ class SignUpFragment : Fragment() {
         emailConfirm: Boolean,
         pwConfirm: Boolean,
         privacyConfirm: Boolean,
+        serviceTermsConfirm: Boolean,
         isEmailFilled: Boolean,
         isPwFilled: Boolean,
         isPwCheckFilled: Boolean
@@ -152,7 +149,10 @@ class SignUpFragment : Fragment() {
                 Toast.makeText(requireContext(), "비밀번호 일치 여부를 확인해주세요.", Toast.LENGTH_SHORT)
                     .show()
             } else if (!privacyConfirm) {
-                Toast.makeText(requireContext(), "개인정보 수집/이용에 동의해주세요.", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), "개인정보 이용/수집에 동의해주세요.", Toast.LENGTH_SHORT)
+                    .show()
+            } else if (!serviceTermsConfirm) {
+                Toast.makeText(requireContext(), "서비스 이용 약관에 동의해주세요.", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 val user = User(email, pw, name, contact, nickname)
@@ -179,24 +179,4 @@ class SignUpFragment : Fragment() {
         }
 
     }
-
-
-//    private fun initViewModel() {
-//        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
-//            when (uiState) {
-//                is UiState.Loading -> {
-//                    binding.progress.isVisible = true
-//                }
-//
-//                is UiState.Success -> {
-//                    binding.progress.isVisible = false
-//
-//                }
-//
-//                is UiState.Error -> {
-//                    Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
-//                }
-//            }
-//        }
-//    }
 }
