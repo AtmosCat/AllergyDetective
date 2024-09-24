@@ -118,7 +118,6 @@ class PostDetailFragment : Fragment() {
 
             binding.btnBack.setOnClickListener {
                 requireActivity().supportFragmentManager.popBackStack()
-                PostListAdapter().updateData(postViewModel.filteredPosts.value!!)
             }
 
             binding.tvCategory.text = "주제: ${clickedItem.category}"

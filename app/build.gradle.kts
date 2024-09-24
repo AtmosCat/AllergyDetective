@@ -70,4 +70,5 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation (libs.firebase.ui.auth) // 파이어베이스 인증
     implementation(libs.google.firebase.firestore.ktx)
+    implementation("com.google.android.gms:play-services-ads:23.3.0") // 애드몹
 }

@@ -24,6 +24,8 @@ import com.allergyguardian.allergyguardian.presentation.base.UiState
 import com.allergyguardian.allergyguardian.presentation.community.community_home.CommunityHomeFragment
 import com.allergyguardian.allergyguardian.presentation.filter.FilterFragment
 import com.allergyguardian.allergyguardian.presentation.itemlist.ItemListFragment
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 
 class HomeFragment : Fragment() {
 
@@ -63,7 +65,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.getAllFoods()
 
         binding.homeRecyclerList.adapter = homeAdapter
