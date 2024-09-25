@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.databinding.ActivityMainBinding
+import com.allergyguardian.allergyguardian.presentation.franchise.FranchiseHomeFragment
 import com.allergyguardian.allergyguardian.presentation.signin.SignInFragment
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             MobileAds.initialize(this@MainActivity) {}
         }
 
-        setFragment(SignInFragment())
+        setFragment(FranchiseHomeFragment())
 
         setAd()
     }
