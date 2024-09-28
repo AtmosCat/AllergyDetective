@@ -1,57 +1,45 @@
 package com.allergyguardian.allergyguardian.presentation.franchise
 
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.allergyguardian.allergyguardian.data.model.franchise.CoffeeBeverage
-import org.jsoup.Jsoup
-import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseHomeBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.openqa.selenium.By
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.chrome.ChromeDriverService
 import org.openqa.selenium.chrome.ChromeOptions
-import org.openqa.selenium.edge.EdgeDriver
-import org.openqa.selenium.edge.EdgeDriverService
-import org.openqa.selenium.support.ui.WebDriverWait
-import org.openqa.selenium.support.ui.ExpectedConditions
-import java.io.File
-import java.time.Duration
-import java.util.concurrent.TimeUnit
+import java.lang.Exception
 
-class FranchiseHomeFragment : Fragment() {
-
-    private var megaCoffeeBeverages = mutableListOf<CoffeeBeverage>()
-    private var _binding: FragmentFranchiseHomeBinding? = null
-
-    private val binding get() = _binding!!
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentFranchiseHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        CoroutineScope(Dispatchers.IO).launch {
-            megaCoffeeBeveragesInfoCrawler()
-        }
-    }
-
-    fun megaCoffeeBeveragesInfoCrawler() {
+fun main(args: Array<String>) {
+    //프로퍼티 설정하기
+//    val webDriverID = "webdriver.chrome.driver"
+//    val webDriverPath = "/C:/Users/jeong/AndroidStudioProjects/chromedriver-linux64/chromedriver-linux64/chromedriver"
+//    System.setProperty(webDriverID, webDriverPath)
+//
+//    //엣지드라이버 옵션 설정하기
+//    val options = ChromeOptions()
+//    options.addArguments("--start-maximized")
+//    options.addArguments("--disable-popup-blocking")
+//    options.addArguments("--disable-default-apps")
+//
+//    //옵션이 적용된 엣지드라이버 불러오기
+//    val driver = ChromeDriver(options)
+//
+//    try {
+//        //엣지드라이버로 기상청 메인화면(크롤링할 페이지) 띄우기(가져오기)
+//        driver.get("https://www.mega-mgccoffee.com/menu/?menu_category1=1&menu_category2=1")
+//
+//        //현재 날씨부분만 가져오기
+//        val doc: WebElement = driver.findElement(
+//            By.xpath("/html/body/div[3]/div[3]/div/div[3]/div[2]/div[4]/div[1]/ul/div[1]/ul/li[1]/div/div[1]/div[1]/div[1]/b")
+//        )
+//
+//        //가져온 현재 날씨를 콘솔로그에 출력
+//        println(doc.text)
+//    } catch (e: Exception) {
+//        e.printStackTrace()
+//    } finally {
+//        //사용이 끝난 엣지드라이버 종
+//        driver.close()
+//    }
+}
+fun megaCoffeeBeveragesInfoCrawler() {
 //        // 크롬드라이버 설정 경로 (크롬 드라이버 설치 경로 필요), chromedriver = 크롬 브라우저를 제어하는 WebDriver
 ////        System.setProperty("webdriver.edge.driver", "C:/Users/jeong/AndroidStudioProjects/edgedriver_win64/msedgedriver")
 ////        System.setProperty("webdriver.chrome.driver", "C:/Users/jeong/AndroidStudioProjects/chromedriver-linux64/chromedriver-linux64/chromedriver")
@@ -124,5 +112,4 @@ class FranchiseHomeFragment : Fragment() {
 //            // 브라우저 닫기
 //            driver.quit()
 //        }
-    }
 }

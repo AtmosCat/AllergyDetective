@@ -18,6 +18,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.openqa.selenium.By
+import org.openqa.selenium.WebElement
+import org.openqa.selenium.chrome.ChromeDriver
+import org.openqa.selenium.chrome.ChromeDriverService
+import org.openqa.selenium.chrome.ChromeOptions
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,14 +48,42 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val backgroundScope = CoroutineScope(Dispatchers.IO)
-        backgroundScope.launch {
-            MobileAds.initialize(this@MainActivity) {}
+//        val backgroundScope = CoroutineScope(Dispatchers.IO)
+//        backgroundScope.launch {
+//            MobileAds.initialize(this@MainActivity) {}
+//        }
+//
+//        setAd()
+        val webDriverID = "webdriver.chrome.driver"
+        val webDriverPath = "/C:/Users/jeong/AndroidStudioProjects/chromedriver-linux64/chromedriver-linux64/chromedriver"
+        System.setProperty(webDriverID, webDriverPath)
+
+        //엣지드라이버 옵션 설정하기
+        val options = ChromeOptions()
+        options.addArguments("--start-maximized")
+        options.addArguments("--disable-popup-blocking")
+        options.addArguments("--disable-default-apps")
+
+        val service = ChromeDriverService.createDefaultService()
+        //옵션이 적용된 엣지드라이버 불러오기
+        val driver = ChromeDriver(service, options)
+
+        try {
+            //엣지드라이버로 기상청 메인화면(크롤링할 페이지) 띄우기(가져오기)
+            driver.get("https://www.mega-mgccoffee.com/menu/?menu_category1=1&menu_category2=1")
+
+            //현재 날씨부분만 가져오기
+            val doc: WebElement = driver.findElement(
+                By.xpath("/html/body/div[3]/div[3]/div/div[3]/div[2]/div[4]/div[1]/ul/div[1]/ul/li[1]/div/div[1]/div[1]/div[1]/b")
+            )
+
+            //가져온 현재 날씨를 콘솔로그에 출력
+            println(doc.text)
+
+            setFragment(FranchiseHomeFragment())
+
+        } catch (e: Exception) {
         }
-
-        setFragment(FranchiseHomeFragment())
-
-        setAd()
     }
 
     private fun setFragment(frag : Fragment) {

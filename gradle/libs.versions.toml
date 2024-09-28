@@ -26,6 +26,7 @@ powerspinner = "1.2.6"
 retrofit = "2.9.0"
 firebaseFirestoreKtx = "25.1.0"
 firebaseStorageKtx = "21.0.0"
+seleniumEdgeDriver = "4.20.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -57,6 +58,7 @@ powerspinner = { module = "com.github.skydoves:powerspinner", version.ref = "pow
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
 firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+selenium-edge-driver = { module = "org.seleniumhq.selenium:selenium-edge-driver", version.ref = "seleniumEdgeDriver" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

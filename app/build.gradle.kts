@@ -36,7 +36,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
+    packaging {
+        resources {
+            excludes.add("META-INF/DEPENDENCIES")
+        }
+    }
     buildFeatures{
         viewBinding = true
     }
@@ -72,4 +76,8 @@ dependencies {
     implementation(libs.google.firebase.firestore.ktx)
     implementation("com.google.android.gms:play-services-ads:23.3.0") // 애드몹
     implementation("org.jsoup:jsoup:1.18.1") // 크롤링
+    implementation("org.seleniumhq.selenium:selenium-java:4.20.0")
+    implementation("org.seleniumhq.selenium:selenium-chrome-driver:4.20.0")
+    implementation(libs.selenium.edge.driver)
+
 }
