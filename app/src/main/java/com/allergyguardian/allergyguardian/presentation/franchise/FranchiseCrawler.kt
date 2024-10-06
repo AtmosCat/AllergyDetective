@@ -1,9 +1,5 @@
 package com.allergyguardian.allergyguardian.presentation.franchise
 
-import org.openqa.selenium.By
-import org.openqa.selenium.WebElement
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.chrome.ChromeOptions
 import java.lang.Exception
 
 fun main(args: Array<String>) {

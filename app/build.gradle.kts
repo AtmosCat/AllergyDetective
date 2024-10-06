@@ -75,9 +75,4 @@ dependencies {
     implementation (libs.firebase.ui.auth) // 파이어베이스 인증
     implementation(libs.google.firebase.firestore.ktx)
     implementation("com.google.android.gms:play-services-ads:23.3.0") // 애드몹
-    implementation("org.jsoup:jsoup:1.18.1") // 크롤링
-    implementation("org.seleniumhq.selenium:selenium-java:4.20.0")
-    implementation("org.seleniumhq.selenium:selenium-chrome-driver:4.20.0")
-    implementation(libs.selenium.edge.driver)
-
 }
