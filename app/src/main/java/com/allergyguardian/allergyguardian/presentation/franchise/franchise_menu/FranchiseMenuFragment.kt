@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.allergyguardian.allergyguardian.R
@@ -60,15 +61,30 @@ class FranchiseMenuFragment : Fragment() {
 
         /* 링크 주소를 로드 */
         binding.webviewMenu.loadUrl("https://www.starbucks.co.kr/menu/drink_view.do?product_cd=9200000002487")
-    }
-    fun onBackPressed() {
-        if(binding.webviewMenu.canGoBack()){
-            // 웹싸이트에서 뒤로 갈 페이지가 존재 할 경우
-            binding.webviewMenu.goBack()
+
+        binding.webviewMenu.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView, url: String) {
+                super.onPageFinished(view, url)
+                extractDataFromWebView()
+            }
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding.webviewMenu.destroy()
+    }
+
+    private fun extractDataFromWebView() {
+        // JavaScript를 사용하여 특정 데이터를 추출
+        binding.webviewMenu.evaluateJavascript("document.querySelector('.product_factor > p').innerText") { value ->
+            val imgurl = value
+            val extractedString = value.replace("\"", "") // 쌍따옴표 제거
+            saveData(extractedString)
+        }
+    }
+
+    private fun saveData(data: String) {
+
     }
 }
