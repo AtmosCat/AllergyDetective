@@ -78,67 +78,83 @@ class FranchiseCrawlerFragment : Fragment() {
 
     private fun starbucksBevCrawler(urls: List<String>) {
         val iterator = urls.iterator() // URL 리스트의 Iterator 생성
-        loadNextUrl(iterator) // 첫 번째 URL 로드
+        loadNextUrl(
+            iterator,
+            "카페",
+            "스타벅스",
+            "document.querySelector('.zoomImg').src",
+            "document.querySelector('.product_view_detail h4').innerText",
+            "document.querySelector('.product_factor > p').innerText",
+            "document.querySelector('.selectTxt2 p b').innerText",
+            "document.querySelector('.product_info_content .kcal dd').innerText",
+            "document.querySelector('.product_info_content .sat_FAT dd').innerText",
+            "document.querySelector('.product_info_content .protein dd).innerText",
+            "document.querySelector('.product_info_content .sodium dd').innerText",
+            "document.querySelector('.product_info_content .sugars dd').innerText",
+            "document.querySelector('.caffeine last dl dd').innerText"
+            )
     }
-        fun loadNextUrl(iterator: Iterator<String>) {
-            if (iterator.hasNext()) {
-                val url = iterator.next()
-                instance = Menu(type = "카페", brand = "스타벅스")
-                binding.webviewMenu.loadUrl(url)
-                binding.webviewMenu.webViewClient = object : WebViewClient() {
-                    override fun onPageFinished(view: WebView, url: String) {
-                        super.onPageFinished(view, url)
 
-                        binding.webviewMenu.evaluateJavascript("document.querySelector('.zoomImg').src") { value ->
-                            val imgurl = value.replace("\"", "") // 쌍따옴표 제거
-                            instance.imgurl = imgurl
-                        }
-                        binding.webviewMenu.evaluateJavascript("document.querySelector('.product_view_detail h4').innerText") { value ->
-                            val name = value.replace("\"", "")
-                            instance.name = name
-                        }
-                        binding.webviewMenu.evaluateJavascript("document.querySelector('.product_factor > p').innerText") { value ->
-                            var allergy = value.replace("\"", "")
-                            allergy = allergy.replace("알레르기 유발요인: ", "")
-                            instance.allergy = allergy
-                        }
-                        binding.webviewMenu.evaluateJavascript("document.querySelector('.selectTxt2 p b').innerText") { value ->
-                            val weight = value.replace("\"", "")
-                            instance.weight = weight
-                        }
-                        binding.webviewMenu.evaluateJavascript("document.querySelector('.product_info_content .kcal dd').innerText") { value ->
-                            val kcal = value.replace("\"", "")
-                            instance.kcal = kcal
-                        }
-                        binding.webviewMenu.evaluateJavascript("document.querySelector('.product_info_content .sat_FAT dd').innerText") { value ->
-                            val fat = value.replace("\"", "")
-                            instance.fat = fat
-                        }
-                        binding.webviewMenu.evaluateJavascript("document.querySelector('.product_info_content .protein dd').innerText") { value ->
-                            val protein = value.replace("\"", "")
-                            instance.protein = protein
-                        }
-                        binding.webviewMenu.evaluateJavascript("document.querySelector('.product_info_content .sodium dd').innerText") { value ->
-                            val natrium = value.replace("\"", "")
-                            instance.natrium = natrium
-                        }
-                        binding.webviewMenu.evaluateJavascript("document.querySelector('.product_info_content .sugars dd').innerText") { value ->
-                            val sugar = value.replace("\"", "")
-                            instance.sugar = sugar
-                        }
-                        binding.webviewMenu.evaluateJavascript("document.querySelector('.caffeine last dl dd').innerText") { value ->
-                            val caffeine = value.replace("\"", "")
-                            instance.caffeine = caffeine
-                        }
-
-                        starbucksBevList.add(instance)
-
-                        // 크롤링이 끝나면 웹뷰를 닫고 다음 URL 로드
-                        loadNextUrl(iterator)
+    fun loadNextUrl(iterator: Iterator<String>, type: String, brand: String, imgSelector: String, nameSelector: String,
+                    allergySelector: String, weightSelector: String, kcalSelector: String, fatSelector: String,
+                    proteinSelector: String, natriumSelector: String, sugarSelector: String, caffeineSelector: String) {
+        if (iterator.hasNext()) {
+            val url = iterator.next()
+            instance = Menu(type = type, brand = brand)
+            binding.webviewMenu.loadUrl(url)
+            binding.webviewMenu.webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView, url: String) {
+                    super.onPageFinished(view, url)
+                    binding.webviewMenu.evaluateJavascript(imgSelector) { value ->
+                        val imgurl = value.replace("\"", "") // 쌍따옴표 제거
+                        instance.imgurl = imgurl
                     }
+                    binding.webviewMenu.evaluateJavascript(nameSelector) { value ->
+                        val name = value.replace("\"", "")
+                        instance.name = name
+                    }
+                    binding.webviewMenu.evaluateJavascript(allergySelector) { value ->
+                        var allergy = value.replace("\"", "")
+                        allergy = allergy.replace("알레르기 유발요인: ", "")
+                        instance.allergy = allergy
+                    }
+                    binding.webviewMenu.evaluateJavascript(weightSelector) { value ->
+                        val weight = value.replace("\"", "")
+                        instance.weight = weight
+                    }
+                    binding.webviewMenu.evaluateJavascript(kcalSelector) { value ->
+                        val kcal = value.replace("\"", "")
+                        instance.kcal = kcal
+                    }
+                    binding.webviewMenu.evaluateJavascript(fatSelector) { value ->
+                        val fat = value.replace("\"", "")
+                        instance.fat = fat
+                    }
+                    binding.webviewMenu.evaluateJavascript(proteinSelector) { value ->
+                        val protein = value.replace("\"", "")
+                        instance.protein = protein
+                    }
+                    binding.webviewMenu.evaluateJavascript(natriumSelector) { value ->
+                        val natrium = value.replace("\"", "")
+                        instance.natrium = natrium
+                    }
+                    binding.webviewMenu.evaluateJavascript(sugarSelector) { value ->
+                        val sugar = value.replace("\"", "")
+                        instance.sugar = sugar
+                    }
+                    binding.webviewMenu.evaluateJavascript(caffeineSelector) { value ->
+                        val caffeine = value.replace("\"", "")
+                        instance.caffeine = caffeine
+                    }
+                    starbucksBevList.add(instance)
+                    // 크롤링이 끝나면 웹뷰를 닫고 다음 URL 로드
+                    loadNextUrl(iterator, type, brand, imgSelector, nameSelector,
+                    allergySelector, weightSelector, kcalSelector, fatSelector,
+                    proteinSelector, natriumSelector, sugarSelector, caffeineSelector)
                 }
             }
         }
+    }
 
 
 }
