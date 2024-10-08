@@ -16,5 +16,6 @@ data class Menu(
     var protein: String = "", // 단백질
     var caffeine: String = "", // 카페인
     var nutrients: String = "", // 영양성분
-    var imgurl: String = "" // 이미지
+    var imgurl: String = "", // 이미지
+    var hotice: String = ""
 )
