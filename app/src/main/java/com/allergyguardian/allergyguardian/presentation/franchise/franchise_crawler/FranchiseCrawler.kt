@@ -1,4 +1,4 @@
-package com.allergyguardian.allergyguardian.presentation.franchise
+package com.allergyguardian.allergyguardian.presentation.franchise.franchise_crawler
 
 import java.lang.Exception
 

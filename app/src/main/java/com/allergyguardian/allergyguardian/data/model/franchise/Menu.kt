@@ -17,5 +17,6 @@ data class Menu(
     var caffeine: String = "", // 카페인
     var nutrients: String = "", // 영양성분
     var imgurl: String = "", // 이미지
-    var hotice: String = ""
+    var hotice: String = "", // 핫, 아이스
+    var url: String = "" // 출처 url
 )

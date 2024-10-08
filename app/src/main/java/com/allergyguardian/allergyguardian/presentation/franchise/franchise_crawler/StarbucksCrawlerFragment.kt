@@ -1,4 +1,4 @@
-package com.allergyguardian.allergyguardian.presentation.franchise
+package com.allergyguardian.allergyguardian.presentation.franchise.franchise_crawler
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,17 +11,14 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseCrawlerBinding
-import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseMenuBinding
+import com.allergyguardian.allergyguardian.databinding.FragmentStarbucksCrawlerBinding
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
-import com.allergyguardian.allergyguardian.presentation.PostViewModel
-import java.util.UUID
 
-class FranchiseCrawlerFragment : Fragment() {
+class StarbucksCrawlerFragment : Fragment() {
 
-    private var _binding: FragmentFranchiseCrawlerBinding? = null
+    private var _binding: FragmentStarbucksCrawlerBinding? = null
 
     private var instance = Menu()
     private val binding get() = _binding!!
@@ -39,7 +36,7 @@ class FranchiseCrawlerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFranchiseCrawlerBinding.inflate(inflater, container, false)
+        _binding = FragmentStarbucksCrawlerBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -75,107 +72,16 @@ class FranchiseCrawlerFragment : Fragment() {
             "document.querySelector('.product_info_content .protein dd).innerText",
             "document.querySelector('.product_info_content .sodium dd').innerText",
             "document.querySelector('.product_info_content .sugars dd').innerText",
-            "document.querySelector('.caffeine last dl dd').innerText",
-            ""
-            )
-    }
-
-    private fun twosomeHotBevCrawler(urls: List<String>) {
-        val iterator = urls.iterator()
-        loadNextUrl(
-            iterator,
-            "카페",
-            "투썸플레이스",
-            "document.querySelector('.swiper-slide').src",
-            "document.querySelector('.menu-detail-info-title dt').innerText",
-            "document.querySelector('.section-menu-goup .desc01 mt-10').innerText",
-            "document.querySelector('.selectTxt2 p b').innerText",
-            "document.querySelector('.product_info_content .kcal dd').innerText",
-            "document.querySelector('.product_info_content .sat_FAT dd').innerText",
-            "document.querySelector('.product_info_content .protein dd).innerText",
-            "document.querySelector('.product_info_content .sodium dd').innerText",
-            "document.querySelector('.product_info_content .sugars dd').innerText",
-            "document.querySelector('.caffeine last dl dd').innerText",
-            "" // hot, ice 여부에 따라 class의 active 여부가 바뀜 -> 어쩌지
+            "document.querySelector('.caffeine last dl dd').innerText"
         )
     }
 
-    // 지피티가 알려준 핫/아이스 구분하여 크롤링하는 방법. 시도 필요
-//    private fun loadNextUrl(iterator: Iterator<String>, type: String, brand: String, imgSelector: String, nameSelector: String,
-//                            allergySelector: String, weightSelector: String, kcalSelector: String, fatSelector: String,
-//                            proteinSelector: String, natriumSelector: String, sugarSelector: String, caffeineSelector: String,
-//                            hoticeSelector: String) {
-//        if (iterator.hasNext()) {
-//            val url = iterator.next()
-//            instance = Menu(type = type, brand = brand, hotice = "메뉴명 참고")
-//            binding.webviewMenu.loadUrl(url)
-//
-//            binding.webviewMenu.webViewClient = object : WebViewClient() {
-//                override fun onPageFinished(view: WebView, url: String) {
-//                    super.onPageFinished(view, url)
-//
-//                    // 탭 상태 확인
-//                    binding.webviewMenu.evaluateJavascript("document.querySelector('li.is-active a').innerText") { tabStatus ->
-//                        if (tabStatus.replace("\"", "") == "핫") {
-//                            // 핫 탭이 활성화된 경우 정보 크롤링
-//                            crawlHotInformation()
-//                        } else {
-//                            // 아이스 탭으로 전환 후 정보 크롤링
-//                            binding.webviewMenu.evaluateJavascript("document.querySelector('li.tab a[data-code=\"010I\"]').click()") {
-//                                // 클릭 후 아이스 정보 크롤링
-//                                crawlIceInformation()
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    private fun crawlHotInformation() {
-//        // 핫 정보 크롤링 코드
-//        binding.webviewMenu.evaluateJavascript("document.querySelector('.menu-detail-dl-wrap dd').innerText") { value ->
-//            val servingSize = value.replace("\"", "")
-//            instance.weight = servingSize // 325ml 크롤링
-//            // 추가 정보 크롤링
-//        }
-//    }
-//
-//    private fun crawlIceInformation() {
-//        // 아이스 정보 크롤링 코드
-//        binding.webviewMenu.evaluateJavascript("document.querySelector('.menu-detail-dl-wrap dd').innerText") { value ->
-//            val servingSize = value.replace("\"", "")
-//            instance.weight = servingSize // 아이스 정보 크롤링
-//            // 추가 정보 크롤링
-//        }
-//    }
-
-
-//    data class Menu(
-//        val id : String = UUID.randomUUID().toString(),
-//        var type: String = "", // 카페, 패스트푸드, 베이커리/도넛...
-//        var brand: String = "", // 브랜드
-//        var name: String = "", // 메뉴명
-//        var allergy: String = "", // 알러지유발성분
-//        var weight: String = "", // 중량
-//        var kcal: String = "", // 열량
-//        var natrium: String = "", // 나트륨
-//        var sugar: String = "", // 당류
-//        var fat: String = "", // 지방
-//        var protein: String = "", // 단백질
-//        var caffeine: String = "", // 카페인
-//        var nutrients: String = "", // 영양성분
-//        var imgurl: String = "", // 이미지
-//        val hotice: String = ""
-//    )
-
     fun loadNextUrl(iterator: Iterator<String>, type: String, brand: String, imgSelector: String, nameSelector: String,
                     allergySelector: String, weightSelector: String, kcalSelector: String, fatSelector: String,
-                    proteinSelector: String, natriumSelector: String, sugarSelector: String, caffeineSelector: String,
-                    hoticeSelector: String) {
+                    proteinSelector: String, natriumSelector: String, sugarSelector: String, caffeineSelector: String) {
         if (iterator.hasNext()) {
             val url = iterator.next()
-            instance = Menu(type = type, brand = brand, hotice = "메뉴명 참고")
+            instance = Menu(type = type, brand = brand, hotice = "메뉴명 참고", url = url)
             // 이름에 아이스 들어가있으면 ice로 인식하게? 예외사항 있는지 보기
             binding.webviewMenu.loadUrl(url)
             binding.webviewMenu.webViewClient = object : WebViewClient() {
@@ -221,15 +127,11 @@ class FranchiseCrawlerFragment : Fragment() {
                         val caffeine = value.replace("\"", "")
                         instance.caffeine = caffeine
                     }
-                    binding.webviewMenu.evaluateJavascript(hoticeSelector) { value ->
-                        val hotice = value.replace("\"", "")
-                        instance.hotice = hotice
-                    }
                     starbucksBevList.add(instance)
                     // 크롤링이 끝나면 웹뷰를 닫고 다음 URL 로드
                     loadNextUrl(iterator, type, brand, imgSelector, nameSelector,
-                    allergySelector, weightSelector, kcalSelector, fatSelector,
-                    proteinSelector, natriumSelector, sugarSelector, caffeineSelector, hoticeSelector)
+                        allergySelector, weightSelector, kcalSelector, fatSelector,
+                        proteinSelector, natriumSelector, sugarSelector, caffeineSelector)
                 }
             }
         }
