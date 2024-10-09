@@ -14,6 +14,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseCrawlerBinding
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
 
 class FranchiseCrawlerFragment : Fragment() {
 
@@ -25,7 +27,10 @@ class FranchiseCrawlerFragment : Fragment() {
     private var starbucksBevList: MutableList<Menu> = mutableListOf()
     private var twosomeList: MutableList<Menu> = mutableListOf()
     private var megacoffeeList: MutableList<Menu> = mutableListOf()
-    private var resultSize = 0
+
+    private var imgurlList = mutableListOf<String>()
+    private var nameList = mutableListOf<String>()
+    private var allergyList = mutableListOf<String>()
 
     private val franchiseViewModel: FranchiseViewModel by activityViewModels {
         viewModelFactory { initializer { FranchiseViewModel(requireActivity().application) } }
@@ -95,7 +100,7 @@ class FranchiseCrawlerFragment : Fragment() {
             "메가커피",
             "Array.from(document.querySelectorAll('.cont_gallery_list_img img')).map(img => img.src)", // 선택자는 이상없음
             "Array.from(document.querySelectorAll('.inner_modal .cont_text_box .cont_text_title b')).map(b => b.innerText)", // 선택자 작동함
-            "Array.from(document.querySelectorAll('.cont_text.cont_text_info')).map(el => el.innerText).join(', ');",
+            "Array.from(document.querySelectorAll('.cont_text.cont_text_info')).map(el => el.innerText)",
             megacoffeeList
         )
     }
@@ -133,30 +138,40 @@ class FranchiseCrawlerFragment : Fragment() {
                     allergySelector: String, menuList: MutableList<Menu>) {
         if (iterator.hasNext()) {
             val url = iterator.next()
-            instance = Menu(type = type, brand = brand, url = url)
             binding.webviewMenu.loadUrl(url)
             binding.webviewMenu.webViewClient = object : WebViewClient() {
                 override fun onPageFinished(view: WebView, url: String) {
                     super.onPageFinished(view, url)
-//                    binding.webviewMenu.evaluateJavascript(imgSelector) { value ->
-//                        resultSize = value.length
-//                    }
-//                    for (i in 0..resultSize-1) {
                         binding.webviewMenu.evaluateJavascript(imgSelector) { value ->
-                            val imgurl = value.replace("\"", "")
-                            instance.imgurl = imgurl
+                            val listType = object : TypeToken<List<String>>() {}.type
+                            val imageUrls: MutableList<String> = Gson().fromJson(value, listType)
+                            imgurlList = imageUrls
                         }
                         binding.webviewMenu.evaluateJavascript(nameSelector) { value ->
-                            val name = value.replace("\"", "")
-                            instance.name = name
+                            val listType = object : TypeToken<List<String>>() {}.type
+                            val names: MutableList<String> = Gson().fromJson(value, listType)
+                            nameList = names
                         }
                         binding.webviewMenu.evaluateJavascript(allergySelector) { value ->
-                            val allergy = value.replace("\"", "")
-                            instance.allergy = allergy
+                            val listType = object : TypeToken<List<String>>() {}.type
+                            var allergies: MutableList<String> = Gson().fromJson(value, listType)
+                            allergies = allergies.filter { it.contains("알레르기") }.toMutableList()
+                            val allergiesSize = allergies.size
+                            for (i in 0..allergiesSize-1) {
+                                allergies[i] = allergies[i].replace("\n", "")
+                                allergies[i] = allergies[i].replace("\t", "")
+                            }
+                            allergyList = allergies
                         }
-                        menuList.add(instance)
-//                    }
-                    // 크롤링이 끝나면 웹뷰를 닫고 다음 URL 로드
+                        for (i in 0..nameList.size-1) {
+                            menuList.add(
+                                Menu(
+                                    imgurl = imgurlList[i],
+                                    name = nameList[i],
+                                    allergy = allergyList[i]
+                                )
+                            )
+                        }
                     loadNextUrl2(iterator, type, brand, imgSelector, nameSelector, allergySelector, menuList)
                 }
             }
