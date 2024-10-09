@@ -518,4 +518,9 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=61701961", // 스낵 11개
     )
 
+    val megacoffeeUrls = listOf(
+        "https://www.mega-mgccoffee.com/menu/?menu_category1=1&menu_category2=1",
+        "https://www.mega-mgccoffee.com/menu/?menu_category1=2&menu_category2=2"
+    )
+
 }

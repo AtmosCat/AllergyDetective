@@ -24,6 +24,8 @@ class FranchiseCrawlerFragment : Fragment() {
 
     private var starbucksBevList: MutableList<Menu> = mutableListOf()
     private var twosomeList: MutableList<Menu> = mutableListOf()
+    private var megacoffeeList: MutableList<Menu> = mutableListOf()
+    private var resultSize = 0
 
     private val franchiseViewModel: FranchiseViewModel by activityViewModels {
         viewModelFactory { initializer { FranchiseViewModel(requireActivity().application) } }
@@ -50,7 +52,8 @@ class FranchiseCrawlerFragment : Fragment() {
         binding.webviewMenu.webChromeClient = WebChromeClient()
 
 //        starbucksBevCrawler(franchiseViewModel.starbucksBeverageUrls)
-        twosomeCrawler(franchiseViewModel.twosomeUrls)
+//        twosomeCrawler(franchiseViewModel.twosomeUrls)
+        megacoffeeCrawler(franchiseViewModel.megacoffeeUrls)
     }
 
     override fun onDestroyView() {
@@ -84,6 +87,19 @@ class FranchiseCrawlerFragment : Fragment() {
         )
     }
 
+    private fun megacoffeeCrawler(urls: List<String>) {
+        val iterator = urls.iterator()
+        loadNextUrl2(
+            iterator,
+            "카페",
+            "메가커피",
+            "Array.from(document.querySelectorAll('.cont_gallery_list_img img')).map(img => img.src)", // 선택자는 이상없음
+            "Array.from(document.querySelectorAll('.inner_modal .cont_text_box .cont_text_title b')).map(b => b.innerText)", // 선택자 작동함
+            "Array.from(document.querySelectorAll('.cont_text.cont_text_info')).map(el => el.innerText).join(', ');",
+            megacoffeeList
+        )
+    }
+
     fun loadNextUrl(iterator: Iterator<String>, type: String, brand: String, imgSelector: String, nameSelector: String,
                     allergySelector: String, menuList: MutableList<Menu>) {
         if (iterator.hasNext()) {
@@ -94,7 +110,7 @@ class FranchiseCrawlerFragment : Fragment() {
                 override fun onPageFinished(view: WebView, url: String) {
                     super.onPageFinished(view, url)
                     binding.webviewMenu.evaluateJavascript(imgSelector) { value ->
-                        val imgurl = value.replace("\"", "") // 쌍따옴표 제거
+                        val imgurl = value.replace("\"", "")
                         instance.imgurl = imgurl
                     }
                     binding.webviewMenu.evaluateJavascript(nameSelector) { value ->
@@ -108,6 +124,40 @@ class FranchiseCrawlerFragment : Fragment() {
                     menuList.add(instance)
                     // 크롤링이 끝나면 웹뷰를 닫고 다음 URL 로드
                     loadNextUrl(iterator, type, brand, imgSelector, nameSelector, allergySelector, menuList)
+                }
+            }
+        }
+    }
+
+    fun loadNextUrl2(iterator: Iterator<String>, type: String, brand: String, imgSelector: String, nameSelector: String,
+                    allergySelector: String, menuList: MutableList<Menu>) {
+        if (iterator.hasNext()) {
+            val url = iterator.next()
+            instance = Menu(type = type, brand = brand, url = url)
+            binding.webviewMenu.loadUrl(url)
+            binding.webviewMenu.webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView, url: String) {
+                    super.onPageFinished(view, url)
+//                    binding.webviewMenu.evaluateJavascript(imgSelector) { value ->
+//                        resultSize = value.length
+//                    }
+//                    for (i in 0..resultSize-1) {
+                        binding.webviewMenu.evaluateJavascript(imgSelector) { value ->
+                            val imgurl = value.replace("\"", "")
+                            instance.imgurl = imgurl
+                        }
+                        binding.webviewMenu.evaluateJavascript(nameSelector) { value ->
+                            val name = value.replace("\"", "")
+                            instance.name = name
+                        }
+                        binding.webviewMenu.evaluateJavascript(allergySelector) { value ->
+                            val allergy = value.replace("\"", "")
+                            instance.allergy = allergy
+                        }
+                        menuList.add(instance)
+//                    }
+                    // 크롤링이 끝나면 웹뷰를 닫고 다음 URL 로드
+                    loadNextUrl2(iterator, type, brand, imgSelector, nameSelector, allergySelector, menuList)
                 }
             }
         }
