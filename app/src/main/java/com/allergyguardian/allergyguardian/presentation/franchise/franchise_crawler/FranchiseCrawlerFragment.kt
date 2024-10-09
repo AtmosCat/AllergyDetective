@@ -27,6 +27,7 @@ class FranchiseCrawlerFragment : Fragment() {
     private var starbucksBevList: MutableList<Menu> = mutableListOf()
     private var twosomeList: MutableList<Menu> = mutableListOf()
     private var megacoffeeBevList: MutableList<Menu> = mutableListOf()
+    private var megacoffeeFoodList: MutableList<Menu> = mutableListOf()
 
     private var imgurlList = mutableListOf<String>()
     private var nameList = mutableListOf<String>()
@@ -58,7 +59,8 @@ class FranchiseCrawlerFragment : Fragment() {
 
 //        starbucksBevCrawler(franchiseViewModel.starbucksBeverageUrls)
 //        twosomeCrawler(franchiseViewModel.twosomeUrls)
-        megacoffeeBevCrawler(franchiseViewModel.megacoffeeUrls, 4)
+//        megacoffeeBevCrawler(4)
+//        megacoffeeFoodCrawler(2)
     }
 
     override fun onDestroyView() {
@@ -92,7 +94,7 @@ class FranchiseCrawlerFragment : Fragment() {
         )
     }
 
-    private fun megacoffeeBevCrawler(urls: List<String>, totalPages: Int) {
+    private fun megacoffeeBevCrawler(totalPages: Int) {
         val iterator = (1..totalPages).iterator()
         loadNextUrl2(
             iterator,
@@ -104,6 +106,20 @@ class FranchiseCrawlerFragment : Fragment() {
             megacoffeeBevList,
             totalPages,
             "https://www.mega-mgccoffee.com/menu/?menu_category1=1&menu_category2=1"
+        )
+    }
+    private fun megacoffeeFoodCrawler(totalPages: Int) {
+        val iterator = (1..totalPages).iterator()
+        loadNextUrl2(
+            iterator,
+            "카페",
+            "메가커피",
+            "Array.from(document.querySelectorAll('.cont_gallery_list_img img')).map(img => img.src)", // 선택자는 이상없음
+            "Array.from(document.querySelectorAll('.inner_modal .cont_text_box .cont_text_title b')).map(b => b.innerText)", // 선택자 작동함
+            "Array.from(document.querySelectorAll('.cont_text.cont_text_info')).map(el => el.innerText)",
+            megacoffeeFoodList,
+            totalPages,
+            "https://www.mega-mgccoffee.com/menu/?menu_category1=2&menu_category2=2"
         )
     }
 
