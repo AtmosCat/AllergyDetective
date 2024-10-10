@@ -28,6 +28,7 @@ class FranchiseCrawlerFragment : Fragment() {
     private var twosomeList: MutableList<Menu> = mutableListOf()
     private var megacoffeeBevList: MutableList<Menu> = mutableListOf()
     private var megacoffeeFoodList: MutableList<Menu> = mutableListOf()
+    private var ediyacoffeeList: MutableList<Menu> = mutableListOf()
 
     private var imgurlList = mutableListOf<String>()
     private var nameList = mutableListOf<String>()
@@ -61,6 +62,7 @@ class FranchiseCrawlerFragment : Fragment() {
 //        twosomeCrawler(franchiseViewModel.twosomeUrls)
 //        megacoffeeBevCrawler(4)
 //        megacoffeeFoodCrawler(2)
+        ediyacoffeeCrawler()
     }
 
     override fun onDestroyView() {
@@ -114,12 +116,26 @@ class FranchiseCrawlerFragment : Fragment() {
             iterator,
             "카페",
             "메가커피",
-            "Array.from(document.querySelectorAll('.cont_gallery_list_img img')).map(img => img.src)", // 선택자는 이상없음
-            "Array.from(document.querySelectorAll('.inner_modal .cont_text_box .cont_text_title b')).map(b => b.innerText)", // 선택자 작동함
+            "Array.from(document.querySelectorAll('.cont_gallery_list_img img')).map(img => img.src)",
+            "Array.from(document.querySelectorAll('.inner_modal .cont_text_box .cont_text_title b')).map(b => b.innerText)",
             "Array.from(document.querySelectorAll('.cont_text.cont_text_info')).map(el => el.innerText)",
             megacoffeeFoodList,
             totalPages,
             "https://www.mega-mgccoffee.com/menu/?menu_category1=2&menu_category2=2"
+        )
+    }
+
+    private fun ediyacoffeeCrawler() {
+        // 초기 URL 로드
+        binding.webviewMenu.loadUrl("https://www.ediya.com/contents/drink.html?chked_val=&skeyword=#blockcate")
+        loadNextEdiyaUrl(
+            "카페",
+            "이디야커피",
+            "Array.from(document.querySelectorAll('a[href=\"#c\"]')).map(img => img.src)",
+            "Array.from(document.querySelectorAll('.menu_tt a[href=\"#c\"] span')).map(b => b.innerText)",
+            "Array.from(document.querySelectorAll('.pro_detail.pro_comp.pro_allergy')).map(el => el.innerText)",
+            ediyacoffeeList,
+            "https://www.ediya.com/contents/drink.html?chked_val=&skeyword=#blockcate"
         )
     }
 
@@ -204,6 +220,62 @@ class FranchiseCrawlerFragment : Fragment() {
             binding.webviewMenu.loadUrl(url)
         }
     }
+
+    fun loadNextEdiyaUrl(type: String, brand: String, imgSelector: String, nameSelector: String,
+                          allergySelector: String, menuList: MutableList<Menu>, url: String) {
+
+        binding.webviewMenu.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView, url: String) {
+                super.onPageFinished(view, url)
+                // "더보기" 버튼 존재 여부 확인
+                binding.webviewMenu.evaluateJavascript("document.querySelector('.line_btn') !== null") { exists ->
+                    if (exists == "true") {
+                        // 버튼이 존재하면 클릭
+                        binding.webviewMenu.evaluateJavascript("document.querySelector('.line_btn').click()") { result ->
+                            // 클릭 후 약간의 지연 후 다시 호출
+                            binding.webviewMenu.postDelayed({
+                                // 현재 페이지의 상태를 유지하고 다시 호출
+                                loadNextEdiyaUrl(type, brand, imgSelector, nameSelector, allergySelector, menuList, url)
+                            }, 2000) // 로딩 시간을 고려한 지연
+                        }
+                    } else {
+                        // 모든 메뉴가 로드된 후 크롤링 시작
+                        binding.webviewMenu.postDelayed({
+                            // 크롤링할 데이터 평가
+                            binding.webviewMenu.evaluateJavascript(imgSelector) { value ->
+                                val listType = object : TypeToken<List<String>>() {}.type
+                                val imageUrls: MutableList<String> = Gson().fromJson(value, listType)
+                                imgurlList = imageUrls
+                            }
+                            binding.webviewMenu.evaluateJavascript(nameSelector) { value ->
+                                val listType = object : TypeToken<List<String>>() {}.type
+                                val names: MutableList<String> = Gson().fromJson(value, listType)
+                                nameList = names
+                            }
+                            binding.webviewMenu.evaluateJavascript(allergySelector) { value ->
+                                val listType = object : TypeToken<List<String>>() {}.type
+                                var allergies: MutableList<String> = Gson().fromJson(value, listType)
+                                allergies = allergies.filter { it.contains("알레르기") }.map { it.trim() }.toMutableList()
+                                allergyList = allergies
+                            }
+                            // 모든 데이터를 menuList에 추가
+                            for (i in nameList.indices) {
+                                menuList.add(
+                                    Menu(
+                                        imgurl = imgurlList.getOrNull(i) ?: "",
+                                        name = nameList.getOrNull(i) ?: "",
+                                        allergy = allergyList.getOrNull(i) ?: ""
+                                    )
+                                )
+                            }
+                            // 추가적인 처리(예: UI 업데이트 등) 필요 시 추가
+                        }, 1000)
+                    }
+                }
+            }
+        }
+    }
+
 
 
 }
