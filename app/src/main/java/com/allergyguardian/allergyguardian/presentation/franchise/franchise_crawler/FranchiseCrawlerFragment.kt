@@ -62,7 +62,7 @@ class FranchiseCrawlerFragment : Fragment() {
 //        twosomeCrawler(franchiseViewModel.twosomeUrls)
 //        megacoffeeBevCrawler(4)
 //        megacoffeeFoodCrawler(2)
-        ediyacoffeeCrawler()
+//        ediyacoffeeCrawler()
     }
 
     override fun onDestroyView() {
@@ -229,7 +229,7 @@ class FranchiseCrawlerFragment : Fragment() {
                 super.onPageFinished(view, url)
                 // "더보기" 버튼 존재 여부 확인
                 binding.webviewMenu.evaluateJavascript("document.querySelector('.line_btn') !== null") { exists ->
-                    if (exists == "true") {
+                    if (exists == "true") { 
                         // 버튼이 존재하면 클릭
                         binding.webviewMenu.evaluateJavascript("document.querySelector('.line_btn').click()") { result ->
                             // 클릭 후 약간의 지연 후 다시 호출
@@ -241,7 +241,6 @@ class FranchiseCrawlerFragment : Fragment() {
                     } else {
                         // 모든 메뉴가 로드된 후 크롤링 시작
                         binding.webviewMenu.postDelayed({
-                            // 크롤링할 데이터 평가
                             binding.webviewMenu.evaluateJavascript(imgSelector) { value ->
                                 val listType = object : TypeToken<List<String>>() {}.type
                                 val imageUrls: MutableList<String> = Gson().fromJson(value, listType)

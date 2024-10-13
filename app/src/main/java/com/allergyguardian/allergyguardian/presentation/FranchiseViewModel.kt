@@ -1,11 +1,21 @@
 package com.allergyguardian.allergyguardian.presentation
 
 import android.app.Application
+import android.content.ContentValues
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.allergyguardian.allergyguardian.data.model.franchise.Menu
+import com.allergyguardian.allergyguardian.data.model.user.Post
 import com.allergyguardian.allergyguardian.presentation.base.UiState
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import retrofit2.HttpException
+import java.io.IOException
 
 class FranchiseViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -14,12 +24,55 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
     private val _uiState: MutableLiveData<UiState<Any>> = MutableLiveData()
     val uiState: LiveData<UiState<Any>> = _uiState
 
+    private val _allMenus = MutableLiveData<List<Menu>>()
+    val allMenus : LiveData<List<Menu>> get() = _allMenus
 
+    fun getAllMenus() {
+        db.collection("menu")
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Log.e(ContentValues.TAG, "getAllMenus() failed! : ${exception.message}")
+                    handleException(exception)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null) {
+                    val menus = mutableListOf<Menu>()
+                    for (document in snapshot.documents) {
+                        val menu = document.toObject(Menu::class.java)?.copy(id = document.id)
+                        menu?.let { menus.add(it) }
+                    }
+                    _allMenus.value = menus
+                } else {
+                }
+            }
+    }
 
+    fun updateMenu(menu: Menu) {
+        viewModelScope.launch {
+            runCatching {
+                val newMenu = menu
+                db.collection("menu")
+                    .document(newMenu.brand + "_" + newMenu.name)
+                    .set(newMenu)
+                    .await()
+            }.onFailure {
+                Log.e(ContentValues.TAG, "updateMenu() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
 
+    private fun handleException(e: Throwable) {
+        when (e) {
+            is HttpException -> {
+                val errorJsonString = e.response()?.errorBody()?.string()
+                Log.e(ContentValues.TAG, "HTTP error: $errorJsonString")
+            }
 
-
-
+            is IOException -> Log.e(ContentValues.TAG, "Network error: $e")
+            else -> Log.e(ContentValues.TAG, "Unexpected error: $e")
+        }
+    }
 
 
 
