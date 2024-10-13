@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -17,10 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.franchise.CoffeeBeverage
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseHomeBinding
+import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
 import com.allergyguardian.allergyguardian.presentation.base.UiState
 import com.allergyguardian.allergyguardian.presentation.community.community_home.CommunityHomeFragment
+import com.allergyguardian.allergyguardian.presentation.community.postdetail.PostDetailFragment
+import com.allergyguardian.allergyguardian.presentation.community.postlist.PostListAdapter
 import com.allergyguardian.allergyguardian.presentation.filter.FilterFragment
+import com.allergyguardian.allergyguardian.presentation.franchise.franchise_category.FranchiseCategoryFragment
 import com.allergyguardian.allergyguardian.presentation.home.HomeAdapter
 import com.allergyguardian.allergyguardian.presentation.home.MyPageFragment
 import com.allergyguardian.allergyguardian.presentation.itemlist.ItemListFragment
@@ -32,10 +37,28 @@ class FranchiseHomeFragment : Fragment() {
 
     private var _binding: FragmentFranchiseHomeBinding? = null
 
+    private val categoryList = mutableListOf("카페", "패스트푸드", "베이커리/도넛", "아이스크림",
+        "치킨", "피자", "샌드위치", "전체")
+
+    private val categoryButtonList = mutableListOf(
+        binding.btnCoffee,
+        binding.btnFastfood,
+        binding.btnBreadDoughnut,
+        binding.btnIcecream,
+        binding.btnChicken,
+        binding.btnPizza,
+        binding.btnSandwich,
+        binding.btnAll
+    )
+
     private val binding get() = _binding!!
 
     private val userViewModel: UserViewModel by activityViewModels {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
+    }
+
+    private val franchiseViewModel: FranchiseViewModel by activityViewModels {
+        viewModelFactory { initializer { FranchiseViewModel(requireActivity().application) } }
     }
 
     private val franchiseHomeAdapter by lazy { FranchiseHomeAdapter() }
@@ -57,6 +80,20 @@ class FranchiseHomeFragment : Fragment() {
 
         binding.recyclerviewFranchiseHome.adapter = franchiseHomeAdapter
         binding.recyclerviewFranchiseHome.layoutManager = LinearLayoutManager(requireContext())
+
+        categoryButtonList.forEach { it ->
+            it.setOnClickListener{
+                val index = categoryButtonList.indexOf(it)
+                val dataToSend = categoryList[index]
+                val franchiseCategoryFragment = FranchiseCategoryFragment.newInstance(dataToSend)
+                requireActivity().supportFragmentManager.beginTransaction().apply {
+                    hide(this@FranchiseHomeFragment)
+                    show(franchiseCategoryFragment)
+                    addToBackStack(null)
+                    commit()
+                }
+            }
+        }
 
 
 //
@@ -122,4 +159,9 @@ class FranchiseHomeFragment : Fragment() {
 //            }
 //        }
     }
+
+    private fun categoryClicker(button: Button){
+
+    }
+
 }

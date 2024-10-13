@@ -9,15 +9,16 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.allergyguardian.allergyguardian.databinding.RecyclerviewBrandsBinding
 class BrandAdapter :
-    ListAdapter<MutableList<String>, BrandAdapter.ViewHolder>(object :
-        DiffUtil.ItemCallback<MutableList<String>>() {
-        override fun areItemsTheSame(oldItem: MutableList<String>, newItem: MutableList<String>): Boolean {
+    ListAdapter<String, BrandAdapter.ViewHolder>(object :
+        DiffUtil.ItemCallback<String>() {
+        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: MutableList<String>, newItem: MutableList<String>): Boolean {
-            return true
+        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+            TODO("Not yet implemented")
         }
+
     }) {
 
     interface ItemClick {
@@ -47,8 +48,8 @@ class BrandAdapter :
         RecyclerView.ViewHolder(binding.root) {
         var brand = binding.tvBrand
 
-        fun bind(items: MutableList<String>) {
-            brand.text = items[position]
+        fun bind(item: String) {
+            brand.text = item
         }
     }
 }

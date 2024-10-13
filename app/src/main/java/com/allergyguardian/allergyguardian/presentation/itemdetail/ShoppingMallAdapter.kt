@@ -29,28 +29,7 @@ class ShoppingMallAdapter(private val items: List<Market>?)
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-//        if (items?.get(position)?.mallName.toString() == "네이버") {
-//            holder.ivMarketLogo.setImageResource(R.drawable.naver)
-//        } else if (items?.get(position)?.mallName.toString() == "G마켓") {
-//            holder.ivMarketLogo.setImageResource(R.drawable.gmarket)
-//        } else if (items?.get(position)?.mallName.toString() == "쿠팡") {
-//            holder.ivMarketLogo.setImageResource(R.drawable.coupang)
-//        } else if (items?.get(position)?.mallName.toString() == "옥션") {
-//            holder.ivMarketLogo.setImageResource(R.drawable.auction)
-//        } else if (items?.get(position)?.mallName.toString() == "11번가") {
-//            holder.ivMarketLogo.setImageResource(R.drawable.eleven_st)
-//        } else if (items?.get(position)?.mallName.toString() == "이마트몰") {
-//            holder.ivMarketLogo.setImageResource(R.drawable.emart)
-//        } else if (items?.get(position)?.mallName.toString() == "롯데온") {
-//            holder.ivMarketLogo.setImageResource(R.drawable.lotteon)
-//        } else if (items?.get(position)?.mallName.toString() == "홈플러스") {
-//            holder.ivMarketLogo.setImageResource(R.drawable.homeplus)
-//        } else if (items?.get(position)?.mallName.toString().contains("SSG")) {
-//            holder.ivMarketLogo.setImageResource(R.drawable.ssgcom)
-//        } else {
-            holder.ivMarketLogo.setImageResource(R.drawable.market)
-//        }
-
+        holder.ivMarketLogo.setImageResource(R.drawable.market)
         holder.tvMarketName.text = items?.get(position)?.mallName.toString()
 
         var edittedPrice = ""

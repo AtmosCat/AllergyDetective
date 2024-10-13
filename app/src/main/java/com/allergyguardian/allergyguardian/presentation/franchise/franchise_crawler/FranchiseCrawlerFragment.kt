@@ -37,6 +37,7 @@ class FranchiseCrawlerFragment : Fragment() {
     private val franchiseViewModel: FranchiseViewModel by activityViewModels {
         viewModelFactory { initializer { FranchiseViewModel(requireActivity().application) } }
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

@@ -12,12 +12,34 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseCategoryBinding
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseHomeBinding
+import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
+import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.ARG_PARAM1
+import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.FranchiseDetailFragment
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_home.FranchiseHomeAdapter
+
+const val ARG_PARAM1 = "param1"
 
 class FranchiseCategoryFragment : Fragment() {
 
+    private var param1: String? = null
     private var _binding: FragmentFranchiseCategoryBinding? = null
+
+    private val categoryList = mutableListOf("카페", "패스트푸드", "베이커리/도넛", "아이스크림",
+        "치킨", "피자", "샌드위치", "전체")
+
+    private val cafeBrandList = mutableListOf("스타벅스", "투썸플레이스", "메가커피")
+    private val fastfoodBrandList = mutableListOf("맥도날드", "롯데리아", "버거킹")
+    private val bakeryDoughnutBrandList = mutableListOf("파리바게트", "뚜레쥬르", "던킨도너츠")
+    private val icecreamBrandList = mutableListOf("배스킨라빈스", "설빙", "하겐다즈")
+    private val chickenBrandList = mutableListOf("BBQ", "BHC", "교촌")
+    private val pizzaBrandList = mutableListOf("도미노피자", "피자헛", "미스터피자")
+    private val sandwichBrandList = mutableListOf("써브웨이", "이삭토스트")
+    private val allBrandList = cafeBrandList+fastfoodBrandList+bakeryDoughnutBrandList+icecreamBrandList+chickenBrandList+pizzaBrandList+sandwichBrandList
+
+    private val categoryListList = mutableListOf(
+        cafeBrandList,fastfoodBrandList, bakeryDoughnutBrandList, icecreamBrandList, chickenBrandList, pizzaBrandList, sandwichBrandList, allBrandList
+    )
 
     private val binding get() = _binding!!
 
@@ -25,11 +47,18 @@ class FranchiseCategoryFragment : Fragment() {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
 
+    private val franchiseViewModel: FranchiseViewModel by activityViewModels {
+        viewModelFactory { initializer { FranchiseViewModel(requireActivity().application) } }
+    }
+
     private val brandAdapter by lazy { BrandAdapter() }
     private val menuAdapter by lazy { MenuAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+        }
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,14 +68,30 @@ class FranchiseCategoryFragment : Fragment() {
         return binding.root
     }
 
+    companion object {
+        fun newInstance(param1: String) = FranchiseDetailFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_PARAM1, param1)
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val categoryName = param1
 
         binding.recyclerviewFranchises.adapter = brandAdapter
         binding.recyclerviewFranchises.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         binding.recyclerviewMenus.adapter = menuAdapter
         binding.recyclerviewMenus.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.tvCategoryTitle.text = categoryName
+
+        val index = categoryList.indexOf(categoryName)
+        brandAdapter.submitList(categoryListList[index])
+
 
 
 //        val itemListFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemListFragment")
