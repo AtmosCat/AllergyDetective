@@ -54,7 +54,6 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
                 db.collection("menu")
                     .document(newMenu.brand + "_" + newMenu.name)
                     .set(newMenu)
-                    .await()
             }.onFailure {
                 Log.e(ContentValues.TAG, "updateMenu() failed! : ${it.message}")
                 handleException(it)
@@ -481,7 +480,27 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702107",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702146",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701891",
-        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701799", // 홀케이크 20개
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701799",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701812",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701802",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702239",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702154",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702195",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701971",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701747",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701801",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702097",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701889",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701769",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702236",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701705",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702212",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702241",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701736",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701758",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702001",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701703",
+        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701785" // 홀케이크 40개
     )
 
     val twosomeFoodUrls = listOf(
@@ -540,7 +559,7 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=41301878",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=41391034",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=41901976", // 샐러드기타 5개
-        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=61791029",
+//        "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=61791029", 예외 정보 뺌
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=61791028",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=61791027",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=61791026",

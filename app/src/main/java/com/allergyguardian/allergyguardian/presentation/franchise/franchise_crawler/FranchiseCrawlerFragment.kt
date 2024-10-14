@@ -25,7 +25,9 @@ class FranchiseCrawlerFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var starbucksBevList: MutableList<Menu> = mutableListOf()
-    private var twosomeList: MutableList<Menu> = mutableListOf()
+    private var twosomeBevList: MutableList<Menu> = mutableListOf()
+    private var twosomeWholeCakeList: MutableList<Menu> = mutableListOf()
+    private var twosomeFoodList: MutableList<Menu> = mutableListOf()
     private var megacoffeeBevList: MutableList<Menu> = mutableListOf()
     private var megacoffeeFoodList: MutableList<Menu> = mutableListOf()
     private var ediyacoffeeList: MutableList<Menu> = mutableListOf()
@@ -95,7 +97,7 @@ class FranchiseCrawlerFragment : Fragment() {
             "document.querySelector('.swiper-slide img').src",
             "document.querySelector('.menu-detail-info-title dt').innerText",
             "document.querySelector('.section-menu-goup p').innerText",
-            twosomeList
+            twosomeBevList
         )
     }
 
@@ -108,7 +110,7 @@ class FranchiseCrawlerFragment : Fragment() {
             "document.querySelector('.swiper-slide img').src",
             "document.querySelector('.menu-detail-info-title dt').innerText",
             "document.querySelector('.info_allergy p').innerText",
-            twosomeList
+            twosomeWholeCakeList
         )
     }
 
@@ -121,7 +123,7 @@ class FranchiseCrawlerFragment : Fragment() {
             "document.querySelector('.swiper-slide img').src",
             "document.querySelector('.menu-detail-info-title dt').innerText",
             "Array.from(document.querySelectorAll('.section-menu-goup p')).map(el => el.innerText)",
-            twosomeList
+            twosomeFoodList
         )
     }
 
@@ -190,13 +192,12 @@ class FranchiseCrawlerFragment : Fragment() {
                         instance.allergy = allergy
                     }
                     menuList.add(instance)
-                    // 크롤링이 끝나면 웹뷰를 닫고 다음 URL 로드
                     loadNextUrl(iterator, type, brand, imgSelector, nameSelector, allergySelector, menuList)
                 }
             }
         }
-        menuList.forEach { it ->
-//            franchiseViewModel.updateMenu(it)
+        menuList.forEach {
+            franchiseViewModel.updateMenu(it)
         }
     }
 
@@ -229,7 +230,13 @@ class FranchiseCrawlerFragment : Fragment() {
                         val listType = object : TypeToken<List<String>>() {}.type
                         var allergies: MutableList<String> =
                             Gson().fromJson(value, listType)
-                        instance.allergy = allergies[1]
+                        if (allergies.size > 1) {
+                            instance.allergy = allergies[1]
+                        } else if (allergies.size == 1) {
+                            instance.allergy = allergies[0]
+                        } else {
+                            instance.allergy = "정보 없음"
+                        }
                     }
                     menuList.add(instance)
                     // 크롤링이 끝나면 웹뷰를 닫고 다음 URL 로드
@@ -237,8 +244,8 @@ class FranchiseCrawlerFragment : Fragment() {
                 }
             }
         }
-        menuList.forEach { it ->
-//            franchiseViewModel.updateMenu(it)
+        menuList.forEach {
+            franchiseViewModel.updateMenu(it)
         }
     }
 
