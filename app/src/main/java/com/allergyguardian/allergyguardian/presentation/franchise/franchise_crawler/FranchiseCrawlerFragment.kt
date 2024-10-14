@@ -60,7 +60,9 @@ class FranchiseCrawlerFragment : Fragment() {
         binding.webviewMenu.webChromeClient = WebChromeClient()
 
 //        starbucksBevCrawler(franchiseViewModel.starbucksBeverageUrls)
-        twosomeCrawler(franchiseViewModel.twosomeUrls)
+//        twosomeBevCrawler(franchiseViewModel.twosomeBevUrls)
+//        twosomeWholeCakeCrawler(franchiseViewModel.twosomeWholeCakeUrls)
+        twosomeFoodCrawler(franchiseViewModel.twosomeFoodUrls)
 //        megacoffeeBevCrawler(4)
 //        megacoffeeFoodCrawler(2)
 //        ediyacoffeeCrawler()
@@ -84,7 +86,7 @@ class FranchiseCrawlerFragment : Fragment() {
             )
     }
 
-    private fun twosomeCrawler(urls: List<String>) {
+    private fun twosomeBevCrawler(urls: List<String>) {
         val iterator = urls.iterator()
         loadNextUrl(
             iterator,
@@ -93,6 +95,32 @@ class FranchiseCrawlerFragment : Fragment() {
             "document.querySelector('.swiper-slide img').src",
             "document.querySelector('.menu-detail-info-title dt').innerText",
             "document.querySelector('.section-menu-goup p').innerText",
+            twosomeList
+        )
+    }
+
+    private fun twosomeWholeCakeCrawler(urls: List<String>) {
+        val iterator = urls.iterator()
+        loadNextUrl(
+            iterator,
+            "카페",
+            "투썸플레이스",
+            "document.querySelector('.swiper-slide img').src",
+            "document.querySelector('.menu-detail-info-title dt').innerText",
+            "document.querySelector('.info_allergy p').innerText",
+            twosomeList
+        )
+    }
+
+    private fun twosomeFoodCrawler(urls: List<String>) {
+        val iterator = urls.iterator()
+        loadNextTwosomeFoodUrl(
+            iterator,
+            "카페",
+            "투썸플레이스",
+            "document.querySelector('.swiper-slide img').src",
+            "document.querySelector('.menu-detail-info-title dt').innerText",
+            "Array.from(document.querySelectorAll('.section-menu-goup p')).map(el => el.innerText)",
             twosomeList
         )
     }
@@ -168,9 +196,52 @@ class FranchiseCrawlerFragment : Fragment() {
             }
         }
         menuList.forEach { it ->
-            franchiseViewModel.updateMenu(it)
+//            franchiseViewModel.updateMenu(it)
         }
     }
+
+    fun loadNextTwosomeFoodUrl(iterator: Iterator<String>, type: String, brand: String, imgSelector: String, nameSelector: String,
+                    allergySelector: String, menuList: MutableList<Menu>) {
+        if (iterator.hasNext()) {
+            val url = iterator.next()
+            instance = Menu(type = type, brand = brand, url = url)
+            binding.webviewMenu.loadUrl(url)
+            binding.webviewMenu.webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView, url: String) {
+                    super.onPageFinished(view, url)
+                    binding.webviewMenu.evaluateJavascript(imgSelector) { value ->
+                        val imgurl = value.replace("\"", "")
+                        instance.imgurl = imgurl
+                    }
+                    binding.webviewMenu.evaluateJavascript(nameSelector) { value ->
+                        val name = value.replace("\"", "")
+                        instance.name = name
+                    }
+//                    binding.webviewMenu.evaluateJavascript(allergySelector) { value ->
+//                        val allergies = value.replace("\"", "").split("\n") // 줄 바꿈으로 나누기
+//                        if (allergies.size > 1) {
+//                            instance.allergy = allergies[1].trim() // 두 번째 값 추출
+//                        } else {
+//                            instance.allergy = "" // 두 번째 값이 없으면 빈 문자열
+//                        }
+//                    }
+                    binding.webviewMenu.evaluateJavascript(allergySelector) { value ->
+                        val listType = object : TypeToken<List<String>>() {}.type
+                        var allergies: MutableList<String> =
+                            Gson().fromJson(value, listType)
+                        instance.allergy = allergies[1]
+                    }
+                    menuList.add(instance)
+                    // 크롤링이 끝나면 웹뷰를 닫고 다음 URL 로드
+                    loadNextTwosomeFoodUrl(iterator, type, brand, imgSelector, nameSelector, allergySelector, menuList)
+                }
+            }
+        }
+        menuList.forEach { it ->
+//            franchiseViewModel.updateMenu(it)
+        }
+    }
+
 
     fun loadNextUrl2(iterator: Iterator<Int>, type: String, brand: String, imgSelector: String, nameSelector: String,
                     allergySelector: String, menuList: MutableList<Menu>, totalPages: Int, url: String) {

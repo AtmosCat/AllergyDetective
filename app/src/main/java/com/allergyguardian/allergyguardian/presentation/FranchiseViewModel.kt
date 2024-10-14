@@ -391,7 +391,7 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
         "https://www.starbucks.co.kr/menu/food_view.do?product_cd=9300000004514" // 아이스크림 5개
     )
 
-    val twosomeUrls = listOf(
+    val twosomeBevUrls = listOf(
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=10191981",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=10191980",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=10191970",
@@ -459,6 +459,9 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=20501750",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=20501690",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=20600133", // 아이스크림빙수 3개
+    )
+
+    val twosomeWholeCakeUrls = listOf(
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702227",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702210",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702268",
@@ -479,6 +482,9 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30702146",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701891",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30701799", // 홀케이크 20개
+    )
+
+    val twosomeFoodUrls = listOf(
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30801963",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30801958",
         "https://mo.twosome.co.kr/mn/menuInfoDetail.do?menuCd=30801704",
