@@ -60,7 +60,7 @@ class FranchiseCrawlerFragment : Fragment() {
         binding.webviewMenu.webChromeClient = WebChromeClient()
 
 //        starbucksBevCrawler(franchiseViewModel.starbucksBeverageUrls)
-//        twosomeCrawler(franchiseViewModel.twosomeUrls)
+        twosomeCrawler(franchiseViewModel.twosomeUrls)
 //        megacoffeeBevCrawler(4)
 //        megacoffeeFoodCrawler(2)
 //        ediyacoffeeCrawler()
@@ -167,6 +167,9 @@ class FranchiseCrawlerFragment : Fragment() {
                 }
             }
         }
+        menuList.forEach { it ->
+            franchiseViewModel.updateMenu(it)
+        }
     }
 
     fun loadNextUrl2(iterator: Iterator<Int>, type: String, brand: String, imgSelector: String, nameSelector: String,
@@ -220,11 +223,13 @@ class FranchiseCrawlerFragment : Fragment() {
             }
             binding.webviewMenu.loadUrl(url)
         }
+        menuList.forEach { it ->
+            franchiseViewModel.updateMenu(it)
+        }
     }
 
     fun loadNextEdiyaUrl(type: String, brand: String, imgSelector: String, nameSelector: String,
                           allergySelector: String, menuList: MutableList<Menu>, url: String) {
-
         binding.webviewMenu.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
@@ -273,6 +278,9 @@ class FranchiseCrawlerFragment : Fragment() {
                     }
                 }
             }
+        }
+        menuList.forEach { it ->
+            franchiseViewModel.updateMenu(it)
         }
     }
 
