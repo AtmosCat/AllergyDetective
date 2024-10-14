@@ -64,8 +64,8 @@ class FranchiseCrawlerFragment : Fragment() {
 //        starbucksBevCrawler(franchiseViewModel.starbucksBeverageUrls)
 //        twosomeBevCrawler(franchiseViewModel.twosomeBevUrls)
 //        twosomeWholeCakeCrawler(franchiseViewModel.twosomeWholeCakeUrls)
-        twosomeFoodCrawler(franchiseViewModel.twosomeFoodUrls)
-//        megacoffeeBevCrawler(4)
+//        twosomeFoodCrawler(franchiseViewModel.twosomeFoodUrls)
+        megacoffeeBevCrawler(8)
 //        megacoffeeFoodCrawler(2)
 //        ediyacoffeeCrawler()
     }
@@ -287,6 +287,7 @@ class FranchiseCrawlerFragment : Fragment() {
                             for (i in 0..nameList.size - 1) {
                                 menuList.add(
                                     Menu(
+                                        brand = brand,
                                         imgurl = imgurlList[i],
                                         name = nameList[i],
                                         allergy = allergyList[i]
@@ -301,7 +302,7 @@ class FranchiseCrawlerFragment : Fragment() {
             }
             binding.webviewMenu.loadUrl(url)
         }
-        menuList.forEach { it ->
+        menuList.forEach {
             franchiseViewModel.updateMenu(it)
         }
     }
