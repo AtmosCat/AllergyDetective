@@ -10,13 +10,18 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.allergyguardian.allergyguardian.R
+import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseCategoryBinding
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseHomeBinding
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
+import com.allergyguardian.allergyguardian.presentation.community.postdetail.PostDetailFragment
+import com.allergyguardian.allergyguardian.presentation.community.postlist.PostListAdapter
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.ARG_PARAM1
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.FranchiseDetailFragment
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_home.FranchiseHomeAdapter
+import com.allergyguardian.allergyguardian.presentation.itemdetail.ItemDetailFragment
+import com.allergyguardian.allergyguardian.presentation.itemlist.ItemListAdapter
 
 const val ARG_PARAM1 = "param1"
 
@@ -24,6 +29,12 @@ class FranchiseCategoryFragment : Fragment() {
 
     private var param1: String? = null
     private var _binding: FragmentFranchiseCategoryBinding? = null
+
+    private var allMenus = listOf<Menu>()
+    private var brands = listOf<String>()
+    private var clickedBrand = ""
+    private var clickedMenu = Menu()
+    private var clickedBrandMenus = listOf<Menu>()
 
     private val categoryList = mutableListOf("카페", "패스트푸드", "베이커리/도넛", "아이스크림",
         "치킨", "피자", "샌드위치", "전체")
@@ -37,7 +48,7 @@ class FranchiseCategoryFragment : Fragment() {
     private val sandwichBrandList = mutableListOf("써브웨이", "이삭토스트")
     private val allBrandList = cafeBrandList+fastfoodBrandList+bakeryDoughnutBrandList+icecreamBrandList+chickenBrandList+pizzaBrandList+sandwichBrandList
 
-    private val categoryListList = mutableListOf(
+    private val categoryBrandsList = mutableListOf(
         cafeBrandList,fastfoodBrandList, bakeryDoughnutBrandList, icecreamBrandList, chickenBrandList, pizzaBrandList, sandwichBrandList, allBrandList
     )
 
@@ -79,7 +90,7 @@ class FranchiseCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val categoryName = param1
+        val clickedCategory = param1
 
         binding.recyclerviewFranchises.adapter = brandAdapter
         binding.recyclerviewFranchises.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -87,10 +98,35 @@ class FranchiseCategoryFragment : Fragment() {
         binding.recyclerviewMenus.adapter = menuAdapter
         binding.recyclerviewMenus.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.tvCategoryTitle.text = categoryName
+        binding.tvCategoryTitle.text = clickedCategory
 
-        val index = categoryList.indexOf(categoryName)
-        brandAdapter.submitList(categoryListList[index])
+        val index = categoryList.indexOf(clickedCategory)
+        brands = categoryBrandsList[index]
+        brandAdapter.submitList(brands)
+        brandAdapter.itemClick = object : BrandAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+                clickedBrand = brands[position]
+                franchiseViewModel.allMenus.observe(viewLifecycleOwner) { data ->
+                    clickedBrandMenus = data.filter { it.brand == clickedBrand }
+                    menuAdapter.submitList(clickedBrandMenus)
+                }
+
+            }
+        }
+
+        menuAdapter.itemClick = object : MenuAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+                clickedMenu = clickedBrandMenus[position]
+                val dataToSend = clickedMenu.id
+                val menuDetail = FranchiseDetailFragment.newInstance(dataToSend)
+                requireActivity().supportFragmentManager.beginTransaction().apply {
+                    hide(this@FranchiseCategoryFragment)
+                    show(menuDetail)
+                    addToBackStack(null)
+                    commit()
+                }
+            }
+        }
 
 
 

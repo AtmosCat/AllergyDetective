@@ -78,6 +78,8 @@ class FranchiseHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+//        franchiseViewModel.getAllMenus()
+
         binding.recyclerviewFranchiseHome.adapter = franchiseHomeAdapter
         binding.recyclerviewFranchiseHome.layoutManager = LinearLayoutManager(requireContext())
 

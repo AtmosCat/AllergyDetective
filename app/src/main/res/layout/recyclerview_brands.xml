@@ -5,9 +5,11 @@
 
     <TextView
         android:id="@+id/tv_brand"
+        android:background="@drawable/background_posting_category"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="브랜드명"
+        android:textColor="@color/main_color_light_gray"
         android:paddingHorizontal="20dp"
         android:paddingVertical="10dp"
         />
