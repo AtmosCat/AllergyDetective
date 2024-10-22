@@ -94,6 +94,7 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_menus"
         android:layout_width="match_parent"

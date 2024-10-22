@@ -14,6 +14,7 @@ import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.data.model.franchise.Pizza
 import com.allergyguardian.allergyguardian.data.model.market.Market
 import com.allergyguardian.allergyguardian.data.model.user.Post
+import com.allergyguardian.allergyguardian.network.food.RetrofitClient
 import com.allergyguardian.allergyguardian.presentation.base.UiState
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -135,64 +136,57 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun getAllMenus() {
-        db.collection("franchise")
-            .addSnapshotListener { snapshot, exception ->
-                if (exception != null) {
-                    Log.e(ContentValues.TAG, "getAllMenus() failed! : ${exception.message}")
-                    handleException(exception)
-                    return@addSnapshotListener
+        var allData = mutableListOf<Menu>()
+        _uiState.value = UiState.Loading
+        viewModelScope.launch {
+            runCatching {
+                val dbbDocumentNames = listOf(
+                    "FcdGtT08Opi8yLru5gHn", // 패스트푸드 - FcdGtT08Opi8yLru5gHn
+                    "YkiQthM8m219H0KrhmDe", // 피자 - YkiQthM8m219H0KrhmDe
+                    "KVgFYLHd75znBaatAkRP" // 치킨 - KVgFYLHd75znBaatAkRP
+                )
+                for (it in dbbDocumentNames) {
+                    db.collection("franchise")
+                        .document(it)
+                        .get()
+                        .addOnSuccessListener { document ->
+                            if (document != null) {
+                                val sheet1 = document.get("Sheet1") as? List<Map<String, Any>>
+                                    ?: return@addOnSuccessListener
+                                val menus = sheet1.map { data ->
+                                    Menu(
+                                        id = data["id"] as? String ?: "",
+                                        type = data["type"] as? String ?: "",
+                                        brand = data["brand"] as? String ?: "",
+                                        subcat = data["subcat"] as? String ?: "",
+                                        name = data["name"] as? String ?: "",
+                                        allergy = data["allergy"] as? String ?: "",
+                                        weight = data["weight"] as? String ?: "",
+                                        kcal = data["kcal"] as? String ?: "",
+                                        natrium = data["natrium"] as? String ?: "",
+                                        sugar = data["sugar"] as? String ?: "",
+                                        fat = data["fat"] as? String ?: "",
+                                        protein = data["protein"] as? String ?: "",
+                                        origin = data["origin"] as? String ?: "",
+                                        nutrients = data["nutrients"] as? String ?: "",
+                                        imgurl = data["imgurl"] as? String ?: "",
+                                        url = data["url"] as? String ?: "",
+                                        date = data["date"] as? String ?: ""
+                                    )
+                                }
+                                allData += menus
+                                _allMenus.value = allData
+                            }
+                        }
+                    _uiState.value = UiState.Success("getAllMenus() Succeeded")
                 }
-                if (snapshot != null) {
-                    val menus = mutableListOf<Menu>()
-                    for (document in snapshot.documents) {
-                        val menu = document.toObject(Menu::class.java)?.copy(id = document.id)
-                        menu?.let { menus.add(it) }
-                    }
-                    _allMenus.value = menus
-                } else {
-                }
+            }.onFailure {
+                Log.e(ContentValues.TAG, "getAllMenus() failed! : ${it.message}")
+                handleException(it)
+                _uiState.value = UiState.Error("getAllMenus() failed!")
             }
+        }
     }
-
-    // 패스트푸드 - FcdGtT08Opi8yLru5gHn
-    // 피자 - YkiQthM8m219H0KrhmDe
-    // 치킨 - KVgFYLHd75znBaatAkRP
-    fun getFastfoodMenus() {
-        db.collection("franchise")
-            .document("FcdGtT08Opi8yLru5gHn")
-            .get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    val sheet1 = document.get("Sheet1") as? List<Map<String, Any>> ?: return@addOnSuccessListener
-                    val fastFoods = sheet1.map { data ->
-                        Menu(
-                            id = data["id"] as? String ?: "",
-                            type = data["type"] as? String ?: "",
-                            brand = data["brand"] as? String ?: "",
-                            subcat = data["subcat"] as? String ?: "",
-                            name = data["name"] as? String ?: "",
-                            allergy = data["allergy"] as? String ?: "",
-                            weight = data["weight"] as? String ?: "",
-                            kcal = data["kcal"] as? String ?: "",
-                            natrium = data["natrium"] as? String ?: "",
-                            sugar = data["sugar"] as? String ?: "",
-                            fat = data["fat"] as? String ?: "",
-                            protein = data["protein"] as? String ?: "",
-                            origin = data["origin"] as? String ?: "",
-                            nutrients = data["nutrients"] as? String ?: "",
-                            imgurl = data["imgurl"] as? String ?: "",
-                            url = data["url"] as? String ?: "",
-                            date = data["date"] as? String ?: ""
-                        )
-                    }
-                    _fastfoodMenus.value = fastFoods
-                }
-            }
-            .addOnFailureListener { exception ->
-                println("getFastfoodMenus() Failed : $exception")
-            }
-    }
-
 
     fun updateMenu(menu: Menu) {
         viewModelScope.launch {

@@ -19,8 +19,11 @@ import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
 
 const val ARG_PARAM1 = "param1"
+const val ARG_PARAM2 = "param2"
+
 class FranchiseDetailFragment : Fragment() {
     private var param1: String? = null
+    private var param2: String? = null
 
     private var _binding: FragmentFranchiseDetailBinding? = null
     private val binding get() = _binding!!
@@ -41,6 +44,7 @@ class FranchiseDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -54,9 +58,10 @@ class FranchiseDetailFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(param1: String) = FranchiseDetailFragment().apply {
+        fun newInstance(param1: String, param2: String) = FranchiseDetailFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_PARAM1, param1)
+                putString(ARG_PARAM2, param2)
             }
         }
     }
@@ -65,10 +70,20 @@ class FranchiseDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val clickedMenuId = param1
+        val clickedItemCategory = param2
+
         allMenus = franchiseViewModel.allMenus.value!!
         clickedMenu = allMenus.find { it.id == clickedMenuId }!!
 
-        binding.ivMenu.load(clickedMenu.imgurl)
+        when (clickedMenu.type) {
+            "패스트푸드" -> binding.ivMenu.setImageResource(R.drawable.hamburger)
+            "피자" -> binding.ivMenu.setImageResource(R.drawable.pizza)
+            "치킨" -> binding.ivMenu.setImageResource(R.drawable.chicken)
+            "카페" -> binding.ivMenu.setImageResource(R.drawable.coffee)
+            "아이스크림" -> binding.ivMenu.setImageResource(R.drawable.ice_cream)
+            "베이커리/도넛" -> binding.ivMenu.setImageResource(R.drawable.doughnut)
+            "샌드위치" -> binding.ivMenu.setImageResource(R.drawable.sandwich)
+        }
         binding.tvBrand.text = clickedMenu.brand
         binding.tvName.text = clickedMenu.name
         binding.tvAllergy.text = clickedMenu.allergy
@@ -78,7 +93,6 @@ class FranchiseDetailFragment : Fragment() {
             intent.data = Uri.parse(clickedMenu.url)
             startActivity(intent)
         }
-
 
     }
 

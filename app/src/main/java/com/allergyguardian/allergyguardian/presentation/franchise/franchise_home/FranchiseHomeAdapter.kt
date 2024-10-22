@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.databinding.RecyclerviewFranchiseMenuBinding
 
@@ -55,10 +56,18 @@ class FranchiseHomeAdapter() :
         val allergy = binding.tvItemlistAllergy
         val like = binding.ivLike
         fun bind(item: Menu) {
-//            photo.load(item.img)
-//            brand.text = item.brand
-//            name.text = item.name
-//            allergy.text = item.allergy
+            when (item.type) {
+                "패스트푸드" -> photo.setImageResource(R.drawable.hamburger)
+                "피자" -> photo.setImageResource(R.drawable.pizza)
+                "치킨" -> photo.setImageResource(R.drawable.chicken)
+                "카페" -> photo.setImageResource(R.drawable.coffee)
+                "아이스크림" -> photo.setImageResource(R.drawable.ice_cream)
+                "베이커리/도넛" -> photo.setImageResource(R.drawable.doughnut)
+                "샌드위치" -> photo.setImageResource(R.drawable.sandwich)
+            }
+            brand.text = item.brand
+            name.text = item.name
+            allergy.text = "⚠️"+"${item.allergy}"
         }
     }
 }

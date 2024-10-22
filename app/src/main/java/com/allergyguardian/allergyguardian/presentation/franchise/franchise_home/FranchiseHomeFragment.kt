@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -14,6 +16,7 @@ import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseHomeBinding
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
+import com.allergyguardian.allergyguardian.presentation.base.UiState
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_category.FranchiseCategoryFragment
 import com.allergyguardian.allergyguardian.presentation.home.HomeFragment
 
@@ -52,6 +55,27 @@ class FranchiseHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        franchiseViewModel.getAllMenus()
+
+        franchiseViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
+            when (uiState) {
+                is UiState.Loading -> {
+                    Toast.makeText(requireContext(), "데이터를 로딩중입니다.", Toast.LENGTH_SHORT).show()
+                    binding.progress.isVisible = true
+                }
+                is UiState.Success -> {
+                    Toast.makeText(requireContext(), "데이터 로딩 완료!", Toast.LENGTH_SHORT).show()
+                    binding.progress.isVisible = false
+                    franchiseViewModel.allMenus.observe(viewLifecycleOwner) { data ->
+                        franchiseHomeAdapter.submitList(data)
+                    }
+                }
+                is UiState.Error -> {
+                    Toast.makeText(requireContext(), uiState.message, Toast.LENGTH_LONG).show()
+                }
+//                else -> {}
+            }
+        }
 
         binding.recyclerviewFranchiseHome.adapter = franchiseHomeAdapter
         binding.recyclerviewFranchiseHome.layoutManager = LinearLayoutManager(requireContext())

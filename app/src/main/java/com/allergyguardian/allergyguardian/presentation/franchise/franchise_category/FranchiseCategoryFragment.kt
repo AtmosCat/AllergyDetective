@@ -5,14 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseCategoryBinding
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
+import com.allergyguardian.allergyguardian.presentation.base.UiState
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.ARG_PARAM1
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.FranchiseDetailFragment
 
@@ -88,12 +94,6 @@ class FranchiseCategoryFragment : Fragment() {
         }
 
         val clickedCategory = param1
-        when (clickedCategory) {
-//            "카페" -> franchiseViewModel.getCafeData()
-            "패스트푸드" -> franchiseViewModel.getFastfoodMenus()
-//            "피자" -> franchiseViewModel.getPizzaData()
-//            "치킨" -> franchiseViewModel.getChickenData()
-        }
 
         binding.recyclerviewFranchises.adapter = brandAdapter
         binding.recyclerviewFranchises.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -109,36 +109,13 @@ class FranchiseCategoryFragment : Fragment() {
         brandAdapter.itemClick = object : BrandAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 clickedBrand = brands[position]
-                when (clickedCategory) {
-                    "패스트푸드" -> {
-                        franchiseViewModel.fastfoodMenus.observe(viewLifecycleOwner) { data ->
-                            clickedBrandMenus = data.filter { it.brand == clickedBrand }
-                            menuAdapter.submitList(clickedBrandMenus)
-                            binding.tvMenuCount.text = clickedBrandMenus.size.toString()
-                        }
-                    }
-                    "카페" -> {
-                        franchiseViewModel.cafeMenus.observe(viewLifecycleOwner) { data ->
-                            clickedBrandMenus = data.filter { it.brand == clickedBrand }
-                            menuAdapter.submitList(clickedBrandMenus)
-                            binding.tvMenuCount.text = clickedBrandMenus.size.toString()
-                        }
-                    }
-                    "피자" -> {
-                        franchiseViewModel.pizzaMenus.observe(viewLifecycleOwner) { data ->
-                            clickedBrandMenus = data.filter { it.brand == clickedBrand }
-                            menuAdapter.submitList(clickedBrandMenus)
-                            binding.tvMenuCount.text = clickedBrandMenus.size.toString()
-                        }
-                    }
-                    "치킨" -> {
-                        franchiseViewModel.chickenMenus.observe(viewLifecycleOwner) { data ->
-                            clickedBrandMenus = data.filter { it.brand == clickedBrand }
-                            menuAdapter.submitList(clickedBrandMenus)
-                            binding.tvMenuCount.text = clickedBrandMenus.size.toString()
-                        }
-                    }
+                franchiseViewModel.allMenus.observe(viewLifecycleOwner) { data ->
+                    clickedBrandMenus = data.filter {
+                       it.type == clickedCategory && it.brand == clickedBrand }
+                    menuAdapter.submitList(clickedBrandMenus)
+                    binding.tvMenuCount.text = "상품 ${clickedBrandMenus.size}개"
                 }
+
             }
         }
 
@@ -146,7 +123,8 @@ class FranchiseCategoryFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 clickedMenu = clickedBrandMenus[position]
                 val dataToSend = clickedMenu.id
-                val menuDetail = FranchiseDetailFragment.newInstance(dataToSend)
+                val dataToSend2 = clickedMenu.type
+                val menuDetail = FranchiseDetailFragment.newInstance(dataToSend, dataToSend2)
                 requireActivity().supportFragmentManager.beginTransaction().apply {
                     hide(this@FranchiseCategoryFragment)
                     show(menuDetail)
@@ -220,4 +198,29 @@ class FranchiseCategoryFragment : Fragment() {
 //            }
 //        }
     }
+//    private fun brandClicker(view: View, position: Int){
+//            isBrandCheckedList[position] = !isBrandCheckedList[position]
+//            updateButtonState(button, position)
+//            setCategories(button, position)
+//    }
+//
+//    private fun updateButtonState(view: View, position: Int) {
+//        if (isCategoryButtonCheckedList[position]) {
+//            view.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.main_color_orange
+//                )
+//            )
+//            view.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+//        } else {
+//            view.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(),
+//                    R.color.main_color_more_light_gray
+//                )
+//            )
+//            view.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+//        }
+//    }
 }

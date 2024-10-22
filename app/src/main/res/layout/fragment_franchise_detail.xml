@@ -18,13 +18,13 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/back"
-        app:tint="@color/main_color_orange"
         android:elevation="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_menu"
+        android:background="@drawable/background_menu_img"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintDimensionRatio="1:1"
@@ -62,6 +62,21 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_menu" />
 
     <TextView
+        android:id="@+id/tv_subcat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_spinner"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:text="세부 카테고리명"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="25dp"
+        android:textColor="@color/main_color_white"
+        style="@style/textStyle_subheading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_brand" />
+
+    <TextView
         android:id="@+id/tv_name"
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.85"
@@ -71,7 +86,7 @@
         style="@style/textStyle_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_brand"
+        app:layout_constraintTop_toBottomOf="@+id/tv_subcat"
         />
 
     <TextView
@@ -79,10 +94,10 @@
         android:layout_width="0dp"
         app:layout_constraintWidth_percent="0.85"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:layout_marginTop="10dp"
         android:text="⛔ 알러지유발물질: 블라블라"
         android:textColor="#FF0000"
-        style="@style/textStyle_subheading"
+        style="@style/textStyle_subtitle"
         app:layout_constraintStart_toStartOf="@+id/tv_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_name" />
 
