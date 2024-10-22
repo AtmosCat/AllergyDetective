@@ -6,7 +6,7 @@ data class Pizza(
     val brand: String = "",
     val subcat: String = "",
     val name: String = "",
-    val allergy: List<String> = emptyList(),
+    val allergy: String = "",
     val weight: String = "",
     val kcal: String = "",
     val natrium: String = "",

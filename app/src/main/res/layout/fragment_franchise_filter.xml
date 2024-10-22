@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.filter.FranchiseFilterFragment">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="1dp"
+        android:background="#000000"
+        android:alpha="0.7"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="2dp"
+        android:layout_marginVertical="120dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@color/white">
+
+        <ScrollView
+            android:id="@+id/scrollview_filter"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_apply_filter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:id="@+id/btn_back"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="15dp"
+                    android:src="@drawable/back"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:tint="@color/main_color_dark_gray" />
+
+                <TextView
+                    android:id="@+id/tv_filter_ingredients"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="알러지 필터"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    style="@style/textStyle_title"
+                    app:layout_constraintWidth_percent="0.2"
+                    app:layout_constraintHeight_percent="0.6"
+                    app:layout_constraintStart_toStartOf="@id/btn_back"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_back"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_notice"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:lineSpacingExtra="3dp"
+                    android:text="설정하신 알러지유발물질이 들어가지 않은 메뉴가 검색됩니다."
+                    style="@style/textStyle_detail"
+                    app:layout_constraintStart_toStartOf="@+id/tv_filter_ingredients"
+                    app:layout_constraintEnd_toEndOf="@+id/view_underline_group"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_filter_ingredients"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_egg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="알류(가금류)"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintStart_toStartOf="@id/tv_filter_ingredients"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_notice"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_milk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="우유"
+                    android:layout_marginStart="160dp"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_egg"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_egg"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_egg"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_buckwheat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="메밀"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_egg"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_egg"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_peanut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:text="땅콩"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_buckwheat"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_buckwheat"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_buckwheat"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_soybean"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="대두"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_buckwheat"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_buckwheat"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_wheat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:text="밀"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_soybean"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_soybean"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_soybean"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_mackerel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="고등어"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_soybean"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_soybean"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_crab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:text="게"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_mackerel"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_mackerel"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_mackerel"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_shrimp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="새우"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_mackerel"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_mackerel"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_pork"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:text="돼지고기"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_shrimp"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_shrimp"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_shrimp"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_peach"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="복숭아"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_shrimp"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_shrimp"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_tomato"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:text="토마토"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_peach"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_peach"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_peach"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_sulfurous_acids"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="아황산류"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_peach"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_peach"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_walnut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:text="호두"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_sulfurous_acids"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_sulfurous_acids"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_sulfurous_acids"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_chicken"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="닭고기"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_sulfurous_acids"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_sulfurous_acids"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_beef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:text="쇠고기"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_chicken"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_chicken"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_chicken"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_squid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="오징어"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_chicken"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_chicken"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_seashell"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:text="조개류(조개)"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_squid"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_squid"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_squid"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_pinenut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="잣"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_squid"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_squid"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_oyster"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:text="조개류(굴)"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_pinenut"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_pinenut"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_pinenut"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_abalone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="조개류(전복)"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintStart_toStartOf="@id/checkbox_ingredient_pinenut"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox_ingredient_pinenut"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+                <CheckBox
+                    android:id="@+id/checkbox_ingredient_mussel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="160dp"
+                    android:text="조개류(홍합)"
+                    style="@style/textStyle_subheading"
+                    android:buttonTint="@drawable/checkbox_selector"
+                    app:layout_constraintBottom_toBottomOf="@id/checkbox_ingredient_abalone"
+                    app:layout_constraintTop_toTopOf="@+id/checkbox_ingredient_abalone"
+                    app:layout_constraintStart_toStartOf="@+id/checkbox_ingredient_abalone"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <View
+            android:id="@+id/boundary_apply_filter"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/main_color_more_light_gray"
+            app:layout_constraintBottom_toTopOf="@+id/btn_apply_filter"
+            />
+
+        <Button
+            android:id="@+id/btn_apply_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="필터 적용하기"
+            android:layout_marginBottom="20dp"
+            style="@style/textStyle_subtitle"
+            android:textColor="@color/main_color_white"
+            android:background="@drawable/round_border"
+            android:backgroundTint="@color/main_color_orange"
+            android:paddingVertical="28dp"
+            android:paddingHorizontal="100dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

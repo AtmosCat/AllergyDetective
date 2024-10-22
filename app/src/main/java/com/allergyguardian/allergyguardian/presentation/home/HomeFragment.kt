@@ -22,10 +22,8 @@ import com.allergyguardian.allergyguardian.presentation.SharedViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
 import com.allergyguardian.allergyguardian.presentation.base.UiState
 import com.allergyguardian.allergyguardian.presentation.community.community_home.CommunityHomeFragment
-import com.allergyguardian.allergyguardian.presentation.filter.FilterFragment
+import com.allergyguardian.allergyguardian.presentation.franchise.FilterFragment
 import com.allergyguardian.allergyguardian.presentation.itemlist.ItemListFragment
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
 
 class HomeFragment : Fragment() {
 

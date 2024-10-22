@@ -7,7 +7,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.allergyguardian.allergyguardian.data.model.food.Food
 import com.allergyguardian.allergyguardian.data.model.franchise.Menu
+import com.allergyguardian.allergyguardian.data.model.market.Market
 import com.allergyguardian.allergyguardian.data.model.user.Post
 import com.allergyguardian.allergyguardian.presentation.base.UiState
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,8 +26,98 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
     private val _uiState: MutableLiveData<UiState<Any>> = MutableLiveData()
     val uiState: LiveData<UiState<Any>> = _uiState
 
+    private val allergyList: List<String> = listOf("알류","계란","우유","메밀","땅콩","대두","밀","고등어","게","새우",
+        "돼지고기","복숭아","토마토","아황산류","이산화황","호두","닭고기","쇠고기","소고기","오징어","잣",
+        "조개류","조개","굴","전복","홍합","조개류(굴)","조개류(전복)","조개류(홍합)")
+
+    private val _searchKeyword = MutableLiveData<String>()
+    val searchKeyword : LiveData<String> get() = _searchKeyword
+
+    private val _selectedAllergies = MutableLiveData<MutableList<String>>()
+    val selectedAllergies : LiveData<MutableList<String>> get() = _selectedAllergies
+
+    private val _filteredMenus = MutableLiveData<List<Food>>()
+    val filteredMenus : LiveData<List<Food>> get() = _filteredMenus
+
     private val _allMenus = MutableLiveData<List<Menu>>()
     val allMenus : LiveData<List<Menu>> get() = _allMenus
+
+    private val allergyNameList = listOf(
+        "알류(가금류)","우유","메밀","땅콩","대두","밀","고등어","게","새우","돼지고기","복숭아","토마토","아황산류",
+        "호두","닭고기","쇠고기","오징어","조개류(조개)","잣","조개류(굴)","조개류(전복)","조개류(홍합)")
+
+    private val eggKeywords = listOf("알류","계란")
+    private val milkKeywords = listOf("우유")
+    private val buckwheatKeywords = listOf("메밀")
+    private val peanutKeywords = listOf("땅콩")
+    private val soybeanKeywords = listOf("대두")
+    private val wheatKeywords = listOf("밀")
+    private val mackerelKeywords = listOf("고등어")
+    private val crabKeywords = listOf("게")
+    private val shrimpKeywords = listOf("새우")
+    private val porkKeywords = listOf("돼지")
+    private val peachKeywords = listOf("복숭아")
+    private val tomatoKeywords = listOf("토마토")
+    private val sulfurousAcidsKeywords = listOf("아황산","이산화황")
+    private val walnutKeywords = listOf("호두")
+    private val chickenKeywords = listOf("닭")
+    private val beefKeywords = listOf("소고기","쇠고기")
+    private val squidKeywords = listOf("오징어")
+    private val seashellKeywords = listOf("조개")
+    private val pinenutKeywords = listOf("잣")
+    private val oysterKeywords = listOf("굴")
+    private val abaloneKeywords = listOf("전복")
+    private val musselKeywords = listOf("홍합")
+
+    private val allergyKeywordsList = listOf(
+        eggKeywords,
+        milkKeywords,
+        buckwheatKeywords,
+        peanutKeywords,
+        soybeanKeywords,
+        wheatKeywords,
+        mackerelKeywords,
+        crabKeywords,
+        shrimpKeywords,
+        porkKeywords,
+        peachKeywords,
+        tomatoKeywords,
+        sulfurousAcidsKeywords,
+        walnutKeywords,
+        chickenKeywords,
+        beefKeywords,
+        squidKeywords,
+        seashellKeywords,
+        pinenutKeywords,
+        oysterKeywords,
+        abaloneKeywords,
+        musselKeywords
+    )
+
+
+    fun setSearchKeyword(keyword: String) {
+        viewModelScope.launch {
+            runCatching {
+                _searchKeyword.value = keyword
+            }.onFailure {
+                Log.e(ContentValues.TAG, "setSearchKeyword() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
+
+
+    fun setAllergyFilter(allergies: MutableList<String>) {
+        viewModelScope.launch {
+            runCatching {
+                _selectedAllergies.value = allergies
+            }.onFailure {
+                Log.e(ContentValues.TAG, "setAllergyFilter() failed! : ${it.message}")
+                handleException(it)
+            }
+        }
+    }
+
 
     fun getAllMenus() {
         db.collection("menu")

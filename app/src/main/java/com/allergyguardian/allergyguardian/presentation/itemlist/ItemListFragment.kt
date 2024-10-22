@@ -27,7 +27,7 @@ import com.allergyguardian.allergyguardian.databinding.FragmentItemListBinding
 import com.allergyguardian.allergyguardian.presentation.SharedViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
 import com.allergyguardian.allergyguardian.presentation.community.community_home.CommunityHomeFragment
-import com.allergyguardian.allergyguardian.presentation.filter.FilterFragment
+import com.allergyguardian.allergyguardian.presentation.franchise.FilterFragment
 import com.allergyguardian.allergyguardian.presentation.home.HomeFragment
 import com.allergyguardian.allergyguardian.presentation.home.MyPageFragment
 import com.allergyguardian.allergyguardian.presentation.itemdetail.ItemDetailFragment

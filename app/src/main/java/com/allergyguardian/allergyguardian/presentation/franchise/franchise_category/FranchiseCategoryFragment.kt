@@ -39,13 +39,13 @@ class FranchiseCategoryFragment : Fragment() {
     private val categoryList = mutableListOf("카페", "패스트푸드", "베이커리/도넛", "아이스크림",
         "치킨", "피자", "샌드위치", "전체")
 
+    private val fastfoodBrandList = mutableListOf("맥도날드", "롯데리아", "KFC", "맘스터치", "NBB(노브랜드버거)")
+    private val pizzaBrandList = mutableListOf("도미노피자", "피자헛", "미스터피자", "피자알볼로", "파파존스", "피자나라치킨공주", "반올림피자", "피자마루", "청년피자", "7번가피자")
+    private val chickenBrandList = mutableListOf("피자나라치킨공주")
     private val cafeBrandList = mutableListOf("스타벅스", "투썸플레이스", "메가커피")
-    private val fastfoodBrandList = mutableListOf("맥도날드", "롯데리아", "버거킹")
-    private val bakeryDoughnutBrandList = mutableListOf("파리바게트", "뚜레쥬르", "던킨도너츠")
-    private val icecreamBrandList = mutableListOf("배스킨라빈스", "설빙", "하겐다즈")
-    private val chickenBrandList = mutableListOf("BBQ", "BHC", "교촌")
-    private val pizzaBrandList = mutableListOf("도미노피자", "피자헛", "미스터피자")
-    private val sandwichBrandList = mutableListOf("써브웨이", "이삭토스트")
+    private val icecreamBrandList = mutableListOf("서비스 준비중")
+    private val bakeryDoughnutBrandList = mutableListOf("서비스 준비중")
+    private val sandwichBrandList = mutableListOf("서비스 준비중")
     private val allBrandList = cafeBrandList+fastfoodBrandList+bakeryDoughnutBrandList+icecreamBrandList+chickenBrandList+pizzaBrandList+sandwichBrandList
 
     private val categoryBrandsList = mutableListOf(

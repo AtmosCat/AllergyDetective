@@ -13,7 +13,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.user.User
 import com.allergyguardian.allergyguardian.databinding.FragmentSignUpBinding
-import com.allergyguardian.allergyguardian.presentation.filter.FilterFragment
 import com.allergyguardian.allergyguardian.presentation.signin.SignInFragment
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth

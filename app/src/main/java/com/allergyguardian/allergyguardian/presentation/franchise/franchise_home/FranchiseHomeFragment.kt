@@ -5,33 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import android.view.inputmethod.EditorInfo
 import android.widget.Button
-import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.allergyguardian.allergyguardian.R
-import com.allergyguardian.allergyguardian.data.model.franchise.CoffeeBeverage
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseHomeBinding
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
-import com.allergyguardian.allergyguardian.presentation.base.UiState
-import com.allergyguardian.allergyguardian.presentation.community.community_home.CommunityHomeFragment
-import com.allergyguardian.allergyguardian.presentation.community.postdetail.PostDetailFragment
-import com.allergyguardian.allergyguardian.presentation.community.postlist.PostListAdapter
-import com.allergyguardian.allergyguardian.presentation.filter.FilterFragment
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_category.FranchiseCategoryFragment
-import com.allergyguardian.allergyguardian.presentation.home.HomeAdapter
-import com.allergyguardian.allergyguardian.presentation.home.MyPageFragment
-import com.allergyguardian.allergyguardian.presentation.itemlist.ItemListFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class FranchiseHomeFragment : Fragment() {
 

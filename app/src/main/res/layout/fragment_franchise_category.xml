@@ -8,28 +8,71 @@
 
     <ImageView
         android:id="@+id/btn_back"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/back"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintHeight_percent="0.03"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:hint="검색어를 입력하세요"
+        android:maxLines="1"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
+        style="@style/textStyle_subheading"
+        android:layout_marginHorizontal="15dp"
+        android:paddingLeft="15dp"
+        app:layout_constraintWidth_percent="0.65"
+        android:background="@drawable/round_border_search"
+        app:layout_constraintStart_toEndOf="@+id/btn_back"
+        app:layout_constraintTop_toTopOf="@+id/btn_back"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_back"
+        />
+
+    <ImageView
+        android:id="@+id/btn_filter"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintWidth_percent="0.06"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="15dp"
-        android:src="@drawable/back"
-        app:tint="@color/main_color_dark_gray"
-        android:elevation="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/background_filter_button"
+        android:padding="10dp"
+        android:src="@drawable/filter2"
+        app:layout_constraintBottom_toBottomOf="@+id/et_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/et_search"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/check_red"
+        app:layout_constraintTop_toTopOf="@+id/btn_filter"
+        app:layout_constraintEnd_toEndOf="@+id/btn_filter"
+        android:layout_margin="5dp"
+        android:visibility="gone"
+        />
+
 
     <TextView
         android:id="@+id/tv_category_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="카테고리명"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
         style="@style/textStyle_title"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_back"
-        app:layout_constraintStart_toEndOf="@+id/btn_back"
-        app:layout_constraintTop_toTopOf="@+id/btn_back" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_search" />
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_franchises"
@@ -37,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/btn_back"
+        app:layout_constraintTop_toBottomOf="@+id/tv_category_title"
         />
 
     <TextView
