@@ -27,7 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/coffee" />
+            android:padding="20dp"
+            android:src="@drawable/ad_example" />
 
     </androidx.cardview.widget.CardView>
 
@@ -64,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
             android:letterSpacing="0.03"
             android:lineSpacingExtra="3dp"
             android:maxLines="2"
@@ -75,12 +76,16 @@
         <TextView
             android:id="@+id/tv_itemlist_allergy"
             style="@style/textStyle_subheading"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
             android:layout_marginTop="5dp"
             android:letterSpacing="0.03"
-            android:lineSpacingExtra="3dp"
-            android:text="⚠️ 우유 ⚠️ 대두"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:lineSpacingExtra="5dp"
+            android:text="⚠️ddddddddddddddddddddddddddddddddddddddddddddddddddddds"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_itemlist_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_itemlist_name" />
 

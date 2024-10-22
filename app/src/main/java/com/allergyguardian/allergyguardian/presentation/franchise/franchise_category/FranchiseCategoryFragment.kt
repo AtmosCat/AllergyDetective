@@ -114,24 +114,28 @@ class FranchiseCategoryFragment : Fragment() {
                         franchiseViewModel.fastfoodMenus.observe(viewLifecycleOwner) { data ->
                             clickedBrandMenus = data.filter { it.brand == clickedBrand }
                             menuAdapter.submitList(clickedBrandMenus)
+                            binding.tvMenuCount.text = clickedBrandMenus.size.toString()
                         }
                     }
                     "카페" -> {
                         franchiseViewModel.cafeMenus.observe(viewLifecycleOwner) { data ->
                             clickedBrandMenus = data.filter { it.brand == clickedBrand }
                             menuAdapter.submitList(clickedBrandMenus)
+                            binding.tvMenuCount.text = clickedBrandMenus.size.toString()
                         }
                     }
                     "피자" -> {
                         franchiseViewModel.pizzaMenus.observe(viewLifecycleOwner) { data ->
                             clickedBrandMenus = data.filter { it.brand == clickedBrand }
                             menuAdapter.submitList(clickedBrandMenus)
+                            binding.tvMenuCount.text = clickedBrandMenus.size.toString()
                         }
                     }
                     "치킨" -> {
                         franchiseViewModel.chickenMenus.observe(viewLifecycleOwner) { data ->
                             clickedBrandMenus = data.filter { it.brand == clickedBrand }
                             menuAdapter.submitList(clickedBrandMenus)
+                            binding.tvMenuCount.text = clickedBrandMenus.size.toString()
                         }
                     }
                 }

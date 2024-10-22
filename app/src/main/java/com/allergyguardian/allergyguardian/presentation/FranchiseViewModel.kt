@@ -163,7 +163,7 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
             .get()
             .addOnSuccessListener { document ->
                 if (document != null) {
-                    val sheet1 = document.get("sheet1") as? List<Map<String, Any>> ?: return@addOnSuccessListener
+                    val sheet1 = document.get("Sheet1") as? List<Map<String, Any>> ?: return@addOnSuccessListener
                     val fastFoods = sheet1.map { data ->
                         Menu(
                             id = data["id"] as? String ?: "",
