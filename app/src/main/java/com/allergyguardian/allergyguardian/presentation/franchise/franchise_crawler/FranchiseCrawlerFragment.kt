@@ -363,6 +363,6 @@ class FranchiseCrawlerFragment : Fragment() {
         }
     }
 
-
+// 데이터보니까 1페이지 거 중복해서 menuList에 추가함
 
 }

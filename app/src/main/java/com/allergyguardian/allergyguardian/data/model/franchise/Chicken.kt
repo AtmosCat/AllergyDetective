@@ -1,6 +1,6 @@
 package com.allergyguardian.allergyguardian.data.model.franchise
 
-data class FastFood(
+data class Chicken(
     val id: String = "",
     val type: String = "",
     val brand: String = "",
