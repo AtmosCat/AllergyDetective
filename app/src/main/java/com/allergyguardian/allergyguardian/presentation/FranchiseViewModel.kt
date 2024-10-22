@@ -8,7 +8,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.allergyguardian.allergyguardian.data.model.food.Food
+import com.allergyguardian.allergyguardian.data.model.franchise.Chicken
+import com.allergyguardian.allergyguardian.data.model.franchise.FastFood
 import com.allergyguardian.allergyguardian.data.model.franchise.Menu
+import com.allergyguardian.allergyguardian.data.model.franchise.Pizza
 import com.allergyguardian.allergyguardian.data.model.market.Market
 import com.allergyguardian.allergyguardian.data.model.user.Post
 import com.allergyguardian.allergyguardian.presentation.base.UiState
@@ -41,6 +44,19 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val _allMenus = MutableLiveData<List<Menu>>()
     val allMenus : LiveData<List<Menu>> get() = _allMenus
+
+    private val _fastfoodMenus = MutableLiveData<List<Menu>>()
+    val fastfoodMenus : LiveData<List<Menu>> get() = _fastfoodMenus
+
+    private val _chickenMenus = MutableLiveData<List<Menu>>()
+    val chickenMenus : LiveData<List<Menu>> get() = _chickenMenus
+
+    private val _pizzaMenus = MutableLiveData<List<Menu>>()
+    val pizzaMenus : LiveData<List<Menu>> get() = pizzaMenus
+
+    private val _cafeMenus = MutableLiveData<List<Menu>>()
+    val cafeMenus : LiveData<List<Menu>> get() = _cafeMenus
+
 
     private val allergyNameList = listOf(
         "알류(가금류)","우유","메밀","땅콩","대두","밀","고등어","게","새우","돼지고기","복숭아","토마토","아황산류",
@@ -118,9 +134,8 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-
     fun getAllMenus() {
-        db.collection("menu")
+        db.collection("franchise")
             .addSnapshotListener { snapshot, exception ->
                 if (exception != null) {
                     Log.e(ContentValues.TAG, "getAllMenus() failed! : ${exception.message}")
@@ -138,6 +153,46 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
                 }
             }
     }
+
+    // 패스트푸드 - FcdGtT08Opi8yLru5gHn
+    // 피자 - YkiQthM8m219H0KrhmDe
+    // 치킨 - KVgFYLHd75znBaatAkRP
+    fun getFastfoodMenus() {
+        db.collection("franchise")
+            .document("FcdGtT08Opi8yLru5gHn")
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val sheet1 = document.get("sheet1") as? List<Map<String, Any>> ?: return@addOnSuccessListener
+                    val fastFoods = sheet1.map { data ->
+                        Menu(
+                            id = data["id"] as? String ?: "",
+                            type = data["type"] as? String ?: "",
+                            brand = data["brand"] as? String ?: "",
+                            subcat = data["subcat"] as? String ?: "",
+                            name = data["name"] as? String ?: "",
+                            allergy = data["allergy"] as? String ?: "",
+                            weight = data["weight"] as? String ?: "",
+                            kcal = data["kcal"] as? String ?: "",
+                            natrium = data["natrium"] as? String ?: "",
+                            sugar = data["sugar"] as? String ?: "",
+                            fat = data["fat"] as? String ?: "",
+                            protein = data["protein"] as? String ?: "",
+                            origin = data["origin"] as? String ?: "",
+                            nutrients = data["nutrients"] as? String ?: "",
+                            imgurl = data["imgurl"] as? String ?: "",
+                            url = data["url"] as? String ?: "",
+                            date = data["date"] as? String ?: ""
+                        )
+                    }
+                    _fastfoodMenus.value = fastFoods
+                }
+            }
+            .addOnFailureListener { exception ->
+                println("getFastfoodMenus() Failed : $exception")
+            }
+    }
+
 
     fun updateMenu(menu: Menu) {
         viewModelScope.launch {

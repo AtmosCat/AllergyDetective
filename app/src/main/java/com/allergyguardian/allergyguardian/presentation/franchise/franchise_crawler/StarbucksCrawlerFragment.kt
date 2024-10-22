@@ -81,7 +81,7 @@ class StarbucksCrawlerFragment : Fragment() {
                     proteinSelector: String, natriumSelector: String, sugarSelector: String, caffeineSelector: String) {
         if (iterator.hasNext()) {
             val url = iterator.next()
-            instance = Menu(type = type, brand = brand, hotice = "메뉴명 참고", url = url)
+            instance = Menu(type = type, brand = brand, url = url)
             // 이름에 아이스 들어가있으면 ice로 인식하게? 예외사항 있는지 보기
             binding.webviewMenu.loadUrl(url)
             binding.webviewMenu.webViewClient = object : WebViewClient() {
@@ -122,10 +122,6 @@ class StarbucksCrawlerFragment : Fragment() {
                     binding.webviewMenu.evaluateJavascript(sugarSelector) { value ->
                         val sugar = value.replace("\"", "")
                         instance.sugar = sugar
-                    }
-                    binding.webviewMenu.evaluateJavascript(caffeineSelector) { value ->
-                        val caffeine = value.replace("\"", "")
-                        instance.caffeine = caffeine
                     }
                     starbucksBevList.add(instance)
                     // 크롤링이 끝나면 웹뷰를 닫고 다음 URL 로드

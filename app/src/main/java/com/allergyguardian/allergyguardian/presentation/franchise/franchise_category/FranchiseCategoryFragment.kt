@@ -9,19 +9,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseCategoryBinding
-import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseHomeBinding
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
-import com.allergyguardian.allergyguardian.presentation.community.postdetail.PostDetailFragment
-import com.allergyguardian.allergyguardian.presentation.community.postlist.PostListAdapter
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.ARG_PARAM1
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.FranchiseDetailFragment
-import com.allergyguardian.allergyguardian.presentation.franchise.franchise_home.FranchiseHomeAdapter
-import com.allergyguardian.allergyguardian.presentation.itemdetail.ItemDetailFragment
-import com.allergyguardian.allergyguardian.presentation.itemlist.ItemListAdapter
 
 const val ARG_PARAM1 = "param1"
 
@@ -30,7 +23,6 @@ class FranchiseCategoryFragment : Fragment() {
     private var param1: String? = null
     private var _binding: FragmentFranchiseCategoryBinding? = null
 
-    private var allMenus = listOf<Menu>()
     private var brands = listOf<String>()
     private var clickedBrand = ""
     private var clickedMenu = Menu()
@@ -39,7 +31,7 @@ class FranchiseCategoryFragment : Fragment() {
     private val categoryList = mutableListOf("카페", "패스트푸드", "베이커리/도넛", "아이스크림",
         "치킨", "피자", "샌드위치", "전체")
 
-    private val fastfoodBrandList = mutableListOf("맥도날드", "롯데리아", "KFC", "맘스터치", "NBB(노브랜드버거)")
+    private val fastfoodBrandList = mutableListOf("맥도날드", "롯데리아", "KFC", "맘스터치", "NBB버거")
     private val pizzaBrandList = mutableListOf("도미노피자", "피자헛", "미스터피자", "피자알볼로", "파파존스", "피자나라치킨공주", "반올림피자", "피자마루", "청년피자", "7번가피자")
     private val chickenBrandList = mutableListOf("피자나라치킨공주")
     private val cafeBrandList = mutableListOf("스타벅스", "투썸플레이스", "메가커피")
@@ -80,7 +72,8 @@ class FranchiseCategoryFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(param1: String) = FranchiseDetailFragment().apply {
+        fun newInstance(param1: String) =
+            FranchiseCategoryFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_PARAM1, param1)
             }
@@ -90,7 +83,17 @@ class FranchiseCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnBack.setOnClickListener{
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
         val clickedCategory = param1
+        when (clickedCategory) {
+//            "카페" -> franchiseViewModel.getCafeData()
+            "패스트푸드" -> franchiseViewModel.getFastfoodMenus()
+//            "피자" -> franchiseViewModel.getPizzaData()
+//            "치킨" -> franchiseViewModel.getChickenData()
+        }
 
         binding.recyclerviewFranchises.adapter = brandAdapter
         binding.recyclerviewFranchises.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -106,11 +109,32 @@ class FranchiseCategoryFragment : Fragment() {
         brandAdapter.itemClick = object : BrandAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 clickedBrand = brands[position]
-                franchiseViewModel.allMenus.observe(viewLifecycleOwner) { data ->
-                    clickedBrandMenus = data.filter { it.brand == clickedBrand }
-                    menuAdapter.submitList(clickedBrandMenus)
+                when (clickedCategory) {
+                    "패스트푸드" -> {
+                        franchiseViewModel.fastfoodMenus.observe(viewLifecycleOwner) { data ->
+                            clickedBrandMenus = data.filter { it.brand == clickedBrand }
+                            menuAdapter.submitList(clickedBrandMenus)
+                        }
+                    }
+                    "카페" -> {
+                        franchiseViewModel.cafeMenus.observe(viewLifecycleOwner) { data ->
+                            clickedBrandMenus = data.filter { it.brand == clickedBrand }
+                            menuAdapter.submitList(clickedBrandMenus)
+                        }
+                    }
+                    "피자" -> {
+                        franchiseViewModel.pizzaMenus.observe(viewLifecycleOwner) { data ->
+                            clickedBrandMenus = data.filter { it.brand == clickedBrand }
+                            menuAdapter.submitList(clickedBrandMenus)
+                        }
+                    }
+                    "치킨" -> {
+                        franchiseViewModel.chickenMenus.observe(viewLifecycleOwner) { data ->
+                            clickedBrandMenus = data.filter { it.brand == clickedBrand }
+                            menuAdapter.submitList(clickedBrandMenus)
+                        }
+                    }
                 }
-
             }
         }
 

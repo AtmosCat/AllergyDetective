@@ -8,6 +8,7 @@
         android:background="@drawable/background_posting_category"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
         android:text="브랜드명"
         android:textColor="@color/main_color_light_gray"
         android:paddingHorizontal="20dp"

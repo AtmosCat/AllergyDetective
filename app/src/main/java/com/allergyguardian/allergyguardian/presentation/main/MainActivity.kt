@@ -9,6 +9,7 @@ import androidx.fragment.app.commit
 import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.databinding.ActivityMainBinding
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_crawler.FranchiseCrawlerFragment
+import com.allergyguardian.allergyguardian.presentation.franchise.franchise_home.FranchiseHomeFragment
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         setAd()
 
-        setFragment(FranchiseCrawlerFragment())
+        setFragment(FranchiseHomeFragment())
 
     }
 
