@@ -96,6 +96,16 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_filtered_allergy"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_subcat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerview_franchises"
+        />
+
     <TextView
         android:id="@+id/tv_menu_count"
         android:layout_width="wrap_content"
@@ -103,7 +113,7 @@
         android:text="브랜드를 선택해주세요."
         android:layout_margin="15dp"
         style="@style/textStyle_subtitle"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerview_franchises"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerview_subcat"
         app:layout_constraintStart_toStartOf="parent"
         />
 

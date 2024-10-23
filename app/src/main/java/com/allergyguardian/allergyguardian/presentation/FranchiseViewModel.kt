@@ -145,7 +145,7 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
                 val dbbDocumentNames = listOf(
                     "FcdGtT08Opi8yLru5gHn", // 패스트푸드
                     "YkiQthM8m219H0KrhmDe", // 피자
-                    "KVgFYLHd75znBaatAkRP" // 치킨
+                    "0VWrJdM48VzVjnAazsby" // 치킨
                 )
 
                 // 비동기 결과 리스트 생성

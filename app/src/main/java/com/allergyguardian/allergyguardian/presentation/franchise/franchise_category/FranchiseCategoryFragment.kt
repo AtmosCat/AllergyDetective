@@ -116,6 +116,7 @@ class FranchiseCategoryFragment : Fragment() {
     }
 
     private val brandAdapter by lazy { BrandAdapter() }
+    private val subcatAdapter by lazy { SubcatAdapter() }
     private val menuAdapter by lazy { MenuAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,6 +163,9 @@ class FranchiseCategoryFragment : Fragment() {
 
         binding.recyclerviewFranchises.adapter = brandAdapter
         binding.recyclerviewFranchises.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+        binding.recyclerviewSubcat.adapter = subcatAdapter
+        binding.recyclerviewSubcat.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         binding.recyclerviewMenus.adapter = menuAdapter
         binding.recyclerviewMenus.layoutManager = LinearLayoutManager(requireContext())
@@ -239,6 +243,13 @@ class FranchiseCategoryFragment : Fragment() {
                     brandAdapter.itemClick = object : BrandAdapter.ItemClick {
                         override fun onClick(view: View, position: Int) {
                             clickedBrand = brands[position]
+                            binding.recyclerviewSubcat.visibility = View.VISIBLE
+                            val clickedBrandSubcats = mutableListOf<String>()
+                            val clickedBrandMenus = allMenus.filter { it.brand == clickedBrand }
+                            clickedBrandMenus.forEach{
+                                if (!clickedBrandSubcats.contains(it.subcat)) clickedBrandSubcats += it.subcat }
+                            subcatAdapter.submitList(clickedBrandSubcats)
+
                             if (selectedAllergies.size == 0) {
                                 if (clickedCategory != "전체") {
                                     val allBrandMenus = allMenus.filter {
