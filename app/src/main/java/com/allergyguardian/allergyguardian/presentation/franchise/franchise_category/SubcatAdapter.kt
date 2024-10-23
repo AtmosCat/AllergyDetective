@@ -71,4 +71,7 @@ class SubcatAdapter : ListAdapter<String, SubcatAdapter.ViewHolder>(object : Dif
             )
         }
     }
+    fun updateButtonState(position: Int, color: Int) {
+        notifyItemChanged(position)
+    }
 }

@@ -34,6 +34,10 @@ class FranchiseCategoryFragment : Fragment() {
 
     private var brands = listOf<String>()
     private var clickedBrand = ""
+    private var isBrandClicked = false
+    private var clickedSubcat = ""
+    private var isSubcatClicked = false
+    private var previousSubcatPosition = -1
     private var clickedMenu = Menu()
     private var recyclerviewMenus = listOf<Menu>()
 
@@ -242,6 +246,7 @@ class FranchiseCategoryFragment : Fragment() {
 
                     brandAdapter.itemClick = object : BrandAdapter.ItemClick {
                         override fun onClick(view: View, position: Int) {
+                            clickedSubcat = ""
                             clickedBrand = brands[position]
                             binding.recyclerviewSubcat.visibility = View.VISIBLE
                             val clickedBrandSubcats = mutableListOf<String>()
@@ -249,6 +254,12 @@ class FranchiseCategoryFragment : Fragment() {
                             clickedBrandMenus.forEach{
                                 if (!clickedBrandSubcats.contains(it.subcat)) clickedBrandSubcats += it.subcat }
                             subcatAdapter.submitList(clickedBrandSubcats)
+
+                            subcatAdapter.itemClick = object : SubcatAdapter.ItemClick {
+                                override fun onClick(view: View, position: Int) {
+
+                                }
+                            }
 
                             if (selectedAllergies.size == 0) {
                                 if (clickedCategory != "전체") {
