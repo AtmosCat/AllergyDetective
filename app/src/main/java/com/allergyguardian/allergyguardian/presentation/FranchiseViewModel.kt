@@ -18,6 +18,8 @@ import com.allergyguardian.allergyguardian.network.food.RetrofitClient
 import com.allergyguardian.allergyguardian.presentation.base.UiState
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import retrofit2.HttpException
@@ -136,50 +138,56 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun getAllMenus() {
-        var allData = mutableListOf<Menu>()
+        val allData = mutableListOf<Menu>()
         _uiState.value = UiState.Loading
         viewModelScope.launch {
             runCatching {
                 val dbbDocumentNames = listOf(
-                    "FcdGtT08Opi8yLru5gHn", // 패스트푸드 - FcdGtT08Opi8yLru5gHn
-                    "YkiQthM8m219H0KrhmDe", // 피자 - YkiQthM8m219H0KrhmDe
-                    "KVgFYLHd75znBaatAkRP" // 치킨 - KVgFYLHd75znBaatAkRP
+                    "FcdGtT08Opi8yLru5gHn", // 패스트푸드
+                    "YkiQthM8m219H0KrhmDe", // 피자
+                    "KVgFYLHd75znBaatAkRP" // 치킨
                 )
-                for (it in dbbDocumentNames) {
-                    db.collection("franchise")
-                        .document(it)
-                        .get()
-                        .addOnSuccessListener { document ->
-                            if (document != null) {
-                                val sheet1 = document.get("Sheet1") as? List<Map<String, Any>>
-                                    ?: return@addOnSuccessListener
-                                val menus = sheet1.map { data ->
-                                    Menu(
-                                        id = data["id"] as? String ?: "",
-                                        type = data["type"] as? String ?: "",
-                                        brand = data["brand"] as? String ?: "",
-                                        subcat = data["subcat"] as? String ?: "",
-                                        name = data["name"] as? String ?: "",
-                                        allergy = data["allergy"] as? String ?: "",
-                                        weight = data["weight"] as? String ?: "",
-                                        kcal = data["kcal"] as? String ?: "",
-                                        natrium = data["natrium"] as? String ?: "",
-                                        sugar = data["sugar"] as? String ?: "",
-                                        fat = data["fat"] as? String ?: "",
-                                        protein = data["protein"] as? String ?: "",
-                                        origin = data["origin"] as? String ?: "",
-                                        nutrients = data["nutrients"] as? String ?: "",
-                                        imgurl = data["imgurl"] as? String ?: "",
-                                        url = data["url"] as? String ?: "",
-                                        date = data["date"] as? String ?: ""
-                                    )
-                                }
-                                allData += menus
-                                _allMenus.value = allData
+
+                // 비동기 결과 리스트 생성
+                val menus = dbbDocumentNames.map { docId ->
+                    async {
+                        val document = db.collection("franchise").document(docId).get().await()
+                        if (document != null) {
+                            val sheet1 = document.get("Sheet1") as? List<Map<String, Any>> ?: return@async emptyList()
+                            sheet1.map { data ->
+                                Menu(
+                                    id = data["id"] as? String ?: "",
+                                    type = data["type"] as? String ?: "",
+                                    brand = data["brand"] as? String ?: "",
+                                    subcat = data["subcat"] as? String ?: "",
+                                    name = data["name"] as? String ?: "",
+                                    allergy = data["allergy"] as? String ?: "",
+                                    weight = data["weight"] as? String ?: "",
+                                    kcal = data["kcal"] as? String ?: "",
+                                    natrium = data["natrium"] as? String ?: "",
+                                    sugar = data["sugar"] as? String ?: "",
+                                    fat = data["fat"] as? String ?: "",
+                                    protein = data["protein"] as? String ?: "",
+                                    origin = data["origin"] as? String ?: "",
+                                    nutrients = data["nutrients"] as? String ?: "",
+                                    imgurl = data["imgurl"] as? String ?: "",
+                                    url = data["url"] as? String ?: "",
+                                    date = data["date"] as? String ?: ""
+                                )
                             }
+                        } else {
+                            emptyList()
                         }
-                    _uiState.value = UiState.Success("getAllMenus() Succeeded")
+                    }
                 }
+
+                // 모든 결과를 기다림
+                val menusList = menus.awaitAll()
+                menusList.forEach { allData += it }
+
+                // 모든 메뉴가 처리된 후 UI 상태 업데이트
+                _allMenus.value = allData
+                _uiState.value = UiState.Success("getAllMenus() Succeeded")
             }.onFailure {
                 Log.e(ContentValues.TAG, "getAllMenus() failed! : ${it.message}")
                 handleException(it)
@@ -187,6 +195,7 @@ class FranchiseViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
     }
+
 
     fun updateMenu(menu: Menu) {
         viewModelScope.launch {
