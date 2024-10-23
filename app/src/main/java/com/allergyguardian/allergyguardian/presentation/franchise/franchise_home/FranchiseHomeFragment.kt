@@ -66,12 +66,14 @@ class FranchiseHomeFragment : Fragment() {
         franchiseViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             when (uiState) {
                 is UiState.Loading -> {
-                    Toast.makeText(requireContext(), "데이터를 로딩중입니다.", Toast.LENGTH_SHORT).show()
-                    binding.progress.isVisible = true
+                    binding.progress.visibility = View.VISIBLE
+                    binding.viewLoadingBackground.visibility = View.VISIBLE
+                    binding.tvLoading.visibility = View.VISIBLE
                 }
                 is UiState.Success -> {
-                    Toast.makeText(requireContext(), "데이터 로딩 완료!", Toast.LENGTH_SHORT).show()
-                    binding.progress.isVisible = false
+                    binding.progress.visibility = View.GONE
+                    binding.viewLoadingBackground.visibility = View.GONE
+                    binding.tvLoading.visibility = View.GONE
                     franchiseViewModel.allMenus.observe(viewLifecycleOwner) { data ->
                         franchiseHomeAdapter.submitList(data)
                     }
