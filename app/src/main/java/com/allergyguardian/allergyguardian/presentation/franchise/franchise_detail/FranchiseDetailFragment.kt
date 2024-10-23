@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
@@ -69,8 +70,11 @@ class FranchiseDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnBack.setOnClickListener{
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
         val clickedMenuId = param1
-        val clickedItemCategory = param2
 
         allMenus = franchiseViewModel.allMenus.value!!
         clickedMenu = allMenus.find { it.id == clickedMenuId }!!
@@ -85,13 +89,19 @@ class FranchiseDetailFragment : Fragment() {
             "샌드위치" -> binding.ivMenu.setImageResource(R.drawable.sandwich)
         }
         binding.tvBrand.text = clickedMenu.brand
+        binding.tvSubcat.text = clickedMenu.subcat
         binding.tvName.text = clickedMenu.name
-        binding.tvAllergy.text = clickedMenu.allergy
+        binding.tvAllergy.text = "⚠️ 알러지유발물질: ${clickedMenu.allergy}"
+        binding.tvDate.text = "업데이트 일자: ${clickedMenu.date}"
 
         binding.btnMenuLink.setOnClickListener{
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse(clickedMenu.url)
-            startActivity(intent)
+            if (clickedMenu.url.isEmpty() || clickedMenu.url.isBlank()) {
+                Toast.makeText(requireContext(), "연결 가능한 URL이 없습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(clickedMenu.url)
+                startActivity(intent)
+            }
         }
 
     }

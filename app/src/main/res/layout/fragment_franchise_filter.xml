@@ -369,7 +369,7 @@
             android:id="@+id/btn_apply_filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="필터 적용하기"
+            android:text="메뉴 검색하기"
             android:layout_marginBottom="20dp"
             style="@style/textStyle_subtitle"
             android:textColor="@color/main_color_white"

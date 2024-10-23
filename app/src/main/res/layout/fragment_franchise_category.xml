@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/btn_back"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:src="@drawable/back"
         android:layout_marginTop="25dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="15dp"
         app:layout_constraintHeight_percent="0.03"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
         style="@style/textStyle_subheading"
         android:layout_marginHorizontal="15dp"
         android:paddingLeft="15dp"
-        app:layout_constraintWidth_percent="0.65"
+        app:layout_constraintWidth_percent="0.68"
         android:background="@drawable/round_border_search"
         app:layout_constraintStart_toEndOf="@+id/btn_back"
         app:layout_constraintTop_toTopOf="@+id/btn_back"
@@ -65,14 +65,27 @@
         android:id="@+id/tv_category_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="카테고리명"
+        android:text="👌 카테고리: OO"
         android:layout_marginTop="15dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="10dp"
         style="@style/textStyle_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_search" />
 
-
+    <TextView
+        android:id="@+id/tv_filtered_allergy"
+        style="@style/textStyle_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/main_color_orange"
+        android:layout_marginEnd="15dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="👌 설정된 필터: 없음"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tv_category_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_category_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_franchises"
@@ -80,14 +93,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/tv_category_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_filtered_allergy"
         />
 
     <TextView
         android:id="@+id/tv_menu_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="상품 00개"
+        android:text="브랜드를 선택해주세요."
         android:layout_margin="15dp"
         style="@style/textStyle_subtitle"
         app:layout_constraintTop_toBottomOf="@+id/recyclerview_franchises"

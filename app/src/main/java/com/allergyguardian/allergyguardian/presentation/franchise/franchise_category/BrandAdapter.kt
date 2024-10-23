@@ -38,35 +38,40 @@ class BrandAdapter : ListAdapter<String, BrandAdapter.ViewHolder>(object : DiffU
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
 
-        val currentPosition = holder.bindingAdapterPosition
-
         holder.itemView.setOnClickListener {
-            selectedPosition = currentPosition
-            itemClick?.onClick(it, currentPosition)
+            val previousPosition = selectedPosition
+            selectedPosition = if (selectedPosition == position) null else position
+
+            notifyItemChanged(previousPosition ?: -1) // 이전 위치를 갱신, previousPosition이 null일 경우 의미없는 -1을 대입해 오류 방지
+            notifyItemChanged(position) // 현재 선택된 위치 갱신
+
+            // 클릭된 아이템에 대한 클릭 리스너 호출
+            itemClick?.onClick(it, position)
         }
 
-        holder.itemView.setBackgroundColor(
-            if (currentPosition == selectedPosition) {
-                ContextCompat.getColor(holder.itemView.context, R.color.main_color_orange)
-            } else {
-                Color.parseColor("#E4E4E4")
-            }
-        )
-
-        holder.brand.setTextColor(
-            if (currentPosition == selectedPosition) {
-                Color.parseColor("#FFFFFF")
-            } else {
-                Color.parseColor("#6A6F7A")
-            }
-        )
+        holder.updateViewAppearance(selectedPosition == position)
     }
 
-    class ViewHolder(binding: RecyclerviewBrandsBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: RecyclerviewBrandsBinding) : RecyclerView.ViewHolder(binding.root) {
         var brand = binding.tvBrand
-
         fun bind(item: String) {
             brand.text = item
+        }
+        fun updateViewAppearance(isSelected: Boolean) {
+            itemView.setBackgroundColor(
+                if (isSelected) {
+                    Color.parseColor("#4169E1")
+                } else {
+                    Color.parseColor("#E4E4E4")
+                }
+            )
+            brand.setTextColor(
+                if (isSelected) {
+                    Color.parseColor("#FFFFFF")
+                } else {
+                    Color.parseColor("#6A6F7A")
+                }
+            )
         }
     }
 }

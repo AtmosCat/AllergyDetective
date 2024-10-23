@@ -84,7 +84,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:lineSpacingExtra="5dp"
-            android:text="⚠️ddddddddddddddddddddddddddddddddddddddddddddddddddddds"
+            android:text="⚠️ ddddddddddddddddddddddddddddddddddddddddddddddddddddds"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_itemlist_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_itemlist_name" />

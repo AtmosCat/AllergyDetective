@@ -23,6 +23,7 @@ import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseFilterBi
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.SharedViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
+import com.allergyguardian.allergyguardian.presentation.franchise.franchise_category.FranchiseCategoryFragment
 
 class FranchiseFilterFragment : Fragment() {
 
@@ -170,13 +171,16 @@ class FranchiseFilterFragment : Fragment() {
             allergyCheckboxClicker(allergies[i], i)
         }
 
+        val franchiseCategoryFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseCategoryFragment")
         binding.btnApplyFilter.setOnClickListener {
             franchiseViewModel.setAllergyFilter(selectedAllergiesByCheckbox)
-            requireActivity().supportFragmentManager.popBackStack()
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                hide(this@FranchiseFilterFragment)
+                addToBackStack(null)
+                commit()
+            }
         }
-
     }
-
 
     private fun allergyCheckboxClicker(checkbox: CheckBox, position: Int) {
         checkbox.setOnCheckedChangeListener { _, isChecked ->

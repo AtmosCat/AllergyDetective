@@ -19,6 +19,7 @@ import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseCategory
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
 import com.allergyguardian.allergyguardian.presentation.base.UiState
+import com.allergyguardian.allergyguardian.presentation.franchise.FranchiseFilterFragment
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.ARG_PARAM1
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.FranchiseDetailFragment
 
@@ -41,13 +42,65 @@ class FranchiseCategoryFragment : Fragment() {
     private val pizzaBrandList = mutableListOf("도미노피자", "피자헛", "미스터피자", "피자알볼로", "파파존스", "피자나라치킨공주", "반올림피자", "피자마루", "청년피자", "7번가피자")
     private val chickenBrandList = mutableListOf("피자나라치킨공주")
     private val cafeBrandList = mutableListOf("스타벅스", "투썸플레이스", "메가커피")
-    private val icecreamBrandList = mutableListOf("서비스 준비중")
-    private val bakeryDoughnutBrandList = mutableListOf("서비스 준비중")
-    private val sandwichBrandList = mutableListOf("서비스 준비중")
+    private val icecreamBrandList = mutableListOf("아이스크림 서비스 준비중")
+    private val bakeryDoughnutBrandList = mutableListOf("베이커리/도넛 서비스 준비중")
+    private val sandwichBrandList = mutableListOf("샌드위치 서비스 준비중")
     private val allBrandList = cafeBrandList+fastfoodBrandList+bakeryDoughnutBrandList+icecreamBrandList+chickenBrandList+pizzaBrandList+sandwichBrandList
 
     private val categoryBrandsList = mutableListOf(
         cafeBrandList,fastfoodBrandList, bakeryDoughnutBrandList, icecreamBrandList, chickenBrandList, pizzaBrandList, sandwichBrandList, allBrandList
+    )
+
+    private val allergyNameList = listOf(
+        "알류(가금류)","우유","메밀","땅콩","대두","밀","고등어","게","새우","돼지고기","복숭아","토마토","아황산류",
+        "호두","닭고기","쇠고기","오징어","조개류(조개)","잣","조개류(굴)","조개류(전복)","조개류(홍합)")
+
+    private val eggKeywords = listOf("알류","계란", "난류")
+    private val milkKeywords = listOf("우유")
+    private val buckwheatKeywords = listOf("메밀")
+    private val peanutKeywords = listOf("땅콩", "견과")
+    private val soybeanKeywords = listOf("대두")
+    private val wheatKeywords = listOf("밀")
+    private val mackerelKeywords = listOf("고등어")
+    private val crabKeywords = listOf("게", "갑각")
+    private val shrimpKeywords = listOf("새우", "갑각")
+    private val porkKeywords = listOf("돼지")
+    private val peachKeywords = listOf("복숭아")
+    private val tomatoKeywords = listOf("토마토")
+    private val sulfurousAcidsKeywords = listOf("아황산","이산화황")
+    private val walnutKeywords = listOf("호두", "견과")
+    private val chickenKeywords = listOf("닭")
+    private val beefKeywords = listOf("소고기","쇠고기")
+    private val squidKeywords = listOf("오징어")
+    private val seashellKeywords = listOf("조개")
+    private val pinenutKeywords = listOf("잣", "견과")
+    private val oysterKeywords = listOf("굴", "조개")
+    private val abaloneKeywords = listOf("전복", "조개")
+    private val musselKeywords = listOf("홍합", "조개")
+
+    private val allergyKeywordsList = listOf(
+        eggKeywords,
+        milkKeywords,
+        buckwheatKeywords,
+        peanutKeywords,
+        soybeanKeywords,
+        wheatKeywords,
+        mackerelKeywords,
+        crabKeywords,
+        shrimpKeywords,
+        porkKeywords,
+        peachKeywords,
+        tomatoKeywords,
+        sulfurousAcidsKeywords,
+        walnutKeywords,
+        chickenKeywords,
+        beefKeywords,
+        squidKeywords,
+        seashellKeywords,
+        pinenutKeywords,
+        oysterKeywords,
+        abaloneKeywords,
+        musselKeywords
     )
 
     private val binding get() = _binding!!
@@ -101,24 +154,81 @@ class FranchiseCategoryFragment : Fragment() {
         binding.recyclerviewMenus.adapter = menuAdapter
         binding.recyclerviewMenus.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.tvCategoryTitle.text = clickedCategory
+        binding.tvCategoryTitle.text = "👌 카테고리: ${clickedCategory}"
 
-        val index = categoryList.indexOf(clickedCategory)
-        brands = categoryBrandsList[index]
+        val categoryIndex = categoryList.indexOf(clickedCategory)
+        brands = categoryBrandsList[categoryIndex]
         brandAdapter.submitList(brands)
-        brandAdapter.itemClick = object : BrandAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
-                clickedBrand = brands[position]
-                franchiseViewModel.allMenus.observe(viewLifecycleOwner) { data ->
-                    clickedBrandMenus = data.filter {
-                       it.type == clickedCategory && it.brand == clickedBrand }
-                    menuAdapter.submitList(clickedBrandMenus)
-                    binding.tvMenuCount.text = "상품 ${clickedBrandMenus.size}개"
+
+        franchiseViewModel.selectedAllergies.observe(viewLifecycleOwner) { selectedAllergies ->
+            binding.tvFilteredAllergy.text = "👌 설정된 필터: ${selectedAllergies}"
+            val allMenus = franchiseViewModel.allMenus.value!!
+            if (selectedAllergies != null) {
+                if (selectedAllergies.size == 0) {
+                    if (clickedCategory != "전체") {
+                        val allCategoryMenus = allMenus.filter { it.type == clickedCategory }
+                        menuAdapter.submitList(allCategoryMenus)
+                        binding.tvMenuCount.text = "상품 ${allCategoryMenus.size}개"
+                    } else {
+                        menuAdapter.submitList(allMenus)
+                        binding.tvMenuCount.text = "상품 ${allMenus.size}개"
+                    }
+                } else {
+                    selectedAllergies.forEach {
+                        val index = allergyNameList.indexOf(it)
+                        val selectedAllergyKeywords = allergyKeywordsList[index]
+                        val filteredMenus = mutableListOf<Menu>()
+                        selectedAllergyKeywords.forEach { keyword ->
+                            if (clickedCategory != "전체") {
+                                filteredMenus += allMenus.filter {
+                                    it.type == clickedCategory && !it.allergy.contains(keyword)
+                                }
+                            } else {
+                                filteredMenus += allMenus.filter {
+                                    !it.allergy.contains(keyword)
+                                }
+                            }
+                        }
+                        menuAdapter.submitList(filteredMenus)
+                        binding.tvMenuCount.text = "상품 ${filteredMenus.size}개"
+                    }
                 }
 
+                brandAdapter.itemClick = object : BrandAdapter.ItemClick {
+                    override fun onClick(view: View, position: Int) {
+                        clickedBrand = brands[position]
+                        if (clickedCategory != "전체") {
+                            clickedBrandMenus = allMenus.filter {
+                                it.type == clickedCategory
+                                        && it.brand == clickedBrand
+                            }
+                        } else {
+                            clickedBrandMenus = allMenus.filter {
+                                it.brand == clickedBrand
+                            }
+                        }
+                        menuAdapter.submitList(clickedBrandMenus)
+                        binding.tvMenuCount.text = "상품 ${clickedBrandMenus.size}개"
+                    }
+                }
             }
         }
 
+        val franchiseFilterFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseFilterFragment")
+        binding.btnFilter.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+//                hide(this@FranchiseCategoryFragment)
+                if (franchiseFilterFragment == null) {
+                    add(R.id.main_frame, FranchiseFilterFragment(), "FranchiseCategoryFragment")
+                } else {
+                    show(franchiseFilterFragment)
+                }
+                addToBackStack(null)
+                commit()
+            }
+        }
+
+        val franchiseDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseDetailFragment")
         menuAdapter.itemClick = object : MenuAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 clickedMenu = clickedBrandMenus[position]
@@ -127,7 +237,11 @@ class FranchiseCategoryFragment : Fragment() {
                 val menuDetail = FranchiseDetailFragment.newInstance(dataToSend, dataToSend2)
                 requireActivity().supportFragmentManager.beginTransaction().apply {
                     hide(this@FranchiseCategoryFragment)
-                    show(menuDetail)
+                    if (franchiseDetailFragment == null) {
+                        add(R.id.main_frame, menuDetail, "FranchiseDetailFragment")
+                    } else {
+                        show(menuDetail)
+                    }
                     addToBackStack(null)
                     commit()
                 }

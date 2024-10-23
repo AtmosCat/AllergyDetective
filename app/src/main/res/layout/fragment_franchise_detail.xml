@@ -9,7 +9,6 @@
     android:background="@color/white"
     >
 
-
     <ImageView
         android:id="@+id/btn_back"
         android:layout_width="30dp"
@@ -27,6 +26,8 @@
         android:background="@drawable/background_menu_img"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:padding="150dp"
+        android:src="@drawable/no_photo"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -96,10 +97,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="⛔ 알러지유발물질: 블라블라"
-        android:textColor="#FF0000"
+        android:textColor="#F30000"
         style="@style/textStyle_subtitle"
         app:layout_constraintStart_toStartOf="@+id/tv_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.85"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="업데이트 일자: 99.01.01."
+        style="@style/textStyle_detail"
+        app:layout_constraintStart_toStartOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_allergy" />
 
     <TextView
         android:id="@+id/btn_menu_link"
@@ -107,7 +119,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginBottom="20dp"
-        android:text="사이트에서 데이터 원본 확인하기"
+        android:text="사이트에서 자세한 정보 확인하기"
         style="@style/textStyle_subheading"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
