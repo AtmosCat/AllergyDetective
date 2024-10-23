@@ -171,7 +171,6 @@ class FranchiseFilterFragment : Fragment() {
             allergyCheckboxClicker(allergies[i], i)
         }
 
-        val franchiseCategoryFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseCategoryFragment")
         binding.btnApplyFilter.setOnClickListener {
             franchiseViewModel.setAllergyFilter(selectedAllergiesByCheckbox)
             requireActivity().supportFragmentManager.beginTransaction().apply {
