@@ -65,7 +65,7 @@ class MenuAdapter() :
                 "베이커리/도넛" -> photo.setImageResource(R.drawable.doughnut)
                 "샌드위치" -> photo.setImageResource(R.drawable.sandwich)
             }
-            brand.text = item.brand
+            brand.text = "${item.brand} - ${item.subcat}"
             name.text = item.name
             allergy.text = "⚠️"+"${item.allergy}"
         }

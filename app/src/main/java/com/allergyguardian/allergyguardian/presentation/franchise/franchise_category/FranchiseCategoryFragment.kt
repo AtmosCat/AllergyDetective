@@ -1,12 +1,15 @@
 package com.allergyguardian.allergyguardian.presentation.franchise.franchise_category
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -14,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseCategoryBinding
@@ -199,6 +203,7 @@ class FranchiseCategoryFragment : Fragment() {
                 if (selectedAllergies.isNullOrEmpty()) {
                     binding.tvFilteredAllergy.text = "👌 설정된 필터: 없음"
                 } else {
+                    binding.ivFilterCheck.visibility = View.VISIBLE
                     binding.tvFilteredAllergy.text = "👌 설정된 필터: ${selectedAllergies}".replace("[", "").replace("]","")
                 }
                 val allMenus = franchiseViewModel.allMenus.value!!
@@ -254,12 +259,13 @@ class FranchiseCategoryFragment : Fragment() {
                             clickedBrandMenus.forEach{
                                 if (!clickedBrandSubcats.contains(it.subcat)) clickedBrandSubcats += it.subcat }
                             subcatAdapter.submitList(clickedBrandSubcats)
-                            subcatAdapter.selectPosition(0)
+//                            subcatAdapter.selectPosition(0)
                             // 자동 클릭 이벤트 발생
                             val viewHolder = binding.recyclerviewSubcat.findViewHolderForAdapterPosition(0) as? SubcatAdapter.ViewHolder
                             viewHolder?.itemView?.performClick() // 자동으로 클릭된 것처럼 처리
                             subcatAdapter.itemClick = object : SubcatAdapter.ItemClick {
                                 override fun onClick(view: View, position: Int) {
+//                                    subcatAdapter.selectPosition(position)
                                     clickedSubcat = clickedBrandSubcats[position]
                                     if (selectedAllergies.size == 0) {
                                         if (clickedCategory != "전체") {
@@ -387,6 +393,39 @@ class FranchiseCategoryFragment : Fragment() {
                     commit()
                 }
             }
+        }
+
+        val emptyScrollUpButton = binding.btnScrollUpEmpty
+        val filledScrollUpButton = binding.btnScrollUpFilled
+        binding.recyclerviewMenus.addOnScrollListener (object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy>0) {
+                    if (emptyScrollUpButton.visibility == View.GONE){
+                        emptyScrollUpButton.apply{
+                            visibility = View.VISIBLE
+                            alpha = 0f
+                            animate().alpha(1f).setDuration(300).start()
+                        }
+                    }
+                } else {
+                    if(emptyScrollUpButton.visibility == View.VISIBLE){
+                        emptyScrollUpButton.animate()
+                            .alpha(0f)
+                            .setDuration(800)
+                            .withEndAction{emptyScrollUpButton.visibility = View.GONE}
+                            .start()
+                    }
+                }
+            }
+        })
+
+        emptyScrollUpButton.setOnClickListener{
+            binding.recyclerviewMenus.smoothScrollToPosition(0)
+            filledScrollUpButton.visibility = ImageView.VISIBLE
+            Handler(Looper.getMainLooper()).postDelayed({
+                filledScrollUpButton.visibility = ImageView.GONE
+            }, 50) // 100밀리초, 0.1초
         }
 
 

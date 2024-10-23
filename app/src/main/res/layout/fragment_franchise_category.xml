@@ -51,6 +51,7 @@
         app:tint="@color/white" />
 
     <ImageView
+        android:id="@+id/iv_filter_check"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:src="@drawable/check_red"
@@ -126,5 +127,32 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_menu_count" />
+
+    <ImageView
+        android:id="@+id/btn_scroll_up_empty"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/scroll_up_empty"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="40dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:tint="@color/main_color_light_gray"
+        />
+
+    <ImageView
+        android:id="@+id/btn_scroll_up_filled"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/scroll_up_filled"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/btn_scroll_up_empty"
+        app:layout_constraintStart_toStartOf="@+id/btn_scroll_up_empty"
+        app:layout_constraintEnd_toEndOf="@+id/btn_scroll_up_empty"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_scroll_up_empty"
+        app:tint="@color/main_color_orange"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
