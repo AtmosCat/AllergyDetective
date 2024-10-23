@@ -23,7 +23,7 @@
 
     <ImageView
         android:id="@+id/iv_menu"
-        android:background="@drawable/background_menu_img"
+        android:background="#F3F3F3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="150dp"
@@ -96,6 +96,7 @@
         app:layout_constraintWidth_percent="0.85"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:lineSpacingExtra="10dp"
         android:text="⛔ 알러지유발물질: 블라블라"
         android:textColor="#F30000"
         style="@style/textStyle_subtitle"

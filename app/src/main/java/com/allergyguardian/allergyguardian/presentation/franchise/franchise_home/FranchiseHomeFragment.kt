@@ -29,6 +29,8 @@ class FranchiseHomeFragment : Fragment() {
 
     private var categoryButtonList = emptyList<View>()
 
+    private var isAllMenusLoaded = false
+
     private val binding get() = _binding!!
 
     private val userViewModel: UserViewModel by activityViewModels {
@@ -55,7 +57,11 @@ class FranchiseHomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        franchiseViewModel.getAllMenus()
+
+        if (!isAllMenusLoaded) {
+            franchiseViewModel.getAllMenus()
+            isAllMenusLoaded = true
+        }
 
         franchiseViewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             when (uiState) {
@@ -99,11 +105,11 @@ class FranchiseHomeFragment : Fragment() {
                 val franchiseCategoryFragment = FranchiseCategoryFragment.newInstance(dataToSend)
                 requireActivity().supportFragmentManager.beginTransaction().apply {
                     hide(this@FranchiseHomeFragment)
-                    if (franchiseCategoryFragmentNull == null) {
+//                    if (franchiseCategoryFragmentNull == null) {
                         add(R.id.main_frame, franchiseCategoryFragment, "FranchiseCategoryFragment")
-                    } else {
-                        show(franchiseCategoryFragment)
-                    }
+//                    } else {
+//                        show(franchiseCategoryFragment)
+//                    }
                     addToBackStack(null)
                     commit()
                 }

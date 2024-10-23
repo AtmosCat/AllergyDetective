@@ -23,6 +23,7 @@ import com.allergyguardian.allergyguardian.presentation.base.UiState
 import com.allergyguardian.allergyguardian.presentation.franchise.FranchiseFilterFragment
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.ARG_PARAM1
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.FranchiseDetailFragment
+import com.allergyguardian.allergyguardian.presentation.franchise.franchise_home.FranchiseHomeFragment
 
 const val ARG_PARAM1 = "param1"
 
@@ -34,7 +35,7 @@ class FranchiseCategoryFragment : Fragment() {
     private var brands = listOf<String>()
     private var clickedBrand = ""
     private var clickedMenu = Menu()
-    private var clickedBrandMenus = listOf<Menu>()
+    private var recyclerviewMenus = listOf<Menu>()
 
     private val categoryList = mutableListOf("카페", "패스트푸드", "베이커리/도넛", "아이스크림",
         "치킨", "피자", "샌드위치", "전체")
@@ -144,7 +145,17 @@ class FranchiseCategoryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnBack.setOnClickListener{
-            requireActivity().supportFragmentManager.popBackStack()
+            val franchiseHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseHomeFragment")
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+            remove(this@FranchiseCategoryFragment)
+                if (franchiseHomeFragment == null) {
+                    add(R.id.main_frame, FranchiseHomeFragment(), "FranchiseHomeFragment")
+                } else {
+                    show(franchiseHomeFragment)
+                }
+//                addToBackStack(null)
+                commit()
+            }
         }
 
         val clickedCategory = param1
@@ -180,7 +191,7 @@ class FranchiseCategoryFragment : Fragment() {
                 if (selectedAllergies.isNullOrEmpty()) {
                     binding.tvFilteredAllergy.text = "👌 설정된 필터: 없음"
                 } else {
-                    binding.tvFilteredAllergy.text = "👌 설정된 필터: ${selectedAllergies}"
+                    binding.tvFilteredAllergy.text = "👌 설정된 필터: ${selectedAllergies}".replace("[", "").replace("]","")
                 }
                 val allMenus = franchiseViewModel.allMenus.value!!
                 var searchKeyword = ""
@@ -193,31 +204,34 @@ class FranchiseCategoryFragment : Fragment() {
                             val allCategoryMenus = allMenus.filter {
                                 it.type == clickedCategory && it.name.contains(searchKeyword) }
                             menuAdapter.submitList(allCategoryMenus)
+                            recyclerviewMenus = allCategoryMenus
                             binding.tvMenuCount.text = "상품 ${allCategoryMenus.size}개"
                         } else {
                             val allCategoryMenus = allMenus.filter {
                                 it.name.contains(searchKeyword) }
                             menuAdapter.submitList(allCategoryMenus)
+                            recyclerviewMenus = allCategoryMenus
                             binding.tvMenuCount.text = "상품 ${allCategoryMenus.size}개"
                         }
                     } else {
+                        var filteredMenus = allMenus
                         selectedAllergies.forEach {
                             val index = allergyNameList.indexOf(it)
                             val selectedAllergyKeywords = allergyKeywordsList[index]
-                            val filteredMenus = mutableListOf<Menu>()
                             selectedAllergyKeywords.forEach { allergyKeyword ->
                                 if (clickedCategory != "전체") {
-                                    filteredMenus += allMenus.filter {
+                                    filteredMenus = filteredMenus.filter {
                                         it.type == clickedCategory && !it.allergy.contains(allergyKeyword)
                                                 && it.name.contains(searchKeyword)
                                     }
                                 } else {
-                                    filteredMenus += allMenus.filter {
+                                    filteredMenus = filteredMenus.filter {
                                         !it.allergy.contains(allergyKeyword) && it.name.contains(searchKeyword)
                                     }
                                 }
                             }
                             menuAdapter.submitList(filteredMenus)
+                            recyclerviewMenus = filteredMenus
                             binding.tvMenuCount.text = "상품 ${filteredMenus.size}개"
                         }
                     }
@@ -231,32 +245,35 @@ class FranchiseCategoryFragment : Fragment() {
                                         it.type == clickedCategory && it.brand == clickedBrand && it.name.contains(searchKeyword)
                                     }
                                     menuAdapter.submitList(allBrandMenus)
+                                    recyclerviewMenus = allBrandMenus
                                     binding.tvMenuCount.text = "상품 ${allBrandMenus.size}개"
                                 } else {
                                     val allBrandMenus = allMenus.filter {
                                         it.brand == clickedBrand && it.name.contains(searchKeyword) }
                                     menuAdapter.submitList(allBrandMenus)
+                                    recyclerviewMenus = allBrandMenus
                                     binding.tvMenuCount.text = "상품 ${allBrandMenus.size}개"
                                 }
                             } else {
+                                var filteredBrandMenus = allMenus
                                 selectedAllergies.forEach {
                                     val index = allergyNameList.indexOf(it)
                                     val selectedAllergyKeywords = allergyKeywordsList[index]
-                                    val filteredBrandMenus = mutableListOf<Menu>()
                                     selectedAllergyKeywords.forEach { allergyKeyword ->
                                         if (clickedCategory != "전체") {
-                                            filteredBrandMenus += allMenus.filter {
+                                            filteredBrandMenus = filteredBrandMenus.filter {
                                                 it.type == clickedCategory && !it.allergy.contains(allergyKeyword)
                                                     && it.brand == clickedBrand && it.name.contains(searchKeyword)
                                             }
                                         } else {
-                                            filteredBrandMenus += allMenus.filter {
+                                            filteredBrandMenus = filteredBrandMenus.filter {
                                                 !it.allergy.contains(allergyKeyword)
                                                     && it.brand == clickedBrand && it.name.contains(searchKeyword)
                                             }
                                         }
                                     }
                                     menuAdapter.submitList(filteredBrandMenus)
+                                    recyclerviewMenus = filteredBrandMenus
                                     binding.tvMenuCount.text = "상품 ${filteredBrandMenus.size}개"
                                 }
                             }
@@ -283,7 +300,7 @@ class FranchiseCategoryFragment : Fragment() {
         val franchiseDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseDetailFragment")
         menuAdapter.itemClick = object : MenuAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                clickedMenu = clickedBrandMenus[position]
+                clickedMenu = recyclerviewMenus[position]
                 val dataToSend = clickedMenu.id
                 val dataToSend2 = clickedMenu.type
                 val menuDetail = FranchiseDetailFragment.newInstance(dataToSend, dataToSend2)
