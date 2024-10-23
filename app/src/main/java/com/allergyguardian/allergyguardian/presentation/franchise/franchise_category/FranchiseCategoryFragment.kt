@@ -246,59 +246,109 @@ class FranchiseCategoryFragment : Fragment() {
 
                     brandAdapter.itemClick = object : BrandAdapter.ItemClick {
                         override fun onClick(view: View, position: Int) {
-                            clickedSubcat = ""
                             clickedBrand = brands[position]
+                            clickedSubcat = ""
                             binding.recyclerviewSubcat.visibility = View.VISIBLE
-                            val clickedBrandSubcats = mutableListOf<String>()
+                            val clickedBrandSubcats = mutableListOf("전체")
                             val clickedBrandMenus = allMenus.filter { it.brand == clickedBrand }
                             clickedBrandMenus.forEach{
                                 if (!clickedBrandSubcats.contains(it.subcat)) clickedBrandSubcats += it.subcat }
                             subcatAdapter.submitList(clickedBrandSubcats)
-
+                            subcatAdapter.selectPosition(0)
+                            // 자동 클릭 이벤트 발생
+                            val viewHolder = binding.recyclerviewSubcat.findViewHolderForAdapterPosition(0) as? SubcatAdapter.ViewHolder
+                            viewHolder?.itemView?.performClick() // 자동으로 클릭된 것처럼 처리
                             subcatAdapter.itemClick = object : SubcatAdapter.ItemClick {
                                 override fun onClick(view: View, position: Int) {
-
-                                }
-                            }
-
-                            if (selectedAllergies.size == 0) {
-                                if (clickedCategory != "전체") {
-                                    val allBrandMenus = allMenus.filter {
-                                        it.type == clickedCategory && it.brand == clickedBrand && it.name.contains(searchKeyword)
-                                    }
-                                    menuAdapter.submitList(allBrandMenus)
-                                    recyclerviewMenus = allBrandMenus
-                                    binding.tvMenuCount.text = "상품 ${allBrandMenus.size}개"
-                                } else {
-                                    val allBrandMenus = allMenus.filter {
-                                        it.brand == clickedBrand && it.name.contains(searchKeyword) }
-                                    menuAdapter.submitList(allBrandMenus)
-                                    recyclerviewMenus = allBrandMenus
-                                    binding.tvMenuCount.text = "상품 ${allBrandMenus.size}개"
-                                }
-                            } else {
-                                var filteredBrandMenus = allMenus
-                                selectedAllergies.forEach {
-                                    val index = allergyNameList.indexOf(it)
-                                    val selectedAllergyKeywords = allergyKeywordsList[index]
-                                    selectedAllergyKeywords.forEach { allergyKeyword ->
+                                    clickedSubcat = clickedBrandSubcats[position]
+                                    if (selectedAllergies.size == 0) {
                                         if (clickedCategory != "전체") {
-                                            filteredBrandMenus = filteredBrandMenus.filter {
-                                                it.type == clickedCategory && !it.allergy.contains(allergyKeyword)
-                                                    && it.brand == clickedBrand && it.name.contains(searchKeyword)
+                                            if (clickedSubcat.isBlank() || clickedSubcat == "전체") {
+                                                val allBrandMenus = allMenus.filter {
+                                                    it.type == clickedCategory && it.brand == clickedBrand && it.name.contains(
+                                                        searchKeyword
+                                                    )
+                                                }
+                                                menuAdapter.submitList(allBrandMenus)
+                                                recyclerviewMenus = allBrandMenus
+                                                binding.tvMenuCount.text = "상품 ${allBrandMenus.size}개"
+                                            } else {
+                                                val allBrandMenus = allMenus.filter {
+                                                    it.type == clickedCategory && it.brand == clickedBrand
+                                                            && it.name.contains(searchKeyword) && it.subcat == clickedSubcat
+                                                }
+                                                menuAdapter.submitList(allBrandMenus)
+                                                recyclerviewMenus = allBrandMenus
+                                                binding.tvMenuCount.text = "상품 ${allBrandMenus.size}개"
                                             }
                                         } else {
-                                            filteredBrandMenus = filteredBrandMenus.filter {
-                                                !it.allergy.contains(allergyKeyword)
-                                                    && it.brand == clickedBrand && it.name.contains(searchKeyword)
+                                            if (clickedSubcat.isBlank() || clickedSubcat == "전체") {
+                                                val allBrandMenus = allMenus.filter {
+                                                    it.brand == clickedBrand
+                                                            && it.name.contains(searchKeyword)
+                                                }
+                                                menuAdapter.submitList(allBrandMenus)
+                                                recyclerviewMenus = allBrandMenus
+                                                binding.tvMenuCount.text = "상품 ${allBrandMenus.size}개"
+                                            } else {
+                                                val allBrandMenus = allMenus.filter {
+                                                    it.brand == clickedBrand
+                                                            && it.name.contains(searchKeyword) && it.subcat == clickedSubcat
+                                                }
+                                                menuAdapter.submitList(allBrandMenus)
+                                                recyclerviewMenus = allBrandMenus
+                                                binding.tvMenuCount.text = "상품 ${allBrandMenus.size}개"
                                             }
                                         }
+                                    } else {
+                                        var filteredBrandMenus = allMenus
+                                        selectedAllergies.forEach {
+                                            val index = allergyNameList.indexOf(it)
+                                            val selectedAllergyKeywords = allergyKeywordsList[index]
+                                            selectedAllergyKeywords.forEach { allergyKeyword ->
+                                                if (clickedCategory != "전체") {
+                                                    if (clickedSubcat.isBlank() || clickedSubcat == "전체") {
+                                                        filteredBrandMenus = filteredBrandMenus.filter {
+                                                            it.type == clickedCategory && !it.allergy.contains(
+                                                                allergyKeyword
+                                                            )
+                                                                    && it.brand == clickedBrand && it.name.contains(
+                                                                searchKeyword
+                                                            )
+                                                        }
+                                                    } else {
+                                                        filteredBrandMenus = filteredBrandMenus.filter {
+                                                            it.type == clickedCategory && !it.allergy.contains(allergyKeyword)
+                                                                    && it.brand == clickedBrand && it.name.contains(searchKeyword)
+                                                                    && it.subcat == clickedSubcat
+                                                        }
+                                                    }
+                                                } else {
+                                                    if (clickedSubcat.isBlank() || clickedSubcat == "전체") {
+                                                        filteredBrandMenus = filteredBrandMenus.filter {
+                                                            !it.allergy.contains(allergyKeyword)
+                                                                    && it.brand == clickedBrand && it.name.contains(
+                                                                searchKeyword
+                                                            )
+                                                        }
+                                                    } else {
+                                                        filteredBrandMenus = filteredBrandMenus.filter {
+                                                            !it.allergy.contains(allergyKeyword)
+                                                                    && it.brand == clickedBrand && it.name.contains(searchKeyword)
+                                                                    && it.subcat == clickedSubcat
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            menuAdapter.submitList(filteredBrandMenus)
+                                            recyclerviewMenus = filteredBrandMenus
+                                            binding.tvMenuCount.text = "상품 ${filteredBrandMenus.size}개"
+                                        }
                                     }
-                                    menuAdapter.submitList(filteredBrandMenus)
-                                    recyclerviewMenus = filteredBrandMenus
-                                    binding.tvMenuCount.text = "상품 ${filteredBrandMenus.size}개"
                                 }
                             }
+
+
                         }
                     }
                 }

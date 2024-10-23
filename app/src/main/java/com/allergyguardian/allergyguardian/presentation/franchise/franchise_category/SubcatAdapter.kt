@@ -37,7 +37,7 @@ class SubcatAdapter : ListAdapter<String, SubcatAdapter.ViewHolder>(object : Dif
 
         holder.itemView.setOnClickListener {
             val previousPosition = selectedPosition
-            selectedPosition = if (selectedPosition == position) null else position
+            selectedPosition = if (selectedPosition == position) position else position
 
             notifyItemChanged(previousPosition ?: -1) // 이전 위치를 갱신, previousPosition이 null일 경우 의미없는 -1을 대입해 오류 방지
             notifyItemChanged(position) // 현재 선택된 위치 갱신
@@ -71,7 +71,7 @@ class SubcatAdapter : ListAdapter<String, SubcatAdapter.ViewHolder>(object : Dif
             )
         }
     }
-    fun updateButtonState(position: Int, color: Int) {
-        notifyItemChanged(position)
+    fun selectPosition(position: Int) {
+        selectedPosition = position
     }
 }
