@@ -96,7 +96,7 @@ class FranchiseHomeFragment : Fragment() {
             binding.btnChicken,
             binding.btnPizza,
             binding.btnSandwich,
-            binding.btnAll
+//            binding.btnAll
         )
 
         val franchiseCategoryFragmentNull = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseCategoryFragment")

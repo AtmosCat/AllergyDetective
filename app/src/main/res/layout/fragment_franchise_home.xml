@@ -391,41 +391,41 @@
                     app:layout_constraintStart_toStartOf="@+id/btn_sandwich"
                     app:layout_constraintTop_toBottomOf="@+id/iv_sandwich" />
 
-                <View
-                    android:id="@+id/btn_all"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="parent    "
-                    app:layout_constraintStart_toStartOf="@+id/guideline3"
-                    app:layout_constraintTop_toBottomOf="@+id/btn_icecream"
-                    app:layout_constraintWidth_percent="0.23" />
+<!--                <View-->
+<!--                    android:id="@+id/btn_all"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:gravity="center"-->
+<!--                    app:layout_constraintDimensionRatio="1:1"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent    "-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/guideline3"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/btn_icecream"-->
+<!--                    app:layout_constraintWidth_percent="0.23" />-->
 
-                <ImageView
-                    android:id="@+id/iv_all"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="12dp"
-                    android:src="@drawable/all_menu"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintEnd_toEndOf="@+id/btn_all"
-                    app:layout_constraintStart_toStartOf="@+id/btn_all"
-                    app:layout_constraintTop_toTopOf="@+id/btn_all"
-                    app:layout_constraintWidth_percent="0.1" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/iv_all"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_marginTop="12dp"-->
+<!--                    android:src="@drawable/all_menu"-->
+<!--                    app:layout_constraintDimensionRatio="1:1"-->
+<!--                    app:layout_constraintEnd_toEndOf="@+id/btn_all"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/btn_all"-->
+<!--                    app:layout_constraintTop_toTopOf="@+id/btn_all"-->
+<!--                    app:layout_constraintWidth_percent="0.1" />-->
 
-                <TextView
-                    android:id="@+id/tv_all"
-                    style="@style/textStyle_subheading"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:text="전체"
-                    app:layout_constraintBottom_toBottomOf="@+id/btn_all"
-                    app:layout_constraintEnd_toEndOf="@+id/btn_all"
-                    app:layout_constraintStart_toStartOf="@+id/btn_all"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_all" />
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_all"-->
+<!--                    style="@style/textStyle_subheading"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:paddingTop="5dp"-->
+<!--                    android:text="전체"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@+id/btn_all"-->
+<!--                    app:layout_constraintEnd_toEndOf="@+id/btn_all"-->
+<!--                    app:layout_constraintStart_toStartOf="@+id/btn_all"-->
+<!--                    app:layout_constraintTop_toBottomOf="@+id/iv_all" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -459,6 +459,7 @@
         android:background="#FFFFFF"
         android:alpha="0.8"
         android:elevation="2dp"
+        android:visibility="gone"
         />
 
     <ProgressBar
@@ -471,6 +472,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         />
 
     <TextView
@@ -484,6 +486,7 @@
         app:layout_constraintStart_toStartOf="@+id/progress"
         app:layout_constraintEnd_toEndOf="@+id/progress"
         android:elevation="4dp"
+        android:visibility="gone"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

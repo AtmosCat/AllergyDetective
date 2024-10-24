@@ -212,6 +212,12 @@ class FranchiseCategoryFragment : Fragment() {
         franchiseViewModel.selectedAllergies.observe(viewLifecycleOwner) { selectedAllergies ->
             franchiseViewModel.searchKeyword.observe(viewLifecycleOwner) { _searchKeyword ->
 
+                if (recyclerviewMenus.isEmpty()) {
+                    binding.tvNoMenus.visibility = View.VISIBLE
+                } else {
+                    binding.tvNoMenus.visibility = View.GONE
+                }
+
                 if (previousSelectedAllergies != selectedAllergies) {
                     val viewHolder = binding.recyclerviewFranchises.findViewHolderForAdapterPosition(1) as? BrandAdapter.ViewHolder
                     viewHolder?.itemView?.performClick()
@@ -281,8 +287,8 @@ class FranchiseCategoryFragment : Fragment() {
                                 viewHolder?.itemView?.performClick() // 자동으로 클릭된 것처럼 처리
                             }
                             subcatAdapter.itemClick = object : SubcatAdapter.ItemClick {
-                            override fun onClick(view: View, position: Int) {
-                                clickedSubcat = clickedBrandSubcats[position]
+                                override fun onClick(view: View, position: Int) {
+                                    clickedSubcat = clickedBrandSubcats[position]
                                     if (selectedAllergies.size == 0) {
                                         if (clickedSubcat.isBlank() || clickedSubcat == "전체") {
                                             val allBrandMenus = allMenus.filter {

@@ -21,6 +21,7 @@
         android:id="@+id/et_search"
         android:layout_width="0dp"
         android:layout_height="45dp"
+        android:letterSpacing="0.1"
         android:hint="메뉴명을 검색하세요."
         android:maxLines="1"
         android:imeOptions="actionSearch"
@@ -118,6 +119,17 @@
         app:layout_constraintStart_toStartOf="parent"
         />
 
+    <TextView
+        android:id="@+id/tv_no_menus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색 결과가 없습니다."
+        android:layout_marginTop="15dp"
+        style="@style/textStyle_subheading"
+        app:layout_constraintTop_toTopOf="@+id/recyclerview_menus"
+        app:layout_constraintStart_toStartOf="@+id/recyclerview_menus"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerview_menus"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_menus"
