@@ -16,6 +16,7 @@ import com.allergyguardian.allergyguardian.data.model.market.Market
 import com.allergyguardian.allergyguardian.data.model.user.Post
 import com.allergyguardian.allergyguardian.network.food.RetrofitClient
 import com.allergyguardian.allergyguardian.presentation.base.UiState
+import com.allergyguardian.allergyguardian.presentation.franchise.franchise_category.MenuAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.async

@@ -173,11 +173,7 @@ class FranchiseFilterFragment : Fragment() {
 
         binding.btnApplyFilter.setOnClickListener {
             franchiseViewModel.setAllergyFilter(selectedAllergiesByCheckbox)
-            requireActivity().supportFragmentManager.beginTransaction().apply {
-                hide(this@FranchiseFilterFragment)
-                addToBackStack(null)
-                commit()
-            }
+            requireActivity().supportFragmentManager.popBackStack()
         }
     }
 
