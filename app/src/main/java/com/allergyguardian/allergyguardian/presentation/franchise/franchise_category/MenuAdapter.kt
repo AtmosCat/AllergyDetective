@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.allergyguardian.allergyguardian.R
+import com.allergyguardian.allergyguardian.data.model.food.Food
 import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.databinding.RecyclerviewFranchiseMenuBinding
+import com.allergyguardian.allergyguardian.presentation.UserViewModel
 
-class MenuAdapter() :
+class MenuAdapter(private val userViewModel: UserViewModel) :
     ListAdapter<Menu, MenuAdapter.ViewHolder>(object :
         DiffUtil.ItemCallback<Menu>() {
         override fun areItemsTheSame(oldItem: Menu, newItem: Menu): Boolean {
@@ -39,7 +41,7 @@ class MenuAdapter() :
     // 홀더에 실제 데이터 할당
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         runCatching {
-            holder.bind(getItem(position))
+            holder.bind(getItem(position), userViewModel.currentUser.value!!.like)
             holder.itemView.setOnClickListener {
                 itemClick?.onClick(it, position)
             }
@@ -55,7 +57,7 @@ class MenuAdapter() :
         val name = binding.tvItemlistName
         val allergy = binding.tvItemlistAllergy
         val like = binding.ivLike
-        fun bind(item: Menu) {
+        fun bind(item: Menu, likedMenus: MutableList<Menu>) {
             when (item.type) {
                 "패스트푸드" -> photo.setImageResource(R.drawable.hamburger)
                 "피자" -> photo.setImageResource(R.drawable.pizza)
@@ -68,6 +70,11 @@ class MenuAdapter() :
             brand.text = "${item.brand} - ${item.subcat}"
             name.text = item.name
             allergy.text = "⚠️"+"${item.allergy}"
+            if (item in likedMenus) {
+                like.setImageResource(R.drawable.filled_heart)
+            } else {
+                like.setImageResource(R.drawable.heart)
+            }
         }
     }
 }

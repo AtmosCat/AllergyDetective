@@ -8,16 +8,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.allergyguardian.allergyguardian.R
+import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.databinding.RecyclerviewFranchiseMenuBinding
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
 
 class FavoriteListAdapter(private val userViewModel: UserViewModel) :
-    ListAdapter<com.allergyguardian.allergyguardian.data.model.franchise.Menu, FavoriteListAdapter.Holder>(object :
-        DiffUtil.ItemCallback<com.allergyguardian.allergyguardian.data.model.franchise.Menu>() {
-        override fun areItemsTheSame(oldItem: com.allergyguardian.allergyguardian.data.model.franchise.Menu, newItem: com.allergyguardian.allergyguardian.data.model.franchise.Menu): Boolean {
+    ListAdapter<Menu, FavoriteListAdapter.Holder>(object :
+        DiffUtil.ItemCallback<Menu>() {
+        override fun areItemsTheSame(oldItem: Menu, newItem: Menu): Boolean {
             return oldItem.id == newItem.id
         }
-        override fun areContentsTheSame(oldItem: com.allergyguardian.allergyguardian.data.model.franchise.Menu, newItem: com.allergyguardian.allergyguardian.data.model.franchise.Menu): Boolean {
+        override fun areContentsTheSame(oldItem: Menu, newItem: Menu): Boolean {
             return oldItem == newItem
         }
     }) {
@@ -55,8 +56,7 @@ class FavoriteListAdapter(private val userViewModel: UserViewModel) :
         val allergy = binding.tvItemlistAllergy
         val like = binding.ivLike
         fun bind(
-            item: com.allergyguardian.allergyguardian.data.model.franchise.Menu,
-            like: MutableList<com.allergyguardian.allergyguardian.data.model.franchise.Menu>
+            item: Menu, likedMenus: MutableList<Menu>
         ) {
             when (item.type) {
                 "패스트푸드" -> photo.setImageResource(R.drawable.hamburger)
@@ -70,10 +70,15 @@ class FavoriteListAdapter(private val userViewModel: UserViewModel) :
             brand.text = "${item.brand} - ${item.subcat}"
             name.text = item.name
             allergy.text = "⚠️"+"${item.allergy}"
+            if (item in likedMenus) {
+                like.setImageResource(R.drawable.filled_heart)
+            } else {
+                like.setImageResource(R.drawable.heart)
+            }
         }
     }
 
-    fun updateData(newItems: List<com.allergyguardian.allergyguardian.data.model.franchise.Menu>) {
+    fun updateData(newItems: List<Menu>) {
         submitList(newItems)
     }
 }

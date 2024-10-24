@@ -15,6 +15,7 @@ import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 import com.allergyguardian.allergyguardian.databinding.FragmentFavoriteBinding
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
+import com.allergyguardian.allergyguardian.presentation.franchise.franchise_detail.FranchiseDetailFragment
 import com.allergyguardian.allergyguardian.presentation.itemdetail.ItemDetailFragment
 
 class FavoriteFragment : Fragment() {
@@ -67,16 +68,16 @@ class FavoriteFragment : Fragment() {
                     if (data != null) {
                         currentUserFavorites = data.like
                         clickedItem = currentUserFavorites[position]
-
-                        val itemDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemDetailFragment")
+                        val franchiseDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseDetailFragment")
                         val dataToSend = clickedItem!!.id
-                        val itemDetail = ItemDetailFragment.newInstance(dataToSend)
+                        val dataToSend2 = clickedItem!!.type
+                        val menuDetail = FranchiseDetailFragment.newInstance(dataToSend, dataToSend2)
                         requireActivity().supportFragmentManager.beginTransaction().apply {
                             hide(this@FavoriteFragment)
-                            if (itemDetailFragment == null) {
-                                add(R.id.main_frame, itemDetail, "ItemDetailFragment")
+                            if (franchiseDetailFragment == null) {
+                                add(R.id.main_frame, menuDetail, "FranchiseDetailFragment")
                             } else {
-                                show(itemDetail)
+                                show(menuDetail)
                             }
                             addToBackStack(null)
                             commit()

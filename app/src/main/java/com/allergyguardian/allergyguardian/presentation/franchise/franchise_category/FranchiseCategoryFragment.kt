@@ -132,7 +132,7 @@ class FranchiseCategoryFragment : Fragment() {
 
     private val brandAdapter by lazy { BrandAdapter() }
     private val subcatAdapter by lazy { SubcatAdapter() }
-    private val menuAdapter by lazy { MenuAdapter() }
+    private val menuAdapter by lazy { MenuAdapter(userViewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -285,14 +285,14 @@ class MyPageFragment : Fragment() {
             }
         }
 
-        val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
+        val franchiseHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseHomeFragment")
         binding.btnTabHome.setOnClickListener{
             requireActivity().supportFragmentManager.beginTransaction().apply {
                 hide(this@MyPageFragment)
-                if (homeFragment == null) {
-                    add(R.id.main_frame, HomeFragment(), "HomeFragment")
-                } else if(homeFragment != null && homeFragment.isHidden) {
-                    show(homeFragment)
+                if (franchiseHomeFragment == null) {
+                    add(R.id.main_frame, HomeFragment(), "FranchiseHomeFragment")
+                } else if(franchiseHomeFragment != null && franchiseHomeFragment.isHidden) {
+                    show(franchiseHomeFragment)
                 }
                 addToBackStack(null)
                 commit()
