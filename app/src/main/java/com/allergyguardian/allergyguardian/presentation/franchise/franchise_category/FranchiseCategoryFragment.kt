@@ -49,7 +49,6 @@ class FranchiseCategoryFragment : Fragment() {
     private var recyclerviewMenus = listOf<Menu>()
 
     private var previousSelectedAllergies = mutableListOf<String>()
-    private var previousSearchKeyword = ""
 
     private val fastfoodBrandList = mutableListOf("맥도날드", "롯데리아", "KFC", "맘스터치", "NBB버거")
     private val pizzaBrandList = mutableListOf("도미노피자", "피자헛", "미스터피자", "피자알볼로", "파파존스", "피자나라치킨공주", "반올림피자", "피자마루", "청년피자", "7번가피자")
@@ -214,6 +213,10 @@ class FranchiseCategoryFragment : Fragment() {
             franchiseViewModel.searchKeyword.observe(viewLifecycleOwner) { _searchKeyword ->
 
                 if (previousSelectedAllergies != selectedAllergies) {
+                    val viewHolder = binding.recyclerviewFranchises.findViewHolderForAdapterPosition(1) as? BrandAdapter.ViewHolder
+                    viewHolder?.itemView?.performClick()
+                    previousSelectedAllergies = selectedAllergies
+                } else {
                     val viewHolder = binding.recyclerviewFranchises.findViewHolderForAdapterPosition(0) as? BrandAdapter.ViewHolder
                     viewHolder?.itemView?.performClick()
                     previousSelectedAllergies = selectedAllergies
