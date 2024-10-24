@@ -381,7 +381,6 @@
         app:layout_constraintStart_toStartOf="@+id/view_mypage_menu2"
         app:layout_constraintTop_toTopOf="@+id/view_mypage_menu2" />
 
-
     <View
         android:id="@+id/view_mypage_menu3"
         android:layout_width="match_parent"

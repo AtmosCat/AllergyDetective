@@ -93,31 +93,31 @@ class ItemDetailFragment : Fragment() {
             val viewPagerAdapter = ViewPagerAdapter(imageResources)
             viewPager.adapter = viewPagerAdapter
 
-            var isLiked = false
-            var currentUserFavorites = mutableListOf<Food>()
-            userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
-                if (data != null) {
-                    currentUserFavorites = data.like
-                    if (clickedItem in currentUserFavorites) {
-                        binding.btnLike.setImageResource(R.drawable.filled_heart)
-                        isLiked = true
-                    }
-                }
-            }
-
-            binding.btnLike.setOnClickListener {
-                if (!isLiked) {
-                    isLiked = true
-                    binding.btnLike.setImageResource(R.drawable.filled_heart)
-                    userViewModel.currentUser.value?.like!!.add(clickedItem)
-                    userViewModel.updateCurrentUserInfo()
-                } else {
-                    isLiked = false
-                    binding.btnLike.setImageResource(R.drawable.heart)
-                    userViewModel.currentUser.value?.like!!.remove(clickedItem)
-                    userViewModel.updateCurrentUserInfo()
-                }
-            }
+//            var isLiked = false
+//            var currentUserFavorites = mutableListOf<Food>()
+//            userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
+//                if (data != null) {
+//                    currentUserFavorites = data.like
+//                    if (clickedItem in currentUserFavorites) {
+//                        binding.btnLike.setImageResource(R.drawable.filled_heart)
+//                        isLiked = true
+//                    }
+//                }
+//            }
+//
+//            binding.btnLike.setOnClickListener {
+//                if (!isLiked) {
+//                    isLiked = true
+//                    binding.btnLike.setImageResource(R.drawable.filled_heart)
+//                    userViewModel.currentUser.value?.like!!.add(clickedItem)
+//                    userViewModel.updateCurrentUserInfo()
+//                } else {
+//                    isLiked = false
+//                    binding.btnLike.setImageResource(R.drawable.heart)
+//                    userViewModel.currentUser.value?.like!!.remove(clickedItem)
+//                    userViewModel.updateCurrentUserInfo()
+//                }
+//            }
 
             binding.tvCategory.text = clickedItem?.prdkind.toString()
             binding.tvName.text = clickedItem?.prdlstNm.toString()

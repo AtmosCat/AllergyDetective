@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -217,6 +219,35 @@ class FranchiseCategoryFragment : Fragment() {
                 } else {
                     binding.tvNoMenus.visibility = View.GONE
                 }
+
+//                val spinnerItems = listOf("최신순 ▼", "가나다순 ▼", "인기순 ▼", "댓글순 ▼")
+//                val spinnerAdapter =
+//                    ArrayAdapter(requireContext(), R.layout.spinner_layout_custom, spinnerItems)
+//                spinnerAdapter.setDropDownViewResource(R.layout.spinner_list_layout_custom)
+//                binding.btnSpinner.adapter = spinnerAdapter
+//
+//                binding.btnSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//                    override fun onItemSelected(
+//                        parent: AdapterView<*>?,
+//                        view: View?,
+//                        position: Int,
+//                        id: Long
+//                    ) {
+//                        sortedList = when (position) {
+////                    0 -> filteredItems.sortedBy { it.timestamp.toString() }
+//                            1 -> filteredItems.sortedBy { it.title }
+//                            2 -> filteredItems.sortedBy { it.scrap }
+//                            3 -> filteredItems.sortedBy { it.comments.size }
+//                            else -> filteredItems
+//                        }
+//                        binding.recyclerview.scrollToPosition(0)
+//                        postListAdapter.updateData(sortedList!!)
+//                    }
+//                    override fun onNothingSelected(parent: AdapterView<*>?) {
+//                        sortedList = filteredItems
+//                        postListAdapter.updateData(sortedList!!)
+//                    }
+//                }
 
                 if (previousSelectedAllergies != selectedAllergies) {
                     val viewHolder = binding.recyclerviewFranchises.findViewHolderForAdapterPosition(1) as? BrandAdapter.ViewHolder

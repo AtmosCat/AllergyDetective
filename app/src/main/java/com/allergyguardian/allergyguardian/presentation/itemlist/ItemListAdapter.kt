@@ -42,7 +42,7 @@ class ItemListAdapter(private val userViewModel: UserViewModel) :
 
     override fun onBindViewHolder(holder: ItemListViewHolder, position: Int) {
         runCatching {
-            holder.bind(getItem(position), userViewModel.currentUser.value!!.like)
+//            holder.bind(getItem(position), userViewModel.currentUser.value!!.like)
             holder.itemView.setOnClickListener {
                 itemClick?.onClick(it, position)
             }

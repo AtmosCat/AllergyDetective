@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.allergyguardian.allergyguardian.R
 import com.allergyguardian.allergyguardian.data.model.user.User
 import com.allergyguardian.allergyguardian.databinding.FragmentSignInBinding
+import com.allergyguardian.allergyguardian.presentation.franchise.franchise_home.FranchiseHomeFragment
 import com.allergyguardian.allergyguardian.presentation.home.HomeFragment
 import com.allergyguardian.allergyguardian.presentation.signup.SignUpFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -108,13 +109,13 @@ class SignInFragment : Fragment() {
                             viewModel.setCurrentUser(user!!.email)
                             Toast.makeText(requireContext(), "로그인 성공!", Toast.LENGTH_SHORT).show()
 
-                            val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
+                            val franchiseHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseHomeFragment")
                             requireActivity().supportFragmentManager.beginTransaction().apply {
                                 hide(this@SignInFragment)
-                                if (homeFragment == null) {
-                                    add(R.id.main_frame, HomeFragment(), "HomeFragment")
+                                if (franchiseHomeFragment == null) {
+                                    add(R.id.main_frame, FranchiseHomeFragment(), "FranchiseHomeFragment")
                                 } else {
-                                    show(homeFragment)
+                                    show(franchiseHomeFragment)
                                 }
                                 addToBackStack(null)
                                 commit()
@@ -177,12 +178,13 @@ class SignInFragment : Fragment() {
                     val googleLoginUser = auth!!.currentUser
                     saveGoogleLoginToFireStore(googleLoginUser!!)
                     val homeFragment = requireActivity().supportFragmentManager.findFragmentByTag("HomeFragment")
+                    val franchiseHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseHomeFragment")
                     requireActivity().supportFragmentManager.beginTransaction().apply {
                         hide(this@SignInFragment)
-                        if (homeFragment == null) {
-                            add(R.id.main_frame, HomeFragment(), "HomeFragment")
+                        if (franchiseHomeFragment == null) {
+                            add(R.id.main_frame, FranchiseHomeFragment(), "FranchiseHomeFragment")
                         } else {
-                            show(homeFragment)
+                            show(franchiseHomeFragment)
                         }
                         addToBackStack(null)
                         commit()

@@ -5,9 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -17,8 +15,9 @@ import com.allergyguardian.allergyguardian.databinding.FragmentFranchiseHomeBind
 import com.allergyguardian.allergyguardian.presentation.FranchiseViewModel
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
 import com.allergyguardian.allergyguardian.presentation.base.UiState
+import com.allergyguardian.allergyguardian.presentation.community.community_home.CommunityHomeFragment
 import com.allergyguardian.allergyguardian.presentation.franchise.franchise_category.FranchiseCategoryFragment
-import com.allergyguardian.allergyguardian.presentation.home.HomeFragment
+import com.allergyguardian.allergyguardian.presentation.home.MyPageFragment
 
 class FranchiseHomeFragment : Fragment() {
 
@@ -99,7 +98,6 @@ class FranchiseHomeFragment : Fragment() {
 //            binding.btnAll
         )
 
-        val franchiseCategoryFragmentNull = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseCategoryFragment")
         categoryButtonList.forEach { it ->
             it.setOnClickListener{
                 val index = categoryButtonList.indexOf(it)
@@ -107,84 +105,40 @@ class FranchiseHomeFragment : Fragment() {
                 val franchiseCategoryFragment = FranchiseCategoryFragment.newInstance(dataToSend)
                 requireActivity().supportFragmentManager.beginTransaction().apply {
                     hide(this@FranchiseHomeFragment)
-//                    if (franchiseCategoryFragmentNull == null) {
-                        add(R.id.main_frame, franchiseCategoryFragment, "FranchiseCategoryFragment")
-//                    } else {
-//                        show(franchiseCategoryFragment)
-//                    }
+                    add(R.id.main_frame, franchiseCategoryFragment, "FranchiseCategoryFragment")
                     addToBackStack(null)
                     commit()
                 }
             }
         }
 
+        val myPageFragment = requireActivity().supportFragmentManager.findFragmentByTag("MyPageFragment")
+        binding.btnTabMypage.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                hide(this@FranchiseHomeFragment)
+                if (myPageFragment == null) {
+                    add(R.id.main_frame, MyPageFragment(), "MyPageFragment")
+                } else if (myPageFragment != null && myPageFragment.isHidden){
+                    show(myPageFragment)
+                }
+                addToBackStack(null)
+                commit()
+            }
+        }
 
-//
-//        val itemListFragment = requireActivity().supportFragmentManager.findFragmentByTag("ItemListFragment")
-//        binding.btnHomeSearch.setOnClickListener() {
-//            viewModel.setSearchKeyword(binding.etHomeSearch.text.toString())
-//            requireActivity().supportFragmentManager.beginTransaction().apply {
-//                hide(this@HomeFragment)
-//                if (itemListFragment == null) {
-//                    add(R.id.main_frame, ItemListFragment(), "ItemListFragment")
-//                } else {
-//                    show(itemListFragment)
-//                }
-//                addToBackStack(null)
-//                commit()
-//            }
-//        }
-//
-//        binding.etHomeSearch.setOnEditorActionListener { _, actionId, _ ->
-//            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                viewModel.setSearchKeyword(binding.etHomeSearch.text.toString())
-//                requireActivity().supportFragmentManager.beginTransaction().apply {
-//                    hide(this@HomeFragment)
-//                    if (itemListFragment == null) {
-//                        add(R.id.main_frame, ItemListFragment(), "ItemListFragment")
-//                    } else {
-//                        show(itemListFragment)
-//                    }
-//                    addToBackStack(null)
-//                    commit()
-//                }
-//                true // 이벤트 처리가 완료되었음을 나타냄
-//            } else {
-//                false
-//            }
-//        }
-
-//        val myPageFragment = requireActivity().supportFragmentManager.findFragmentByTag("MyPageFragment")
-//        binding.btnTabMypage.setOnClickListener{
-//            requireActivity().supportFragmentManager.beginTransaction().apply {
-//                hide(this@HomeFragment)
-//                if (myPageFragment == null) {
-//                    add(R.id.main_frame, MyPageFragment(), "MyPageFragment")
-//                } else if (myPageFragment != null && myPageFragment.isHidden){
-//                    show(myPageFragment)
-//                }
-//                addToBackStack(null)
-//                commit()
-//            }
-//        }
-//
-//        val communityHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("CommunityHomeFragment")
-//        binding.btnTabCommunity.setOnClickListener{
-//            requireActivity().supportFragmentManager.beginTransaction().apply {
-//                hide(this@HomeFragment)
-//                if (communityHomeFragment == null) {
-//                    add(R.id.main_frame, CommunityHomeFragment(), "CommunityHomeFragment")
-//                } else if (communityHomeFragment != null && communityHomeFragment.isHidden){
-//                    show(communityHomeFragment)
-//                }
-//                addToBackStack(null)
-//                commit()
-//            }
-//        }
-    }
-
-    private fun categoryClicker(button: Button){
-
+        val communityHomeFragment = requireActivity().supportFragmentManager.findFragmentByTag("CommunityHomeFragment")
+        binding.btnTabCommunity.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction().apply {
+                hide(this@FranchiseHomeFragment)
+                if (communityHomeFragment == null) {
+                    add(R.id.main_frame, CommunityHomeFragment(), "CommunityHomeFragment")
+                } else if (communityHomeFragment != null && communityHomeFragment.isHidden){
+                    show(communityHomeFragment)
+                }
+                addToBackStack(null)
+                commit()
+            }
+        }
     }
 
 }

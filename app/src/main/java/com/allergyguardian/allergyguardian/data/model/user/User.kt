@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import com.allergyguardian.allergyguardian.data.model.food.Food
+import com.allergyguardian.allergyguardian.data.model.franchise.Menu
 
 fun createSampleBitmap(): Bitmap {
     val bitmap = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_8888)
@@ -40,7 +41,7 @@ data class User(val email: String = "",
                     GroupMember("", mutableListOf())
                     ),
                 val membership: String = "",
-                var like: MutableList<Food> = mutableListOf(),
+                var like: MutableList<Menu> = mutableListOf(),
                 val mypost: MutableList<Post> = mutableListOf(),
                 val scrap: MutableList<Post> = mutableListOf(),
                 var photo: String = "",

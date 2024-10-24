@@ -43,7 +43,7 @@ class HomeAdapter(private val userViewModel: UserViewModel) :
     // 홀더에 실제 데이터 할당
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         runCatching {
-            holder.bind(getItem(position), userViewModel.currentUser.value!!.like)
+//            holder.bind(getItem(position), userViewModel.currentUser.value!!.like)
             holder.itemView.setOnClickListener {
                 itemClick?.onClick(it, position)
             }

@@ -7,21 +7,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.allergyguardian.allergyguardian.R
-import com.allergyguardian.allergyguardian.data.model.food.Food
-import com.allergyguardian.allergyguardian.databinding.RecyclerviewItemlistBinding
+import com.allergyguardian.allergyguardian.databinding.RecyclerviewFranchiseMenuBinding
 import com.allergyguardian.allergyguardian.presentation.UserViewModel
 
 class FavoriteListAdapter(private val userViewModel: UserViewModel) :
-    ListAdapter<Food, FavoriteListAdapter.Holder>(object :
-        DiffUtil.ItemCallback<Food>() {
-        // 구 값, 신 값 비교해서 바뀐 것들만 업데이트
-        override fun areItemsTheSame(oldItem: Food, newItem: Food): Boolean {
-            return oldItem.prdlstNm == newItem.prdlstNm
+    ListAdapter<com.allergyguardian.allergyguardian.data.model.franchise.Menu, FavoriteListAdapter.Holder>(object :
+        DiffUtil.ItemCallback<com.allergyguardian.allergyguardian.data.model.franchise.Menu>() {
+        override fun areItemsTheSame(oldItem: com.allergyguardian.allergyguardian.data.model.franchise.Menu, newItem: com.allergyguardian.allergyguardian.data.model.franchise.Menu): Boolean {
+            return oldItem.id == newItem.id
         }
-
-        override fun areContentsTheSame(oldItem: Food, newItem: Food): Boolean {
+        override fun areContentsTheSame(oldItem: com.allergyguardian.allergyguardian.data.model.franchise.Menu, newItem: com.allergyguardian.allergyguardian.data.model.franchise.Menu): Boolean {
             return oldItem == newItem
         }
     }) {
@@ -35,7 +31,7 @@ class FavoriteListAdapter(private val userViewModel: UserViewModel) :
     // RecyclerView 돌아갈 때 새로운 뷰 홀더 생성 및 초기화
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding =
-            RecyclerviewItemlistBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            RecyclerviewFranchiseMenuBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(binding)
     }
 
@@ -51,29 +47,33 @@ class FavoriteListAdapter(private val userViewModel: UserViewModel) :
         }
     }
 
-    class Holder(binding: RecyclerviewItemlistBinding) :
+    class Holder(binding: RecyclerviewFranchiseMenuBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val photo = binding.ivItemlistPhoto
+        val brand = binding.tvItemlistFranchise
         val name = binding.tvItemlistName
         val allergy = binding.tvItemlistAllergy
-        val rawmatrl = binding.tvItemlistRawmtrl
         val like = binding.ivLike
-        fun bind(item: Food, likedFoods: MutableList<Food>) {
-            photo.load(item.imgurl1)
-            name.text = item.prdlstNm
-            allergy.text = "⚠️주의: ${item.allergy}"
-            rawmatrl.text = "- 원재료: ${item.rawmtrl}"
-            if (item in likedFoods) {
-                like.setImageResource(R.drawable.filled_heart)
-            } else {
-                like.setImageResource(R.drawable.heart)
+        fun bind(
+            item: com.allergyguardian.allergyguardian.data.model.franchise.Menu,
+            like: MutableList<com.allergyguardian.allergyguardian.data.model.franchise.Menu>
+        ) {
+            when (item.type) {
+                "패스트푸드" -> photo.setImageResource(R.drawable.hamburger)
+                "피자" -> photo.setImageResource(R.drawable.pizza)
+                "치킨" -> photo.setImageResource(R.drawable.chicken)
+                "카페" -> photo.setImageResource(R.drawable.coffee)
+                "아이스크림" -> photo.setImageResource(R.drawable.ice_cream)
+                "베이커리/도넛" -> photo.setImageResource(R.drawable.doughnut)
+                "샌드위치" -> photo.setImageResource(R.drawable.sandwich)
             }
-//            like.text = item.like.toString()
+            brand.text = "${item.brand} - ${item.subcat}"
+            name.text = item.name
+            allergy.text = "⚠️"+"${item.allergy}"
         }
     }
 
-    fun updateData(newItems: List<Food>) {
-        notifyDataSetChanged()
+    fun updateData(newItems: List<com.allergyguardian.allergyguardian.data.model.franchise.Menu>) {
         submitList(newItems)
     }
 }

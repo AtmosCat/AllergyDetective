@@ -8,17 +8,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.allergyguardian.allergyguardian.data.model.food.Food
-import com.allergyguardian.allergyguardian.data.model.franchise.Chicken
-import com.allergyguardian.allergyguardian.data.model.franchise.FastFood
 import com.allergyguardian.allergyguardian.data.model.franchise.Menu
-import com.allergyguardian.allergyguardian.data.model.franchise.Pizza
-import com.allergyguardian.allergyguardian.data.model.market.Market
-import com.allergyguardian.allergyguardian.data.model.user.Post
-import com.allergyguardian.allergyguardian.network.food.RetrofitClient
 import com.allergyguardian.allergyguardian.presentation.base.UiState
-import com.allergyguardian.allergyguardian.presentation.franchise.franchise_category.MenuAdapter
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
