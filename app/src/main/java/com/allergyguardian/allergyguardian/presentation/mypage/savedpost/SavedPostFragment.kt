@@ -25,6 +25,8 @@ class SavedPostFragment : Fragment() {
 
     private val savedPostAdapter by lazy { SavedPostAdapter() }
 
+    private var currentUserSavedPosts = mutableListOf<Post>()
+
     private val userViewModel: UserViewModel by activityViewModels {
         viewModelFactory { initializer { UserViewModel(requireActivity().application) } }
     }
@@ -48,66 +50,46 @@ class SavedPostFragment : Fragment() {
         binding.recyclerviewSavedPostList.adapter = savedPostAdapter
         binding.recyclerviewSavedPostList.layoutManager = LinearLayoutManager(requireContext())
 
-        var currentUserSavedPosts = mutableListOf<Post>()
-
         userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                currentUserSavedPosts = data.scrap
-                savedPostAdapter.submitList(currentUserSavedPosts)
-            } else {
-                currentUserSavedPosts = emptyList<Post>().toMutableList()
-                Toast.makeText(requireContext(), "내가 쓴 글이 없습니다.", Toast.LENGTH_SHORT).show()
-            }
+            currentUserSavedPosts = data!!.scrap
+        }
+
+        if (currentUserSavedPosts.size != 0) {
+            savedPostAdapter.submitList(currentUserSavedPosts)
+        } else {
+            Toast.makeText(requireContext(), "내가 저장한 글이 없습니다.", Toast.LENGTH_SHORT).show()
         }
 
         savedPostAdapter.itemClick = object : SavedPostAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
-                    if (data != null) {
-                        currentUserSavedPosts = data.scrap
-                        clickedItem = currentUserSavedPosts[position]
-
-                        val postDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("PostDetailFragment")
-                        val dataToSend = clickedItem!!.id
-                        val postDetail = PostDetailFragment.newInstance(dataToSend)
-                        requireActivity().supportFragmentManager.beginTransaction().apply {
-                            hide(this@SavedPostFragment)
-                            if (postDetailFragment == null) {
-                                add(R.id.main_frame, postDetail, "PostDetailFragment")
-                            } else {
-                                show(postDetail)
-                            }
-                            addToBackStack(null)
-                            commit()
-                        }
+                clickedItem = currentUserSavedPosts[position]
+                val postDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("PostDetailFragment")
+                val dataToSend = clickedItem!!.id
+                val postDetail = PostDetailFragment.newInstance(dataToSend)
+                requireActivity().supportFragmentManager.beginTransaction().apply {
+                    hide(this@SavedPostFragment)
+                    if (postDetailFragment == null) {
+                        add(R.id.main_frame, postDetail, "PostDetailFragment")
+                    } else {
+                        show(postDetail)
                     }
-
+                    addToBackStack(null)
+                    commit()
                 }
             }
         }
+
         binding.btnBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
         }
     }
     override fun onResume() {
         super.onResume()
-        var updatedCurrentUserSavedPosts = mutableListOf<Post>()
-        userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                updatedCurrentUserSavedPosts = data.scrap
-                savedPostAdapter.updateData(updatedCurrentUserSavedPosts)
-            }
-        }
+        savedPostAdapter.updateData(currentUserSavedPosts)
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        var updatedCurrentUserSavedPosts = mutableListOf<Post>()
-        userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
-            if (data != null) {
-                updatedCurrentUserSavedPosts = data.scrap
-                savedPostAdapter.updateData(updatedCurrentUserSavedPosts)
-            }
-        }
+        savedPostAdapter.updateData(currentUserSavedPosts)
     }
 }

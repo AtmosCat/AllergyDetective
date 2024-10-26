@@ -356,13 +356,19 @@ class PostDetailFragment : Fragment() {
             binding.tvDetail.text = clickedItem.detail
 
             var isScrapped = false
-            if (clickedItem in currentUser.scrap) {
+            val currentUserScrapIds = mutableListOf<String>()
+            currentUser.scrap.forEach {
+                currentUserScrapIds.add(it.id)
+            }
+
+            if (clickedItem.id in currentUserScrapIds) {
                 isScrapped = true
                 binding.ivScrap.setImageResource(R.drawable.scrap_filled)
             } else {
                 isScrapped = false
                 binding.ivScrap.setImageResource(R.drawable.scrap)
             }
+
 
             binding.tvCommentTitle.text = "댓글 ${clickedItem.comments.size}"
 
@@ -378,9 +384,10 @@ class PostDetailFragment : Fragment() {
                     isScrapped = false
                     binding.ivScrap.setImageResource(R.drawable.scrap)
                     clickedItem.scrap -= 1
-                    userViewModel.currentUser.value?.scrap!!.remove(clickedItem)
+                    val postToUnscrap = userViewModel.currentUser.value?.scrap!!.find { it.id == clickedItem.id }
+                    userViewModel.currentUser.value?.scrap!!.remove(postToUnscrap)
                     userViewModel.updateCurrentUserInfo()
-                    postViewModel.updateCurrentPostInfo(clickedItem)
+                    postViewModel.updateCurrentPostInfo(postToUnscrap!!)
                 }
             }
 
