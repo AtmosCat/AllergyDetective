@@ -74,5 +74,6 @@ class SavedPostAdapter :
     }
     fun updateData(newItems: List<Post>) {
         submitList(newItems)
+        notifyDataSetChanged()
     }
 }

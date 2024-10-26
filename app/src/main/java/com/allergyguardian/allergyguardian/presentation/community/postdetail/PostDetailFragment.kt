@@ -101,7 +101,9 @@ class PostDetailFragment : Fragment() {
         binding.recyclerviewComments.adapter = commentsAdapter
         binding.recyclerviewComments.layoutManager = LinearLayoutManager(requireContext())
 
-        currentUser = userViewModel.currentUser.value!!
+        userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
+            currentUser = data!!
+        }
 
         binding.btnBack.setOnClickListener {
             requireActivity().supportFragmentManager.popBackStack()
