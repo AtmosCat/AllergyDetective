@@ -80,5 +80,6 @@ class FavoriteListAdapter(private val userViewModel: UserViewModel) :
 
     fun updateData(newItems: List<Menu>) {
         submitList(newItems)
+        notifyDataSetChanged()
     }
 }

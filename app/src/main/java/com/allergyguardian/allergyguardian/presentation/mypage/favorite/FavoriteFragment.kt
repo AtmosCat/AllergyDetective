@@ -64,26 +64,23 @@ class FavoriteFragment : Fragment() {
 
         favoriteListAdapter.itemClick = object :FavoriteListAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
-                userViewModel.currentUser.observe(viewLifecycleOwner) { data ->
-                    if (data != null) {
-                        currentUserFavorites = data.like
-                        clickedItem = currentUserFavorites[position]
-                        val franchiseDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseDetailFragment")
-                        val dataToSend = clickedItem!!.id
-                        val dataToSend2 = clickedItem!!.type
-                        val menuDetail = FranchiseDetailFragment.newInstance(dataToSend, dataToSend2)
-                        requireActivity().supportFragmentManager.beginTransaction().apply {
-                            hide(this@FavoriteFragment)
-                            if (franchiseDetailFragment == null) {
-                                add(R.id.main_frame, menuDetail, "FranchiseDetailFragment")
-                            } else {
-                                show(menuDetail)
-                            }
-                            addToBackStack(null)
-                            commit()
+                if (userViewModel.currentUser.value != null) {
+                    currentUserFavorites = userViewModel.currentUser.value!!.like
+                    clickedItem = currentUserFavorites[position]
+                    val franchiseDetailFragment = requireActivity().supportFragmentManager.findFragmentByTag("FranchiseDetailFragment")
+                    val dataToSend = clickedItem!!.id
+                    val dataToSend2 = clickedItem!!.type
+                    val menuDetail = FranchiseDetailFragment.newInstance(dataToSend, dataToSend2)
+                    requireActivity().supportFragmentManager.beginTransaction().apply {
+                        hide(this@FavoriteFragment)
+                        if (franchiseDetailFragment == null) {
+                            add(R.id.main_frame, menuDetail, "FranchiseDetailFragment")
+                        } else {
+                            show(menuDetail)
                         }
+                        addToBackStack(null)
+                        commit()
                     }
-
                 }
             }
         }
